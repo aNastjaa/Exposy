@@ -29,7 +29,6 @@ function require_configuration(): void {
             E_USER_ERROR
         );
     }
-
     require_once $config_file;
 }
 

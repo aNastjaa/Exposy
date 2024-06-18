@@ -46,7 +46,8 @@ class LoginController extends Controller
             return;
         }
 
-        if ($this->compareCredentials($data['email'] ?? '', $data['password'] ?? '')) {
+        $credentialErrors = $this->compareCredentials($data['email'] ?? '', $data['password'] ?? '');
+        if (empty($credentialErrors)) {
             $userModel = new User();
             $user = $userModel->getByEmail($data['email']);
             $userId = $user ? $user['id'] : null;
@@ -56,29 +57,33 @@ class LoginController extends Controller
                 Session::set('user_id', $userId);
                 $this->redirect('/account');
             } else {
+                // This block should not be needed because compareCredentials handles this case
                 Session::set('errors', ['email' => 'Invalid email or password']);
                 Session::set('status_message', 'Login failed. Invalid credentials');
                 Session::set('submitted_data', $data);
                 $this->redirect('/login');
             }
         } else {
-            Session::set('errors', ['email' => 'Invalid email or password']);
+            Session::set('errors', $credentialErrors);
             Session::set('status_message', 'Login failed. Invalid credentials');
             Session::set('submitted_data', $data);
             $this->redirect('/login');
         }
     }
 
-    private function compareCredentials(string $email, string $password): bool
+    private function compareCredentials(string $email, string $password): array
     {
+        $errors = [];
         $userModel = new User();
         $user = $userModel->getByEmail($email);
 
-        if ($user) {
-            return Util::verifyPassword($password, $user['password']);
+        if (!$user) {
+            $errors['email'] = 'Email not found';
+        } elseif (!Util::verifyPassword($password, $user['password'])) {
+            $errors['password'] = 'Incorrect password';
         }
 
-        return false;
+        return $errors;
     }
 
     private function validateLogin(array $data): bool
