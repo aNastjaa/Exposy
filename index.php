@@ -17,6 +17,10 @@
                 <div class="header-logo">
                     <img src="/assets/icons/Logo L.svg" alt="Logo">
                 </div>
+                <div class="burger-menu">
+                    <span class="burger-icon">&#9776;</span>
+                    <span class="close-icon">&times;</span>
+                </div>
                 <ul class="nav-links">
                     <li class="underline"><a href="#">Home</a></li>
                     <li><a href="#">Events</a></li>
@@ -25,10 +29,6 @@
                 <div class="auth-buttons">
                     <button type="button" class="blind-button">Log in</button>
                     <button type="button" class="cta-button">Sign up</button>
-                </div>
-                <div class="burger-menu">
-                    <span class="burger-icon">&#9776;</span> <!-- Icon for the burger menu -->
-                    <span class="close-icon">&times;</span> <!-- Icon for the close menu -->
                 </div>
             </nav>
         </div>
