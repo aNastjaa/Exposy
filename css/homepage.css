@@ -1,3 +1,4 @@
+/* Global Styles */
 *,
 *::after,
 *::before {
@@ -14,18 +15,21 @@ body {
     background-repeat: no-repeat;
     left: 20%;
     z-index: -100;
-    overflow: hidden;
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    position: relative;
 }
+
 body::before {
     content: '';
     position: absolute;
-    top: 0; right: 0; bottom: 0; left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     z-index: -1; /* Ensure the overlay is behind the content */
 }
 
-/*----------------------------------------------------------------------*/
-/* Header styling  */
-/*----------------------------------------------------------------------*/
+/* Header Styling */
 header {
     width: 100%;
     padding: 0 2rem;
@@ -48,6 +52,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 }
 
 .nav-links {
@@ -58,7 +63,7 @@ header {
 .nav-links li {
     list-style: none;
     font-family: "Bebas Neue";
-    font-size: clamp(1.3rem, 2.5vw, 1.37rem);
+    font-size: 22px;
     letter-spacing: 1.2px;
 }
 
@@ -67,7 +72,7 @@ header {
     gap: 1rem;
 }
 
-.blind-button{
+.blind-button {
     padding: 0.5rem 1.1rem;
     flex-shrink: 0;
     border-radius: 30px;
@@ -79,11 +84,13 @@ header {
     letter-spacing: 1.2px;
     transition: all 0.1s ease-in-out;
 }
-.blind-button:hover{
+
+.blind-button:hover {
     cursor: pointer;
     border: #272727 2px solid;
 }
-.cta-button{
+
+.cta-button {
     padding: 0.5rem 1.1rem;
     flex-shrink: 0;
     border-radius: 30px;
@@ -96,7 +103,7 @@ header {
     transition: all 0.3s ease-in-out;
 }
 
-.cta-button:hover{
+.cta-button:hover {
     cursor: pointer;
     background-color: #DD4A6D;
     scale: 1.1;
@@ -106,15 +113,17 @@ a {
     text-decoration: none;
     color: #272727;
     transition: all 0.3s ease-in-out;
-  }
-  
+}
+
 li {
     list-style: none;
-  }
-.underline{
+}
+
+.underline {
     text-decoration: underline;
 }
-.burger-menu, .burger-icon {
+
+.burger-menu {
     display: none;
 }
 /*----------------------------------------------------------------------*/
