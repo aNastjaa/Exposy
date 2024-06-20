@@ -52,21 +52,58 @@ function startScroller() {
     eventCardsContainer.parentNode.appendChild(cloneContainer);
 
     let scrollPos = 0;
-    setInterval(() => {
+    let scrollInterval = setInterval(() => {
         scrollPos -= 1;
         if (scrollPos <= -totalWidth) {
             scrollPos = 0;
         }
         eventCardsContainer.style.transform = `translateX(${scrollPos}px)`;
         cloneContainer.style.transform = `translateX(${scrollPos + totalWidth}px)`;
-    }, 40); 
+    }, 40);
+
+    // Stop scrolling on mouseover and start on mouseout
+    eventScroller.addEventListener('mouseover', () => {
+        clearInterval(scrollInterval);
+    });
+
+    eventScroller.addEventListener('mouseout', () => {
+        scrollInterval = setInterval(() => {
+            scrollPos -= 1;
+            if (scrollPos <= -totalWidth) {
+                scrollPos = 0;
+            }
+            eventCardsContainer.style.transform = `translateX(${scrollPos}px)`;
+            cloneContainer.style.transform = `translateX(${scrollPos + totalWidth}px)`;
+        }, 40);
+    });
+
+    // Manual scrolling with buttons
+    const leftButton = document.querySelector('.left-scroll-button');
+    const rightButton = document.querySelector('.right-scroll-button');
+
+    leftButton.addEventListener('click', () => {
+        scrollPos += cardWidth;
+        if (scrollPos > 0) {
+            scrollPos = -totalWidth + cardWidth;
+        }
+        eventCardsContainer.style.transform = `translateX(${scrollPos}px)`;
+        cloneContainer.style.transform = `translateX(${scrollPos + totalWidth}px)`;
+    });
+
+    rightButton.addEventListener('click', () => {
+        scrollPos -= cardWidth;
+        if (scrollPos <= -totalWidth) {
+            scrollPos = 0;
+        }
+        eventCardsContainer.style.transform = `translateX(${scrollPos}px)`;
+        cloneContainer.style.transform = `translateX(${scrollPos + totalWidth}px)`;
+    });
 }
 
-// // Function to save event
-// function saveEvent(eventTitle) {
-//     console.log(`Event saved: ${eventTitle}`);
-    
-// }
+// Function to save event
+function saveEvent(eventTitle) {
+    console.log(`Event saved: ${eventTitle}`);
+}
 
 // Fetch event data and start scroller
 fetchEventData()

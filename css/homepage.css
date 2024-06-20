@@ -4,19 +4,19 @@
 *::before {
     box-sizing: border-box;
     margin: 0;
-    padding: 0;
+    
 }
 
 body {
-    font-family: "Abel", sans-serif;
+    font-family: "Montserrat", sans-serif;
     background-color: #F7F7F7;
+    /* background-image: url(/assets/img/Без\ имени-1.jpg); */
     background-image: url(/assets/icons/Logo\ sign\ gray.svg);
-    background-size: 50%;
+    background-size: 100%;
     background-repeat: no-repeat;
     left: 20%;
     z-index: -100;
-    overflow-x: hidden; /* Prevent horizontal overflow */
-    position: relative;
+    padding: 0 2rem;
 }
 
 body::before {
@@ -32,7 +32,7 @@ body::before {
 /* Header Styling */
 header {
     width: 100%;
-    padding: 0 2rem;
+    padding: 0;
 }
 
 .header-wrapper {
@@ -156,9 +156,8 @@ h3{
     overflow: hidden; 
     position: relative;
     width: 100%; 
-    height: auto; 
+    height: 500px; 
     margin: 0 auto;
-    
 }
 
 .event-cards-container {
@@ -177,7 +176,7 @@ h3{
     padding: 20px 25px;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     border-radius: 30px;
-    background-color: #F7F7F7;
+    background-color: #f7f7f7a0;
 }
 
 .event-card img {
@@ -185,7 +184,6 @@ h3{
     height: 300px;
     border-radius: 30px;
     object-fit: cover;
-    
 }
 
 .event-card h4 {
@@ -205,7 +203,6 @@ h3{
     padding-bottom: 0.2rem;
 }
 
-
 .event-card .buttons {
     padding-top: 1.5rem;
     display: flex;
@@ -222,9 +219,9 @@ h3{
 }
 
 .event-card .read-more {
-    background-color: #F7F7F7;
     color: #272727;
     border-radius: 30px;
+    padding: 0.2rem 1.1rem;
     text-decoration: underline;
     display: inline-block;
     text-align: center;
@@ -235,4 +232,144 @@ h3{
     border-radius: 30px;
     padding: 0.2rem 1.1rem;
     color: white;
+}
+
+.scroll-button {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #F7F7F7;
+    box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.15);
+    border: none;
+    padding: 1rem;
+    margin: 0 0.5rem;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+}
+
+.left-scroll-button {
+    left: 0;
+}
+
+.right-scroll-button {
+    right: 0;
+}
+
+.event-scroller:hover .scroll-button {
+    display: block;
+}
+
+.about-project{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-top: 2rem;
+}
+
+h2{
+    font-family: "Bebas Neue";
+    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+    color: #272727;
+    padding: 1rem 0;
+    font-stretch: normal;
+    letter-spacing: 0.05em;
+    text-align: center;
+}
+
+.first-section{
+    border-radius: 30px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 3rem 2rem;
+    background-color: #f7f7f780;
+    
+}
+
+h4{
+    font-family: "Bebas Neue";
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    color: #272727;
+    padding: 2rem 0;
+    font-stretch: normal;
+    letter-spacing: 0.05em;
+    text-align: center;
+    
+}
+
+.second-section{
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+
+}
+
+span{
+    font-family: "Bebas Neue";
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: #272727;
+    padding: 1rem 0;
+    font-stretch: normal;
+    letter-spacing: 0.05em;
+    text-align: center;
+    color: #272727;
+}
+
+.part{
+    border-radius: 30px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 3rem 2rem;
+    width: 50%;
+    background-color: #f7f7f780;
+}
+
+p{
+    font-family: "Montserrat", sans-serif;
+}
+/*------------------------------------------------------------------------------------------*/
+/*FOOTER*/
+/*------------------------------------------------------------------------------------------*/
+
+footer{
+    width: 100%;
+    padding: 0;
+}
+
+.footer-wrapper{
+    max-width: 68.75rem;
+    margin: 1rem auto; 
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #F7F7F7; 
+    box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 50px;
+    padding: 0.5rem 1rem; 
+}
+
+.top-content{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+}
+
+.footer-soc-icons img{
+   padding: 0 1rem;
+}
+
+.bottom-content{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+}
+
+.nav-terms {
+    display: flex;
+}
+
+.nav-terms li a {
+    padding: 0 4rem;
 }

@@ -1,4 +1,7 @@
 /* Responsive Styles */
+
+/*HEADER*/
+
 @media (max-width: 1024px) {
     .nav-links {
         gap: 2rem;
@@ -6,8 +9,13 @@
 }
 
 @media (max-width: 768px) {
+    
+    body{
+    padding: 0 10px;
+    }
+
     header {
-        padding: 0 1rem;
+        padding: 0;
     }
 
     .nav-bar {
@@ -61,5 +69,51 @@
 
     .auth-buttons {
         display: none;
+    }
+}
+
+/*FOOTER*/
+
+/* Media Query for screens smaller than 768px */
+@media (max-width: 1000px){
+    .nav-terms li a{
+        padding: 0 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-wrapper {
+        padding: 0.5rem;
+    }
+
+    .top-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-nav {
+        display: none;
+    }
+
+    .footer-soc-icons {
+        margin-top: 1rem;
+    }
+
+    .footer-soc-icons img{
+        padding: 0 2rem;
+    }
+
+    .bottom-content {
+        flex-direction: column-reverse;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-terms {
+        margin: 1rem;
+    }
+
+    .nav-terms li a{
+        padding: 0 2rem;
     }
 }
