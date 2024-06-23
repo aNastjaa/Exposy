@@ -69,11 +69,11 @@ header {
 
 .auth-buttons {
     display: flex;
-    gap: 1rem;
+    gap: 0.9rem;
 }
 
 .blind-button {
-    padding: 0.5rem 1.1rem;
+    padding: 0.3rem 0.9rem;
     flex-shrink: 0;
     border-radius: 30px;
     background-color: #F7F7F7;
@@ -94,7 +94,7 @@ header {
     padding: 0.5rem 1.1rem;
     flex-shrink: 0;
     border-radius: 30px;
-    background-color: rgba(253, 120, 152, 1);
+    background-color:  #FE7999;
     border: none;
     font-family: "Bebas Neue";
     color: #F7F7F7;
@@ -299,7 +299,7 @@ h4{
 .second-section{
     display: flex;
     gap: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 4rem;
 
 }
 
