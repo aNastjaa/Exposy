@@ -21,11 +21,11 @@
                     <span class="burger-icon"><img src="/assets/icons/svg/menu.svg" alt="Menu"></span>
                     <span class="close-icon"><img src="/assets/icons/svg/x (1).svg" alt="Close"></span>
                 </div>
-                <ul class="nav-links">
+                <!-- <ul class="nav-links">
                     <li class="underline"><a href="#">Home</a></li>
                     <li><a href="#">Events</a></li>
                     <li><a href="./pages/account.php">Account</a></li>
-                </ul>
+                </ul> -->
                 <div class="auth-buttons">
                     <button type="button" class="blind-button">Log in</button>
                     <button type="button" class="cta-button">Sign up</button>

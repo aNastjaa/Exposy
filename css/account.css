@@ -333,7 +333,7 @@ textarea {
     background-color: #f9f9f9;
     border-radius: 10px;
     padding: 1rem;
-    width: 50%;
+    width: 70%;
     box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.15);
     z-index: 10;
 }
@@ -353,9 +353,7 @@ textarea {
 .checkbox-section {
     display: flex;
     /* flex-direction: row; */
-    justify-content: center;
-    
-    
+    justify-content: center;   
 }
 
 .checkbox-section input[type="checkbox"] {
@@ -387,7 +385,7 @@ textarea {
 
 .error-message {
     color: red;
-    font-size: 0.875em;
+    font-size: 0.8rem;
     margin-top: 5px;
 }
 
@@ -397,7 +395,7 @@ textarea {
 
 .form-error-message {
     padding: 1rem;
-    font-size: 1em;
+    font-size: 1rem;
     color: #e91e63;
     text-align: center;
 }
@@ -460,3 +458,4 @@ footer{
     padding: 0 4rem;
     color: #272727;
 }
+

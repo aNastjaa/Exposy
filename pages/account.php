@@ -1,7 +1,6 @@
-<?php
-session_start();
-include('../includes/validate_form.php'); // Ensure correct relative path here
-?>
+    <?php
+    session_start();
+    ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,9 +13,9 @@ include('../includes/validate_form.php'); // Ensure correct relative path here
     <link rel="stylesheet" href="/css/headerAndFooterResponsive.css">
     <script src="../js/editProfile.js" defer></script>
     <script src="../js/burgerMenu.js" defer></script>
+    <!-- <script src="../js/formValidation.js" defer></script> -->
 </head>
-<body>
-    
+<body>    
     <header>
         <div class="header-wrapper">
             <nav class="nav-bar">
@@ -178,11 +177,10 @@ include('../includes/validate_form.php'); // Ensure correct relative path here
                                 <button type="submit" id="submit-button">Submit</button>
                             </div>
                         </form>
-                        <!-- Display validation errors or success message here -->
-                        <div id="form-message"></div>
                     </div>
                 </div>
             </div>
+            
         </section>
     </main>
 
