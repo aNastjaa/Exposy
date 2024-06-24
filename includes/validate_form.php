@@ -1,94 +1,97 @@
 <?php
+$errors = []; 
+
 // Function to sanitize and validate input
-function sanitizeInput($input) {
-    return htmlspecialchars(trim($input));
+function sanitizeInput($data) {
+    return htmlspecialchars(trim($data));
 }
 
-// Validate and sanitize each input field
-$errors = [];
-
-// First name validation
-if (isset($_POST['firstname'])) {
-    $firstname = sanitizeInput($_POST['firstname']);
-    if (!preg_match('/^[a-zA-Z]{4,16}$/', $firstname)) {
-        $errors['firstname'] = "Invalid first name. Must be 4-16 characters long and contain only letters.";
+// Function to validate text input
+function validateText($input, $fieldName) {
+    global $errors;
+    if (empty($input)) {
+        $errors[$fieldName] = ucfirst($fieldName) . " is required.";
+        return false;
+    } elseif (!preg_match('/^[a-zA-Z\s]{4,}$/', $input)) {
+        $errors[$fieldName] = "Invalid " . $fieldName . " format.";
+        return false;
     }
-} else {
-    $errors['firstname'] = "First name is required.";
+    return true;
 }
 
-// Last name validation
-if (isset($_POST['lastname'])) {
-    $lastname = sanitizeInput($_POST['lastname']);
-    if (!preg_match('/^[a-zA-Z]{4,16}$/', $lastname)) {
-        $errors['lastname'] = "Invalid last name. Must be 4-16 characters long and contain only letters.";
-    }
-} else {
-    $errors['lastname'] = "Last name is required.";
-}
-
-// Email validation
-if (isset($_POST['email'])) {
-    $email = sanitizeInput($_POST['email']);
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+// Function to validate email input
+function validateEmail($email) {
+    global $errors;
+    if (empty($email)) {
+        $errors['email'] = "Email is required.";
+        return false;
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors['email'] = "Invalid email format.";
+        return false;
     }
-} else {
-    $errors['email'] = "Email is required.";
+    return true;
 }
 
-// Password validation
-if (isset($_POST['pwd'])) {
-    $password = sanitizeInput($_POST['pwd']);
-    if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/', $password)) {
-        $errors['pwd'] = "Invalid password format.";
+// Function to validate password input
+function validatePassword($password) {
+    global $errors;
+    if (empty($password)) {
+        $errors['pwd'] = "Password is required.";
+        return false;
+    } elseif (!preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{":;\'?\/\\><.,])(?!.*\s).{8,}$/', $password)) {
+        $errors['pwd'] = "Password does not meet requirements.";
+        return false;
     }
-} else {
-    $errors['pwd'] = "Password is required.";
+    return true;
 }
 
-// Sex validation
-if (isset($_POST['sex'])) {
-    $sex = sanitizeInput($_POST['sex']);
-    $validSexOptions = ['Male', 'Female', 'Diverse'];
-    if (!in_array($sex, $validSexOptions)) {
-        $errors['sex'] = "Invalid sex option selected.";
-    }
-} else {
-    $errors['sex'] = "Sex selection is required.";
-}
-
-// Country validation
-if (isset($_POST['country']) && $_POST['country'] !== 'none') {
-    $country = sanitizeInput($_POST['country']);
-    // Additional validation for country can be added if needed
-} else {
-    $errors['country'] = "Please select a country.";
-}
-
-// City validation
-if (isset($_POST['city'])) {
+// Validate form submission
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Sanitize and validate each field
+    $firstname = sanitizeInput($_POST['firstname']);
+    $lastname = sanitizeInput($_POST['lastname']);
+    $email = sanitizeInput($_POST['email']);
     $city = sanitizeInput($_POST['city']);
-    if (!preg_match('/^[a-zA-Z]{4,}$/', $city)) {
-        $errors['city'] = "Invalid city name.";
+    $pwd = sanitizeInput($_POST['pwd']);
+    $terms = isset($_POST['terms']) ? true : false;
+    $country = $_POST['country'];
+    $sex = isset($_POST['sex']) ? sanitizeInput($_POST['sex']) : "";
+
+    // Validate each input field
+    validateText($firstname, 'firstname');
+    validateText($lastname, 'lastname');
+    validateEmail($email);
+    validateText($city, 'city');
+    validatePassword($pwd);
+    if (!$terms) {
+        $errors['terms'] = "You must agree to the terms.";
     }
-} else {
-    $errors['city'] = "City is required.";
+    if ($country === 'none') {
+        $errors['country'] = "Please select your country.";
+    }
 }
 
-// Terms checkbox validation
-if (!isset($_POST['terms'])) {
-    $errors['terms'] = "You must agree to the terms.";
-}
+// If no errors, set success message and process further actions
+if (empty($errors) && $_SERVER["REQUEST_METHOD"] === "POST") {
+    $success = "Form submitted successfully!";
 
-// Return errors if any, or success message
-if (!empty($errors)) {
-    header('HTTP/1.1 422 Unprocessable Entity');
-    header('Content-Type: application/json; charset=UTF-8');
-    echo json_encode($errors);
-    exit;
-} else {
-    echo json_encode(['message' => 'Form submitted successfully.']);
-    exit;
 }
 ?>
+
+<!-- PHP to display error messages and success message -->
+<?php if (!empty($errors)) : ?>
+    <div class="form-row">
+        <p>There were errors in your form:</p>
+        <ul class="error-messages">
+            <?php foreach ($errors as $error) : ?>
+                <li><?= $error ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
+
+<?php if (!empty($success)) : ?>
+    <div class="form-row">
+        <p><?= $success ?></p>
+    </div>
+<?php endif; ?>

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/css/headerAndFooterResponsive.css">
     <script src="../js/editProfile.js" defer></script>
     <script src="../js/burgerMenu.js" defer></script>
-    <!-- <script src="../js/formValidation.js" defer></script> -->
+    <script src="../js/formValidation.js" defer></script>
 </head>
 <body>    
     <header>
@@ -79,19 +79,23 @@
                         </ul>
                     </div>
                     <div id="additional-info" class="additional-info">
-                        <form id="profile-form" action="../includes/validate_form.php" method="POST">
+                    <form class="profile-form" id="profile-form" action="../includes/validate_form.php" method="POST">
                             <div class="form-row">
                                 <div class="input-section">
                                     <label for="firstname">First name</label>
                                     <input type="text" placeholder="Enter your first name" id="firstname" name="firstname" required>
-                                    <p id="error-firstname" class="error-message hide">Invalid first name.</p>
-                                    <p id="empty-firstname" class="error-message hide">First name cannot be empty.</p>
+                                    <!-- Error message for firstname -->
+                                    <?php if (isset($_SESSION['errors']['firstname'])) : ?>
+                                        <p class="error-message"><?= $_SESSION['errors']['firstname'] ?></p>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="input-section">
                                     <label for="lastname">Last name</label>
                                     <input type="text" placeholder="Enter your last name" id="lastname" name="lastname" required>
-                                    <p id="error-lastname" class="error-message hide">Invalid last name.</p>
-                                    <p id="empty-lastname" class="error-message hide">Last name cannot be empty.</p>
+                                    <!-- Error message for lastname -->
+                                    <?php if (isset($_SESSION['errors']['lastname'])) : ?>
+                                        <p class="error-message"><?= $_SESSION['errors']['lastname'] ?></p>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="radio-section">
@@ -101,7 +105,10 @@
                                 <label for="female">Female</label>
                                 <input type="radio" id="diverse" name="sex" value="Diverse">
                                 <label for="diverse">Diverse</label>
-                                <p id="error-sex" class="error-message hide">Please select a sex.</p>
+                                <!-- Error message for sex -->
+                                <?php if (isset($_SESSION['errors']['sex'])) : ?>
+                                    <p class="error-message"><?= $_SESSION['errors']['sex'] ?></p>
+                                <?php endif; ?>
                             </div>
                             <div class="form-row">
                                 <div class="input-section">
@@ -125,58 +132,55 @@
                                         <option value="Slovenia">Slovenia</option>
                                         <option value="Croatia">Croatia</option>
                                     </select>
-                                    <p id="error-country" class="error-message hide">Please select a country.</p>
+                                    <!-- Error message for country -->
+                                    <?php if (isset($_SESSION['errors']['country'])) : ?>
+                                        <p class="error-message"><?= $_SESSION['errors']['country'] ?></p>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="input-section">
                                     <label for="city">City</label>
                                     <input type="text" placeholder="Enter your city" id="city" name="city" required>
-                                    <p id="error-city" class="error-message hide">Invalid city.</p>
-                                    <p id="empty-city" class="error-message hide">City cannot be empty.</p>
+                                    <!-- Error message for city -->
+                                    <?php if (isset($_SESSION['errors']['city'])) : ?>
+                                        <p class="error-message"><?= $_SESSION['errors']['city'] ?></p>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="input-section full-width">
                                     <label for="email">Email</label>
-                                    <div class="input-icon-container">
-                                        <input type="email" placeholder="Enter your email" id="email" name="email" required>
-                                        <p id="error-email" class="error-message hide">Invalid email format.</p>
-                                        <p id="empty-email" class="error-message hide">Email cannot be empty.</p>
-                                    </div>
+                                    <input type="email" placeholder="Enter your email" id="email" name="email" required>
+                                    <!-- Error message for email -->
+                                    <?php if (isset($_SESSION['errors']['email'])) : ?>
+                                        <p class="error-message"><?= $_SESSION['errors']['email'] ?></p>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="input-section full-width">
                                     <label for="pwd">Password</label>
-                                    <div class="input-icon-container">
-                                        <input type="password" name="pwd" placeholder="Enter your password" id="pwd" required>
-                                        <img src="../assets/icons/svg/info.svg" alt="Info" class="password-icon"> 
-                                        <div class="password-requirements">
-                                            <p>Password Requirements:</p>
-                                            <ul>
-                                                <li>- At least 8 characters long</li>
-                                                <li>- At least one lowercase letter</li>
-                                                <li>- At least one uppercase letter</li>
-                                                <li>- At least one number</li>
-                                                <li>- At least one special character</li>
-                                                <li>- No spaces allowed</li>
-                                            </ul>
-                                        </div>
-                                        <p id="error-pwd" class="error-message hide">Invalid password format.</p>
-                                        <p id="empty-pwd" class="error-message hide">Password cannot be empty.</p>
-                                    </div>
+                                    <input type="password" name="pwd" placeholder="Enter your password" id="pwd" required>
+                                    <!-- Error message for password -->
+                                    <?php if (isset($_SESSION['errors']['pwd'])) : ?>
+                                        <p class="error-message"><?= $_SESSION['errors']['pwd'] ?></p>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="input-section checkbox-section">
                                     <input type="checkbox" id="terms" name="terms" value="Terms">
-                                    <label for="terms">I agree with Exposy's Terms of Service and Privacy Policy.</label>
-                                    <p id="error-terms" class="error-message hide">You must agree to the terms.</p>
+                                    <label class="terms" for="terms">I agree with Exposy's Terms of Service and Privacy Policy.</label>
+                                    <!-- Error message for terms -->
+                                    <?php if (isset($_SESSION['errors']['terms'])) : ?>
+                                        <p class="error-message"><?= $_SESSION['errors']['terms'] ?></p>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="form-row submit-button full-width">
                                 <button type="submit" id="submit-button">Submit</button>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>

@@ -211,7 +211,7 @@ h2{
 }
 
 .heading-content .close-icon img{
-    width: 100%;
+    width: 2rem;
 }
 
 .heading-content img{
@@ -324,7 +324,7 @@ textarea {
     height: 24px; 
     z-index: 1;
 }
-
+ 
 .password-requirements {
     /* display: none; */
     position: absolute;
@@ -404,6 +404,14 @@ textarea {
     color: green;
     font-size: 1em;
 }
+
+/* input.valid {
+    border-color: green; /* Green border for valid inputs 
+}
+
+input.invalid {
+    border-color: red; /* Red border for invalid inputs 
+} */
 
 
 
