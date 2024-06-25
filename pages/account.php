@@ -159,11 +159,24 @@
                             <div class="form-row">
                                 <div class="input-section full-width">
                                     <label for="pwd">Password</label>
-                                    <input type="password" name="pwd" placeholder="Enter your password" id="pwd" required>
-                                    <!-- Error message for password -->
-                                    <?php if (isset($_SESSION['errors']['pwd'])) : ?>
+                                    <div class="input-icon-container">
+                                        <input type="password" name="pwd" placeholder="Enter your password" id="pwd" required>
+                                        <img src="../assets/icons/svg/info.svg" alt="Info" class="password-icon"> 
+                                        <div class="password-requirements">
+                                            <p>Password Requirements:</p>
+                                            <ul>
+                                                <li>- At least 8 characters long</li>
+                                                <li>- At least one lowercase letter</li>
+                                                <li>- At least one uppercase letter</li>
+                                                <li>- At least one number</li>
+                                                <li>- At least one special character</li>
+                                                <li>- No spaces allowed</li>
+                                            </ul>
+                                        </div>
+                                        <?php if (isset($_SESSION['errors']['pwd'])) : ?>
                                         <p class="error-message"><?= $_SESSION['errors']['pwd'] ?></p>
                                     <?php endif; ?>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -180,7 +193,6 @@
                                 <button type="submit" id="submit-button">Submit</button>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
