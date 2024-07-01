@@ -1,7 +1,7 @@
 // Function to fetch event data
 async function fetchEventData() {
     try {
-        const response = await fetch('./data/events.json'); 
+        const response = await fetch('/data/events.json'); 
         if (!response.ok) {
             throw new Error('Failed to fetch data');
         }
