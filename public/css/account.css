@@ -15,7 +15,6 @@ body {
     background-repeat: no-repeat;
     left: 20%;
     z-index: -100;
-    padding: 0 2rem;
 }
 
 body::before {
@@ -28,11 +27,12 @@ body::before {
     z-index: -1; /* Ensure the overlay is behind the content */
 }
 
-/* Header Styling */
-header {
+header, main, footer{
     width: 100%;
-    padding: 0;
-}
+    padding: 0 2rem;;
+ }
+
+/* Header Styling */
 
 .header-wrapper {
     max-width: 68.75rem;
@@ -211,6 +211,7 @@ h2{
 
 .heading-content .close-icon img{
     width: 2rem;
+    cursor: pointer;
 }
 
 .heading-content img{
@@ -272,10 +273,6 @@ span.edit-categoty {
 /*FOOTER*/
 /*------------------------------------------------------------------------------------------*/
 
-footer{
-    width: 100%;
-    padding: 0;
-}
 
 .footer-wrapper{
     max-width: 68.75rem;

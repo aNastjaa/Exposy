@@ -1,0 +1,198 @@
+.hero-section{
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 2rem;
+}
+
+h1{
+    font-family: "Bebas Neue";
+    font-size: clamp(2rem, 2.5vw, 3rem);
+    color: #272727;
+    padding: 1rem 0;
+    font-stretch: normal;
+    letter-spacing: 0.05em;
+}
+
+h3{
+    font-family: "Bebas Neue";
+    font-size: clamp(1.3rem, 2.5vw, 1.37rem);
+    letter-spacing: 2px;
+    color: #272727;
+    padding: 1rem 0 2rem 0;
+}
+
+.event-scroller {
+    overflow: hidden; 
+    position: relative;
+    width: 100%; 
+    height: 500px; 
+    margin: 0 auto;
+}
+
+.event-cards-container {
+    display: flex; 
+    align-items: center;
+    white-space: nowrap;
+    gap: 1rem;
+    border-radius: 30px;
+}
+
+.event-card {
+    display: inline-block;
+    width: 350px;
+    height: 490px;
+    margin-right: 1rem; 
+    padding: 20px 25px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+    background-color: #f7f7f7a0;
+}
+
+.event-card img {
+    width: 300px;
+    height: 300px;
+    border-radius: 30px;
+    object-fit: cover;
+}
+
+.event-card h4 {
+    font-family: "Bebas Neue";
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    letter-spacing: 1px;
+    color: #272727;
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.event-card p {
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
+    color: #272727;
+    text-align: center;
+    font-family: "Abel", sans-serif;
+    padding-bottom: 0.2rem;
+}
+
+.event-card .buttons {
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.event-card .button {
+    font-family: "Bebas Neue";
+    letter-spacing: 1px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+}
+
+.event-card .read-more {
+    color: #272727;
+    border-radius: 30px;
+    padding: 0.2rem 1.1rem;
+    text-decoration: underline;
+    display: inline-block;
+    text-align: center;
+}
+
+.event-card .save-button {
+    background-color: #7C7B7B;
+    border-radius: 30px;
+    padding: 0.2rem 1.1rem;
+    color: white;
+}
+
+.scroll-button {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #F7F7F7;
+    box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.15);
+    border: none;
+    padding: 1rem;
+    margin: 0 0.5rem;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+}
+
+.left-scroll-button {
+    left: 0;
+}
+
+.right-scroll-button {
+    right: 0;
+}
+
+.event-scroller:hover .scroll-button {
+    display: block;
+}
+
+.about-project{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-top: 2rem;
+    padding: 2rem 2rem 0 2rem;
+}
+
+h2{
+    font-family: "Bebas Neue";
+    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+    color: #272727;
+    padding: 1rem 0;
+    font-stretch: normal;
+    letter-spacing: 0.05em;
+    text-align: center;
+}
+
+.first-section{
+    border-radius: 30px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 3rem 2rem;
+    background-color: #f7f7f780;
+    
+}
+
+h4{
+    font-family: "Bebas Neue";
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    color: #272727;
+    padding: 2rem 0;
+    font-stretch: normal;
+    letter-spacing: 0.05em;
+    text-align: center;
+    
+}
+
+.second-section{
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 4rem;
+
+}
+
+span{
+    font-family: "Bebas Neue";
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: #272727;
+    padding: 1rem 0;
+    font-stretch: normal;
+    letter-spacing: 0.05em;
+    text-align: center;
+    color: #272727;
+}
+
+.part{
+    border-radius: 30px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 3rem 2rem;
+    width: 50%;
+    background-color: #f7f7f780;
+}
+
+p{
+    font-family: "Montserrat", sans-serif;
+}

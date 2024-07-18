@@ -1,0 +1,11 @@
+RewriteEngine on
+
+# Check if the request is for login.php or register.php
+#RewriteCond %{REQUEST_URI} ^/login$ [NC,OR]
+#RewriteCond %{REQUEST_URI} ^/register$ [NC]
+#RewriteRule ^(login|register)$ /templates/auth/$1.php [L]
+
+# For all other requests, route to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.php?url=$1 [NC,L,QSA]

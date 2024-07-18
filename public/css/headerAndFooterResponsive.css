@@ -68,9 +68,9 @@
         display: inline;
     }
 
-    .auth-buttons {
+    /* .auth-buttons {
         display: none;
-    }
+    } */
 }
 
 /*FOOTER*/
@@ -83,6 +83,11 @@
 }
 
 @media (max-width: 768px) {
+
+    footer {
+        padding: 0;
+    }
+
     .footer-wrapper {
         padding: 0.5rem;
     }

@@ -1,0 +1,17 @@
+{
+    "name": "crmlva/exposy",
+    "description": "My Project",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Crmlva\\Exposy\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nastja",
+            "email": "caramelevaa@gmail.com"
+        }
+    ],
+    "require": {}
+}
