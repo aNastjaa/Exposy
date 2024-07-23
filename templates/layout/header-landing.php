@@ -12,16 +12,19 @@
 </head>
 <body>
 <header>
-    <div class="header-wrapper">
-        <nav class="nav-bar">
-            <div class="header-logo">
-                <img src="/assets/icons/Logo L.svg" alt="Logo">
-            </div>
-            <div class="auth-buttons">
-                <button type="button" class="blind-button" onclick="window.location.href='/login.php'">Log in</button>
-                <button type="button" class="cta-button" onclick="window.location.href='/signup.php'">Sign up</button>
-            </div>
-        </nav>
-    </div>
-</header>
+        <div class="header-wrapper">
+            <nav class="nav-bar">
+                <div class="header-logo">
+                    <img src="/assets/icons/Logo L.svg" alt="Logo">
+                </div>
+                <div class="auth-buttons">
+                    <button type="button" class="blind-button" onclick="window.location.href='/login'">Log in</button>
+                    <button type="button" class="cta-button" onclick="window.location.href='/register'">Sign up</button>
+                </div>
 
+
+            </nav>
+        </div>
+    </header>
+
+  

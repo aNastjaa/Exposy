@@ -8,7 +8,7 @@
                 <div class="footer-nav">
                     <ul class="nav-links">
                         <li class="underline"><a href="/index.php">Home</a></li>
-                        <li><a href="#">Events</a></li>
+                        <li><a href="/events.php">Events</a></li>
                         <li><a href="/account.php">Account</a></li>
                     </ul>
                 </div>

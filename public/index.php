@@ -1,9 +1,7 @@
 <?php
-
 namespace Crmlva\Exposy;
 
-function require_autoloader(): void
-{
+function require_autoloader(): void {
     $autoload_file = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
     if (!file_exists($autoload_file)) {
@@ -19,8 +17,7 @@ function require_autoloader(): void
     require_once $autoload_file;
 }
 
-function require_configuration(): void
-{
+function require_configuration(): void {
     $config_file = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'config.php';
 
     if (!file_exists($config_file)) {
@@ -40,9 +37,3 @@ require_configuration();
 require_autoloader();
 
 (new App())->bootstrap();
-
-// Ensure $data is defined as an array
-$data = [];
-
-// Create a new View instance
-new View('main', 'index', $data);

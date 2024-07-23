@@ -1,11 +1,51 @@
-RewriteEngine on
+# Enable Rewrite Engine
+RewriteEngine On
 
-# Check if the request is for login.php or register.php
-#RewriteCond %{REQUEST_URI} ^/login$ [NC,OR]
-#RewriteCond %{REQUEST_URI} ^/register$ [NC]
-#RewriteRule ^(login|register)$ /templates/auth/$1.php [L]
+# Set the base directory for the RewriteRule
+RewriteBase /
 
-# For all other requests, route to index.php
+# Redirect requests to the appropriate controller
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /index.php?url=$1 [NC,L,QSA]
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+# Set the default file for the directory
+DirectoryIndex index.php
+
+# Error handling
+ErrorDocument 403 /templates/error/403.php
+ErrorDocument 404 /templates/error/404.php
+
+# PHP settings
+php_flag display_errors On
+php_value error_reporting E_ALL
+
+# Prevent directory listing
+Options -Indexes
+
+# Caching headers (optional, adjust as necessary)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 month"
+    ExpiresByType text/html "access plus 1 day"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+# Compression (optional, adjust as necessary)
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript
+</IfModule>
+
+# Security headers (optional, adjust as necessary)
+<IfModule mod_headers.c>
+    Header always append X-Frame-Options SAMEORIGIN
+    Header set X-XSS-Protection "1; mode=block"
+    Header set X-Content-Type-Options nosniff
+</IfModule>
+
+

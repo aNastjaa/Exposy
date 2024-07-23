@@ -1,4 +1,5 @@
 <?php
+
 namespace Crmlva\Exposy;
 
 class View 
@@ -9,65 +10,76 @@ class View
     {
         $this->data = $data;
 
-        // Set paths to header, footer, and template files
-        $layout_header = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "{$layout}-header.php";
-        $layout_footer = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "{$layout}-footer.php";
-        $template_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'auth' . DIRECTORY_SEPARATOR . "{$template}.php";
-        $main_landing_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "main-landing.php";
         $header_landing_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "header-landing.php";
+        $main_footer_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "main-footer.php";
+        $main_header_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "main-header.php";
+        $main_landing_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "main-landing.php";
+        $auth_template_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'auth' . DIRECTORY_SEPARATOR . "{$template}.php";
+        $error_template_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'error' . DIRECTORY_SEPARATOR . "{$template}.php";
+        $error_header_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "error-header.php";
+        $error_footer_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "error-footer.php";
 
-        // Include header based on conditions
-        if ($template !== 'index' && $template !== 'login' && $template !== 'register') {
-            $this->includeFile($layout_header);
-        }
+        switch ($template) {
+            case 'index':
+                $this->includeIfExists($header_landing_path);
+                $this->includeIfExists($main_landing_path);
+                $this->includeIfExists($main_footer_path);
+                break;
 
-        // Include header-landing.php only for index.php
-        if ($template === 'index') {
-            $this->includeFile($header_landing_path);
-            $this->includeFile($main_landing_path);
-        }
+            case 'account':
+            case 'events':
+                $this->includeIfExists($main_header_path);
+                $this->includeIfExists($main_footer_path);
+                break;
 
-        // Include the main template file
-        $this->includeFile($template_path);
+            case 'login':
+            case 'register':
+                // $this->includeIfExists($main_header_path);
+                $this->includeIfExists($auth_template_path);
+                // $this->includeIfExists($main_footer_path);
+                break;
 
-        // Include footer based on conditions
-        if ($template !== 'login' && $template !== 'register') {
-            $this->includeFile($layout_footer);
+            case '403':
+            case '404':
+                
+                $this->includeIfExists($error_header_path);
+                $this->includeIfExists($error_template_path);
+                $this->includeIfExists($error_footer_path);
+                break;
+
+            default:
+                $this->includeIfExists($main_header_path);
+                $this->includeIfExists($main_footer_path);
+                break;
         }
     }
 
-    protected function includeFile(string $file)
+    private function includeIfExists(string $path): void
     {
-        if (file_exists($file)) {
-            extract($this->data); // Extract data for use in the included file
-            include $file;
+        if (file_exists($path)) {
+            include_once $path;
         } else {
-            echo "File not found: {$file}\n";
+            echo "File not found: {$path}\n";
         }
     }
-
-    // Other methods like renderInputError(), title(), embedStylesheets(), embedScripts() remain as before
-    public function renderInputError(string $name)
-    {
+    
+    public function renderInputError(string $name) {
         if (isset($this->data['errors']) && isset($this->data['errors'][$name])) {
-            echo $this->data['errors'][$name];
+            echo "<p class=\"error\">{$this->data['errors'][$name]}</p>";
         }
     }
 
-    public function title(): string
-    {
+    public function title(): string {
         return $this->data['title'] ?? 'Exposy';
     }
 
-    public function embedStylesheets(array $hrefs): void
-    {
+    public function embedStylesheets(array $hrefs): void {
         foreach ($hrefs as $href) {
             echo "<link rel=\"stylesheet\" href=\"{$href}\"/>\n";
         }
     }
 
-    public function embedScripts(array $srcs): void
-    {
+    public function embedScripts(array $srcs): void {
         foreach ($srcs as $src) {
             echo "<script src=\"{$src}\" defer></script>\n";
         }

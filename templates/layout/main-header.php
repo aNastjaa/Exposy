@@ -24,8 +24,8 @@
                     </div>
                     <ul class="nav-links">
                         <li ><a href="/index.php">Home</a></li>
-                        <li><a href="#">Events</a></li>
-                        <li class="underline"><a href="#">Account</a></li>
+                        <li><a href="/public/events.php">Events</a></li>
+                        <li class="underline"><a href="/public/account.php">Account</a></li>
                     </ul>
                 </nav>
             </div>
