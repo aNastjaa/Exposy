@@ -6,8 +6,8 @@
     <title><?= $this->title() ?></title>
 
     <?php
-        $this->embedStylesheets(['/css/header.css','/css/footer.css','/css/headerAndFooterResponsive.css','/css/global.css']);
-        $this->embedScripts(['/js/burgerMenu.js']);
+        $this->embedStylesheets(['/css/header.css','/css/footer.css','/css/headerAndFooterResponsive.css','/css/global.css', '/css/account.css', '/css/form.css']);
+        $this->embedScripts(['/js/burgerMenu.js', '/js/editProfile.js', '/js/password.js']);
     ?>
 
 </head>

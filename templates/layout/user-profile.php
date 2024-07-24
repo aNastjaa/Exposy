@@ -4,7 +4,8 @@
             <img src="/assets/icons/User photo.svg" alt="User photo">
         </div>
         <div class="user-data">
-            <h2><?php echo $username; ?></h2>
+            <!-- <h2><?php echo $username; ?></h2> -->
+            <h2>Username</h2>
             <p>City, Country</p>
         </div>
     </div>
@@ -19,7 +20,7 @@
             <div class="photo-username">
                 <img src="/assets/icons/User photo.svg" alt="User photo">
                 <div class="username-category">
-                    <span><?php echo $username; ?></span> 
+                    <!-- <span><?php echo $username; ?></span>  -->
                     <span class="edit-category">/General</span>
                 </div>
             </div>

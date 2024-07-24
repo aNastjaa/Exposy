@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 /* Header Styling */
 
 .header-wrapper {
@@ -31,48 +32,6 @@
     font-family: "Bebas Neue";
     font-size: 22px;
     letter-spacing: 1.2px;
-}
-
-.auth-buttons {
-    display: flex;
-    gap: 0.9rem;
-}
-
-.blind-button {
-    padding: 0.3rem 0.9rem;
-    flex-shrink: 0;
-    border-radius: 30px;
-    background-color: #F7F7F7;
-    border: none;
-    font-family: "Bebas Neue";
-    color: #272727;
-    font-size: 20px;
-    letter-spacing: 1.2px;
-    transition: all 0.1s ease-in-out;
-}
-
-.blind-button:hover {
-    cursor: pointer;
-    border: #272727 2px solid;
-}
-
-.cta-button {
-    padding: 0.5rem 1.1rem;
-    flex-shrink: 0;
-    border-radius: 30px;
-    background-color:  #FE7999;
-    border: none;
-    font-family: "Bebas Neue";
-    color: #F7F7F7;
-    font-size: 20px;
-    letter-spacing: 1.2px;
-    transition: all 0.3s ease-in-out;
-}
-
-.cta-button:hover {
-    cursor: pointer;
-    background-color: #DD4A6D;
-    scale: 1.1;
 }
 
 a {

@@ -18,6 +18,8 @@ class View
         $error_template_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'error' . DIRECTORY_SEPARATOR . "{$template}.php";
         $error_header_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "error-header.php";
         $error_footer_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "error-footer.php";
+        $user_profile_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "user-profile.php";
+
 
         switch ($template) {
             case 'index':
@@ -26,11 +28,18 @@ class View
                 $this->includeIfExists($main_footer_path);
                 break;
 
-            case 'account':
+            
             case 'events':
                 $this->includeIfExists($main_header_path);
                 $this->includeIfExists($main_footer_path);
                 break;
+
+            case 'account': 
+                $this->includeIfExists($main_header_path);
+                $this->includeIfExists($user_profile_path);
+                $this->includeIfExists($main_footer_path);
+                
+                break;   
 
             case 'login':
             case 'register':
