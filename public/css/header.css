@@ -52,3 +52,40 @@ li {
 .burger-menu {
     display: none;
 }
+
+.cta-button {
+    padding: 0.5rem 1.1rem;
+    flex-shrink: 0;
+    border-radius: 30px;
+    background-color: rgba(253, 120, 152, 1);
+    border: none;
+    font-family: "Bebas Neue";
+    color: #F7F7F7;
+    font-size: 20px;
+    letter-spacing: 1.2px;
+    transition: all 0.3s ease-in-out;
+}
+
+.cta-button:hover {
+    cursor: pointer;
+    background-color: #DD4A6D;
+    scale: 1.1;
+}
+
+.blind-button {
+    text-align: center;
+    padding: 0.3rem 0.9rem;
+    flex-shrink: 0;
+    border-radius: 30px;
+    border: none;
+    font-family: "Bebas Neue";
+    color: #272727;
+    font-size: 20px;
+    letter-spacing: 1.2px;
+    transition: all 0.1s ease-in-out;
+}
+
+.blind-button:hover {
+    cursor: pointer;
+    border: #272727 2px solid;
+}

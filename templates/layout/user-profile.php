@@ -37,9 +37,7 @@
                     <li class="delete-account"><a href="#">Delete account</a></li>
                 </ul>
             </div>
-                    <!-- <?php 
-                    include __DIR__ . '/../templates/register_form.php'; 
-                    ?> -->
+               
         </div>
     </div> 
 </section>
