@@ -3,7 +3,7 @@
             <h1>Welcome to Exposy – Your Gateway to Art Events </h1>
             <h3>Discover, Explore, save, and create <br> 
                 Free  Exhibitions in Germany</h3>
-            <button type="button" class="cta-button" onclick="window.location.href='/signup.php'" >Get started</button>
+            <button role="link" class="cta-button" onclick="window.location.href='/register'" >Get started</button>
         </div>
         <div class="event-scroller">
             <button class="scroll-button left-scroll-button"><img src="/assets/icons/svg/arrow-left.svg" alt="Scroll left"></button> 

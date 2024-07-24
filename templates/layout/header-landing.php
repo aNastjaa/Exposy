@@ -18,11 +18,9 @@
                     <img src="/assets/icons/Logo L.svg" alt="Logo">
                 </div>
                 <div class="auth-buttons">
-                    <button type="button" class="blind-button" onclick="window.location.href='/login'">Log in</button>
-                    <button type="button" class="cta-button" onclick="window.location.href='/register'">Sign up</button>
+                    <button role="link" class="blind-button" onclick="window.location.href='/login'">Log in</button>
+                    <button role="link" class="cta-button" onclick="window.location.href='/register'">Sign up</button>
                 </div>
-
-
             </nav>
         </div>
     </header>

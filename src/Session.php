@@ -2,37 +2,49 @@
 
 namespace Crmlva\Exposy;
 
-abstract class Session 
+class Session
 {
-    public function createNonce() : string 
+    public static function start(): void
     {
-        $nonce = bin2hex( random_bytes( 16 ) );
-        $_SESSION['nonce'] = $nonce;
-        return $nonce;
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
     }
 
-    public static function get(string $key, $default = null) : mixed
+    public static function set(string $key, $value): void
     {
-        return self::has($key) ? $_SESSION[$key] : null;
+        self::start();
+        $_SESSION[$key] = $value;
     }
-    
-    public function getNonce() : string 
+
+    public static function get(string $key, $default = null)
     {
-        return $_SESSION['nonce'] ?? '';
+        self::start();
+        return $_SESSION[$key] ?? $default;
     }
 
     public static function has(string $key): bool
     {
-        return isset($_SESSION[$key]) ? true : false;
+        self::start();
+        return isset($_SESSION[$key]);
     }
 
-    public static function set( string $name, mixed $value) : void
+    public static function delete(string $key): void
     {
-        $_SESSION[$name] = $value;
+        self::start();
+        unset($_SESSION[$key]);
     }
 
-    public static function start() : void
+    public static function clear(string $key): void
     {
-        session_start();
+        self::start();
+        self::delete($key);
+    }
+
+    public static function clearAll(): void
+    {
+        self::start();
+        session_unset(); // Unset all session variables
+        session_destroy(); // Destroy the session
     }
 }

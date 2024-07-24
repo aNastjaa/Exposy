@@ -19,7 +19,7 @@
                     <div class="input-section full-width">
                         <label for="email">Email</label>
                         <input type="email" placeholder="Enter your email" id="email" name="email"
-                        value="<?php echo htmlspecialchars($_POST['email'] ?? '', ENT_QUOTES); ?>">
+                        value="<?php echo $this->getInputValue('email'); ?>">
                             
                             <!-- Error message for email -->
                             <?php $this->renderInputError( 'email' ); ?>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="signup-form-link">
                     <p>Don’t have an account?</p>
-                    <a href="/signup.php">Sign up</a>
+                    <a href="/register">Sign up</a>
                 </div>
                 
             </form>

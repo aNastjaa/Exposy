@@ -1,6 +1,13 @@
-<link rel="stylesheet" href="/css/login_signup.css">
-<script src="/js/password.js" defer></script>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in</title>
+    <link rel="stylesheet" href="/css/login_signup.css">
+    <script src="/js/password.js" defer></script>
+</head>
+<body>
 <div class="container">   
     <div class="signup-container">
         <div class="container-photo">
@@ -13,7 +20,7 @@
                 <div class="input-section full-width">
                     <label for="username">Username</label>
                         <input type="text" placeholder="Enter your user name" id="username" name="username"
-                        value="<?php echo htmlspecialchars($_POST['username'] ?? '', ENT_QUOTES); ?>">
+                        value="<?php echo $this->getInputValue('username'); ?>">
                         
                         <!-- Error message for firstname -->
                         <?php $this->renderInputError( 'username' ); ?>
@@ -23,7 +30,7 @@
                     <div class="input-section full-width">
                         <label for="email">Email</label>
                         <input type="email" placeholder="Enter your email" id="email" name="email"
-                        value="<?php echo htmlspecialchars($_POST['email'] ?? '', ENT_QUOTES); ?>">
+                        value="<?php echo $this->getInputValue('email'); ?>">
                             
                             <!-- Error message for email -->
                             <?php $this->renderInputError( 'email' ); ?>
@@ -74,7 +81,7 @@
                 </div>
                 <div class="signup-form-link">
                     <p>Already have an account?</p>
-                    <a href="/login.php">Log in</a>
+                    <a href="/login">Log in</a>
                 </div>
             </form>
         </div>    
@@ -85,5 +92,6 @@
         <img src="/assets/icons/svg/x_pink.svg" alt="Close" id="close-profile-edit">
     </a>
     </div>
-
 </div>
+</body>
+</html>

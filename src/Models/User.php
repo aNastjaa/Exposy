@@ -3,19 +3,23 @@
 namespace Crmlva\Exposy\Models;
 
 use Crmlva\Exposy\Model;
-use Crmlva\Exposy\Util;
 use PDOStatement;
-
+use Crmlva\Exposy\Util;
 class User extends Model
 {
-
-    public function create( string $username, string $email, string $password ) : bool|string
+    public function getByEmail(string $email): ?array
     {
-        /** @var string */
-        $hashed_password = Util::hashPassword( $password );
-        /** @var string */
+        $query = "SELECT * FROM users WHERE email = :email";
+        $stmt = $this->database->prepare($query);
+        $stmt->execute([':email' => $email]);
+
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    public function create(string $username, string $email, string $password): bool|string
+    {
+        $hashed_password = Util::hashPassword($password);
         $query = "INSERT INTO users (username, email, password, created_at) VALUES (:username, :email, :password, NOW())";
-        /** @var PDOStatement */
         $stmt = $this->database->prepare($query);
 
         $stmt->execute([
@@ -26,5 +30,6 @@ class User extends Model
 
         return $this->database->lastInsertId();
     }
-
 }
+
+

@@ -1,11 +1,9 @@
 <?php
-require_once __DIR__ . '/../src/App.php';
-require_once __DIR__ . '/../src/View.php';
+namespace Crmlva\Exposy;
 
 use Crmlva\Exposy\App;
+use Crmlva\Exposy\View;
 
-// require_configuration();
-// require_autoloader();
-
+// $view = new View();
 $app = new App();
 $app->bootstrap();

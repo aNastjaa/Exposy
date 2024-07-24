@@ -41,7 +41,6 @@ class View
 
             case '403':
             case '404':
-                
                 $this->includeIfExists($error_header_path);
                 $this->includeIfExists($error_template_path);
                 $this->includeIfExists($error_footer_path);
@@ -62,24 +61,37 @@ class View
             echo "File not found: {$path}\n";
         }
     }
-    
-    public function renderInputError(string $name) {
+
+    public function renderInputError(string $name): void
+    {
         if (isset($this->data['errors']) && isset($this->data['errors'][$name])) {
-            echo "<p class=\"error\">{$this->data['errors'][$name]}</p>";
+            echo '<ul class="error-list">';
+            foreach ($this->data['errors'][$name] as $error) {
+                echo "<li class=\"error\">{$error}</li>";
+            }
+            echo '</ul>';
         }
     }
 
-    public function title(): string {
+    public function getInputValue(string $name): string
+    {
+        return htmlspecialchars($this->data['submitted_data'][$name] ?? '', ENT_QUOTES);
+    }
+
+    public function title(): string
+    {
         return $this->data['title'] ?? 'Exposy';
     }
 
-    public function embedStylesheets(array $hrefs): void {
+    public function embedStylesheets(array $hrefs): void
+    {
         foreach ($hrefs as $href) {
             echo "<link rel=\"stylesheet\" href=\"{$href}\"/>\n";
         }
     }
 
-    public function embedScripts(array $srcs): void {
+    public function embedScripts(array $srcs): void
+    {
         foreach ($srcs as $src) {
             echo "<script src=\"{$src}\" defer></script>\n";
         }

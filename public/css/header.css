@@ -23,6 +23,7 @@
 .nav-links {
     display: flex;
     gap: 5rem;
+    
 }
 
 .nav-links li {
@@ -75,6 +76,7 @@
 }
 
 a {
+    font-family: "Bebas Neue";
     text-decoration: none;
     color: #272727;
     transition: all 0.3s ease-in-out;
