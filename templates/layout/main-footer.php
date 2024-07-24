@@ -8,8 +8,8 @@
                 <div class="footer-nav">
                     <ul class="nav-links">
                         <li class="underline"><a href="/index.php">Home</a></li>
-                        <li><a href="/events.php">Events</a></li>
-                        <li><a href="/account.php">Account</a></li>
+                        <li><a href="/events">Events</a></li>
+                        <li><a href="/account">Account</a></li>
                     </ul>
                 </div>
                 <div class="footer-soc-icons">
