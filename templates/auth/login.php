@@ -9,29 +9,28 @@
 <body>
 <div class="container">   
     <div class="login-container">
-    <div class="container-photo">
-        <img src="/assets/img/login_photo.jpg" alt="Log in photo">
-    </div>
-    <div class="form-container">
-        <h1>Log in to Exposy</h1>
+        <div class="container-photo">
+            <img src="/assets/img/login_photo.jpg" alt="Log in photo">
+        </div>
+        <div class="form-container">
+            <h1>Log in to Exposy</h1>
             <form class="login-form" id="login-form" method="POST">
                 <div class="form-row">
                     <div class="input-section full-width">
                         <label for="email">Email</label>
-                        <input type="email" placeholder="Enter your email" id="email" name="email"
-                        value="<?php echo $this->getInputValue('email'); ?>">
-                            
-                            <!-- Error message for email -->
-                            <?php $this->renderInputError( 'email' ); ?>
+                        <input type="email" placeholder="Enter your email" id="email" name="email" value="<?php echo htmlspecialchars($submitted_data['email'] ?? '', ENT_QUOTES); ?>">
+                        <?php if (isset($errors['email'])): ?>
+                            <div class="error-message"><?php echo htmlspecialchars($errors['email'][0], ENT_QUOTES); ?></div>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="input-section full-width">
                         <label for="pwd">Password</label>
-                        <input type="password" name="pwd" placeholder="Enter your password" id="pwd">
-                                 
-                            <!-- Error message for password -->
-                             <?php $this->renderInputError( 'password' ); ?>      
+                        <input type="password" name="password" placeholder="Enter your password" id="pwd">
+                        <?php if (isset($errors['password'])): ?>
+                            <div class="error-message"><?php echo htmlspecialchars($errors['password'][0], ENT_QUOTES); ?></div>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="form-row submit-button full-width">
@@ -41,15 +40,14 @@
                     <p>Don’t have an account?</p>
                     <a href="/register">Sign up</a>
                 </div>
-                
             </form>
         </div>    
     </div>
 
     <div class="close-icon">
-    <a href="/index.php">
-        <img src="/assets/icons/svg/x_pink.svg" alt="Close" id="close-profile-edit">
-    </a>
+        <a href="/index.php">
+            <img src="/assets/icons/svg/x_pink.svg" alt="Close" id="close-profile-edit">
+        </a>
     </div>
 </div>
 </body>

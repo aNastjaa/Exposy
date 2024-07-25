@@ -76,6 +76,22 @@
                         <?php $this->renderInputError( 'terms' ); ?>
                     </div>
                 </div>
+
+                <?php if (!empty($errors)): ?>
+                    <div class="errors">
+                        <?php foreach ($errors as $field => $messages): ?>
+                            <div class="error">
+                                <strong><?php echo htmlspecialchars(ucfirst($field)); ?>:</strong>
+                                <ul>
+                                    <?php foreach ($messages as $message): ?>
+                                        <li><?php echo htmlspecialchars($message); ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+
                 <div class="form-row submit-button full-width">
                     <button type="submit" id="submit-button">Create account</button>
                 </div>

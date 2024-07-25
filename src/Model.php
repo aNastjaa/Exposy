@@ -8,6 +8,11 @@ abstract class Model
 
     public function __construct()
     {
-        $this->database = new Database();
+        $this->database = self::getDatabaseInstance();
+    }
+
+    public static function getDatabaseInstance(): Database
+    {
+        return Database::getInstance();
     }
 }

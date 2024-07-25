@@ -4,8 +4,8 @@ namespace Crmlva\Exposy\Controllers;
 
 use Crmlva\Exposy\Controller;
 use Crmlva\Exposy\Models\User;
-use Crmlva\Exposy\Util;
 use Crmlva\Exposy\Session;
+use Crmlva\Exposy\Util;
 use Crmlva\Exposy\View;
 use Crmlva\Exposy\Validators\Validation;
 
@@ -18,30 +18,83 @@ class UserController extends Controller
         $this->validator = new Validation();
     }
 
-    protected function compareCredentials(string $email, string $password): bool
+    public function login(): void
     {
-        $userModel = new User();
-        $user = $userModel->getByEmail($email);
+        $errors = Session::get('errors', []);
+        $status_message = Session::get('status_message', '');
+        $submitted_data = Session::get('submitted_data', []);
 
-        if ($user) {
-            return Util::verifyPassword($password, $user['password']);
+        if (!$this->isRequestMethod(self::REQUEST_METHOD_POST)) {
+            Session::clear('errors');
+            Session::clear('status_message');
+            Session::clear('submitted_data');
+            new View('auth', 'login', [
+                'errors' => $errors,
+                'status_message' => $status_message,
+                'submitted_data' => $submitted_data
+            ]);
+            return;
         }
 
-        return false;
+        $data = $this->getData();
+
+        if (!$this->validateLogin($data)) {
+            Session::set('errors', $this->validator->getErrors());
+            Session::set('status_message', 'Please correct the errors and try again');
+            Session::set('submitted_data', $data);
+            $this->redirect('/login');
+            return;
+        }
+
+        if ($this->compareCredentials($data['email'] ?? '', $data['password'] ?? '')) {
+            $userModel = new User();
+            $user = $userModel->getByEmail($data['email']);
+            $userId = $user ? $user['id'] : null;
+
+            if ($userId) {
+                Session::set('status_message', 'Login successful');
+                Session::set('user_id', $userId);
+                $this->redirect('/account');
+            } else {
+                Session::set('errors', ['email' => 'Invalid email or password']);
+                Session::set('status_message', 'Login failed. Invalid credentials');
+                Session::set('submitted_data', $data);
+                $this->redirect('/login');
+            }
+        } else {
+            Session::set('errors', ['email' => 'Invalid email or password']);
+            Session::set('status_message', 'Login failed. Invalid credentials');
+            Session::set('submitted_data', $data);
+            $this->redirect('/login');
+        }
     }
 
-    protected function validateRegister(array $data): bool
+    public function logout(): void
     {
-        $isValid = true;
+        Session::clearAll();
+        $this->redirect('/login');
+    }
 
-        // Validate each field
-        $isValid &= $this->validator->validateStringField($data['username'] ?? null, 'username', 3, 50);
-        $isValid &= $this->validator->validateEmail($data['email'] ?? null);
-        $isValid &= $this->validator->validatePassword($data['password'] ?? null);
-        $isValid &= $this->validator->validatePasswordRepeat($data['password'] ?? null, $data['pwd_rep'] ?? null);
-        $isValid &= $this->validator->validateTerms($data['terms'] ?? null);
+    public function profile(): void
+    {
+        $userId = Session::get('user_id');
+        if (!$userId) {
+            $this->redirect('/login');
+            return;
+        }
 
-        return $isValid;
+        $userModel = new User();
+        $user = $userModel->getById($userId);
+
+        if ($user) {
+            new View('layout', 'user-profile', [
+                'username' => $user['username'] ?? '',
+                'city' => $user['city'] ?? '',
+                'country' => $user['country'] ?? ''
+            ]);
+        } else {
+            $this->redirect('/login');
+        }
     }
 
     public function register(): void
@@ -54,7 +107,11 @@ class UserController extends Controller
             Session::clear('errors');
             Session::clear('status_message');
             Session::clear('submitted_data');
-            $view = new View('layout', 'register', ['errors' => $errors, 'status_message' => $status_message, 'submitted_data' => $submitted_data]);
+            new View('auth', 'register', [
+                'errors' => $errors,
+                'status_message' => $status_message,
+                'submitted_data' => $submitted_data
+            ]);
             return;
         }
 
@@ -83,44 +140,49 @@ class UserController extends Controller
         }
     }
 
-    public function login(): void
-{
-    $errors = Session::get('errors', []);
-    $status_message = Session::get('status_message', '');
-    $submitted_data = Session::get('submitted_data', []);
-
-    if (!$this->isRequestMethod(self::REQUEST_METHOD_POST)) {
-        Session::clear('errors');
-        Session::clear('status_message');
-        Session::clear('submitted_data');
-        $view = new View('layout', 'login', ['errors' => $errors, 'status_message' => $status_message, 'submitted_data' => $submitted_data]);
-        return;
+    public function showHomePage(): void
+    {
+        new View('main', 'index');
     }
 
-    $data = $this->getData();
-
-    if ($this->compareCredentials($data['email'] ?? '', $data['password'] ?? '')) {
+    protected function compareCredentials(string $email, string $password): bool
+    {
         $userModel = new User();
-        $user = $userModel->getByEmail($data['email']);
-        $userId = $user ? $user['id'] : null;
+        $user = $userModel->getByEmail($email);
 
-        if ($userId) {
-            Session::set('status_message', 'Login successful');
-            Session::set('user_id', $userId);
-            $this->redirect('/account'); // Ensure this path is correct
-        } else {
-            Session::set('status_message', 'Login failed. Invalid credentials');
-            $this->redirect('/login');
+        if ($user) {
+            return Util::verifyPassword($password, $user['password']);
         }
-    } else {
-        Session::set('status_message', 'Login failed. Invalid credentials');
-        $this->redirect('/login');
+
+        return false;
     }
-}
 
-
-    public function isLoggedIn(): bool
+    protected function isLoggedIn(): bool
     {
         return Session::has('user_id');
+    }
+
+    protected function validateLogin(array $data): bool
+    {
+        $this->validator->clearErrors(); // Clear previous errors if any
+
+        $isValid = true;
+        $isValid &= $this->validator->validateEmail($data['email'] ?? null);
+        $isValid &= $this->validator->validatePassword($data['password'] ?? null);
+
+        return $isValid;
+    }
+
+    protected function validateRegister(array $data): bool
+    {
+        $isValid = true;
+
+        $isValid &= $this->validator->validateStringField($data['username'] ?? null, 'username', 3, 50);
+        $isValid &= $this->validator->validateEmail($data['email'] ?? null);
+        $isValid &= $this->validator->validatePassword($data['password'] ?? null);
+        $isValid &= $this->validator->validatePasswordRepeat($data['password'] ?? null, $data['pwd_rep'] ?? null);
+        $isValid &= $this->validator->validateTerms($data['terms'] ?? null);
+
+        return $isValid;
     }
 }

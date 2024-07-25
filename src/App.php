@@ -16,54 +16,54 @@ final class App {
     }
 
     public function bootstrap(): void
-{
-    Session::start();
-    
-    $url = filter_input(INPUT_GET, 'url', FILTER_DEFAULT);
+    {
+        Session::start();
+        
+        $url = filter_input(INPUT_GET, 'url', FILTER_DEFAULT);
 
-    switch ($url) {
-        case 'login':
-            $controller = new UserController();
-            $controller->login();
-            break;
+        switch ($url) {
+            case 'login':
+                $controller = new UserController();
+                $controller->login();
+                break;
 
-        case 'register':
-            $controller = new UserController();
-            $controller->register();
-            break;
+            case 'register':
+                $controller = new UserController();
+                $controller->register();
+                break;
 
-        case 'account':
-            $this->auth();
-            new View('main', 'account', [
-                'title' => 'Account'
-            ]);
-            break;
+            case 'account':
+                $this->auth();
+                new View('main', 'account', [
+                    'title' => 'Account'
+                ]);
+                break;
 
-        case 'events':
-            $this->auth();
-            new View('main', 'events', [
-                'title' => 'Events'
-            ]);
-            break;
+            case 'events':
+                $this->auth();
+                new View('main', 'events', [
+                    'title' => 'Events'
+                ]);
+                break;
 
-        case '':
-        case null:
-            new View('main', 'index', [
-                'title' => 'Home'
-            ]);
-            break;
+            case '':
+            case null:
+                new View('main', 'index', [
+                    'title' => 'Home'
+                ]);
+                break;
 
-        default:
-            new View('error', '404', [
-                'title' => 'Page Not Found'
-            ]);
-            break;
+            default:
+                new View('error', '404', [
+                    'title' => 'Page Not Found'
+                ]);
+                break;
+        }
     }
-}
 
     public function redirect(string $url): void
-{
-    header("Location: $url");
-    exit(); 
-}
+    {
+        header("Location: $url");
+        exit(); 
+    }
 }

@@ -108,4 +108,8 @@ class Validation {
     public function getErrors(): array {
         return $this->errors;
     }
+
+    public function addError(string $field, string $message): void {
+        $this->errors[$field][] = $message;
+    }
 }

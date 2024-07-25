@@ -1,18 +1,24 @@
+<!-- user-profile.php -->
+
 <div class="account">
     <div class="account-info">
         <div class="user-photo">
             <img src="/assets/icons/User photo.svg" alt="User photo">
         </div>
         <div class="user-data">
-            <!-- <h2><?php echo $username; ?></h2> -->
-            <h2>Username</h2>
-            <p>City, Country</p>
+            <h2>
+                <?php echo htmlspecialchars($username ?? 'Guest', ENT_QUOTES); ?>
+            </h2>
+            <p>
+                <?php echo htmlspecialchars($city ?? 'Unknown City', ENT_QUOTES); ?>, 
+                <?php echo htmlspecialchars($country ?? 'Unknown Country', ENT_QUOTES); ?>
+            </p>
         </div>
     </div>
     <div class="account-buttons">
-                <button type="button" class="blind-button">Edit profile</button>
-                <button type="button" class="blind-button">Log Out</button>
-    </div> 
+        <button type="button" class="blind-button">Edit profile</button>
+        <button type="button" class="blind-button" onclick="window.location.href='/index.php?action=logout'">Log Out</button>
+    </div>
 </div>
 <section id="profile-edit">
     <div class="edit-container">
@@ -20,7 +26,7 @@
             <div class="photo-username">
                 <img src="/assets/icons/User photo.svg" alt="User photo">
                 <div class="username-category">
-                    <!-- <span><?php echo $username; ?></span>  -->
+                    <span><?php echo htmlspecialchars($username ?? 'Guest', ENT_QUOTES); ?></span>
                     <span class="edit-category">/General</span>
                 </div>
             </div>
@@ -33,11 +39,10 @@
                 <ul class="edit-category">
                     <li class="selected"><a href="#">General</a></li>
                     <li class="gray"><a href="#">Edit profile</a></li>
-                        <div class="slice"></div>
+                    <div class="slice"></div>
                     <li class="delete-account"><a href="#">Delete account</a></li>
                 </ul>
             </div>
-               
         </div>
-    </div> 
+    </div>
 </section>
