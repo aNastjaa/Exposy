@@ -33,7 +33,9 @@ function require_configuration(): void {
     require_once $config_file;
 }
 
+// Call these functions to ensure configuration is loaded
 require_configuration();
 require_autoloader();
 
+// Initialize and bootstrap the application
 (new App())->bootstrap();

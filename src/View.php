@@ -8,6 +8,11 @@ class View
 
     public function __construct(string $layout, string $template, array $data = [])
     {
+        // Debugging: Check if TEMPLATES_DIR is defined
+        if (!defined('TEMPLATES_DIR')) {
+            die('TEMPLATES_DIR is not defined.');
+        }
+
         $this->data = $data;
 
         $header_landing_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "header-landing.php";
@@ -20,7 +25,6 @@ class View
         $error_footer_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "error-footer.php";
         $user_profile_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "user-profile.php";
 
-
         switch ($template) {
             case 'index':
                 $this->includeIfExists($header_landing_path);
@@ -28,7 +32,6 @@ class View
                 $this->includeIfExists($main_footer_path);
                 break;
 
-            
             case 'events':
                 $this->includeIfExists($main_header_path);
                 $this->includeIfExists($main_footer_path);
@@ -38,14 +41,11 @@ class View
                 $this->includeIfExists($main_header_path);
                 $this->includeIfExists($user_profile_path);
                 $this->includeIfExists($main_footer_path);
-                
                 break;   
 
             case 'login':
             case 'register':
-                // $this->includeIfExists($main_header_path);
                 $this->includeIfExists($auth_template_path);
-                // $this->includeIfExists($main_footer_path);
                 break;
 
             case '403':

@@ -46,14 +46,11 @@ class UserController extends Controller
 
     public function register(): void
     {
-        // Get any existing errors and status messages from the session
         $errors = Session::get('errors', []);
         $status_message = Session::get('status_message', '');
         $submitted_data = Session::get('submitted_data', []);
 
         if (!$this->isRequestMethod(self::REQUEST_METHOD_POST)) {
-            // Render the registration page if it's not a POST request
-            // Clear the errors and submitted data after rendering
             Session::clear('errors');
             Session::clear('status_message');
             Session::clear('submitted_data');
@@ -64,7 +61,6 @@ class UserController extends Controller
         $data = $this->getData();
 
         if ($this->validateRegister($data)) {
-            // If valid, proceed with registration logic
             $userModel = new User();
             $userId = $userModel->create(
                 $data['username'],
@@ -80,46 +76,51 @@ class UserController extends Controller
                 $this->redirect('/register');
             }
         } else {
-            // Validation failed, set errors and submitted data in session and redirect back to registration page
             Session::set('errors', $this->validator->getErrors());
             Session::set('status_message', 'Please correct the errors and try again');
-            Session::set('submitted_data', $data); // Store the submitted data
+            Session::set('submitted_data', $data);
             $this->redirect('/register');
         }
     }
 
     public function login(): void
-    {
-        // Get any existing errors and status messages from the session
-        $errors = Session::get('errors', []);
-        $status_message = Session::get('status_message', '');
-        $submitted_data = Session::get('submitted_data', []);
+{
+    $errors = Session::get('errors', []);
+    $status_message = Session::get('status_message', '');
+    $submitted_data = Session::get('submitted_data', []);
 
-        if (!$this->isRequestMethod(self::REQUEST_METHOD_POST)) {
-            // Render the login page if it's not a POST request
-            // Clear the errors and submitted data after rendering
-            Session::clear('errors');
-            Session::clear('status_message');
-            Session::clear('submitted_data');
-            $view = new View('layout', 'login', ['errors' => $errors, 'status_message' => $status_message, 'submitted_data' => $submitted_data]);
-            return;
-        }
+    if (!$this->isRequestMethod(self::REQUEST_METHOD_POST)) {
+        Session::clear('errors');
+        Session::clear('status_message');
+        Session::clear('submitted_data');
+        $view = new View('layout', 'login', ['errors' => $errors, 'status_message' => $status_message, 'submitted_data' => $submitted_data]);
+        return;
+    }
 
-        $data = $this->getData();
+    $data = $this->getData();
 
-        if ($this->compareCredentials($data['email'] ?? '', $data['password'] ?? '')) {
-            // Handle successful login
+    if ($this->compareCredentials($data['email'] ?? '', $data['password'] ?? '')) {
+        $userModel = new User();
+        $user = $userModel->getByEmail($data['email']);
+        $userId = $user ? $user['id'] : null;
+
+        if ($userId) {
             Session::set('status_message', 'Login successful');
-            Session::set('user_id', $data['email']); // Replace with actual user ID from DB
-            $this->redirect('/account'); // Redirect to a user account page or dashboard
+            Session::set('user_id', $userId);
+            $this->redirect('/account'); // Ensure this path is correct
         } else {
             Session::set('status_message', 'Login failed. Invalid credentials');
             $this->redirect('/login');
         }
+    } else {
+        Session::set('status_message', 'Login failed. Invalid credentials');
+        $this->redirect('/login');
     }
+}
+
 
     public function isLoggedIn(): bool
     {
-        return Session::has('user_id'); // Assuming 'user_id' is set in session upon successful login
+        return Session::has('user_id');
     }
 }

@@ -11,64 +11,59 @@ final class App {
         $authController = new AuthController();
 
         if (!$authController->isLoggedIn()) {
-            $authController->error(403);   
+            $this->redirect('/login'); 
         }
     }
 
-    public function bootstrap(): void {
-        Session::start();
+    public function bootstrap(): void
+{
+    Session::start();
+    
+    $url = filter_input(INPUT_GET, 'url', FILTER_DEFAULT);
 
-        $url = filter_input(INPUT_GET, 'url');
+    switch ($url) {
+        case 'login':
+            $controller = new UserController();
+            $controller->login();
+            break;
 
-        switch ($url) {
-            case 'login':
-                $controller = new UserController();
-                $controller->login();
+        case 'register':
+            $controller = new UserController();
+            $controller->register();
+            break;
 
-                new View('auth', 'login', [
-                    'title' => 'Login'
-                ]);
-                break;
+        case 'account':
+            $this->auth();
+            new View('main', 'account', [
+                'title' => 'Account'
+            ]);
+            break;
 
-            case 'register':
-                $controller = new UserController();
-                
-                if ($controller->register()) {
-                    $controller->redirect('login');
-                }
+        case 'events':
+            $this->auth();
+            new View('main', 'events', [
+                'title' => 'Events'
+            ]);
+            break;
 
-                new View('auth', 'register', [
-                    'errors' => $controller->errors,
-                    'title' => 'Register'
-                ]);
-                break;
+        case '':
+        case null:
+            new View('main', 'index', [
+                'title' => 'Home'
+            ]);
+            break;
 
-            case 'account':
-                $this->auth();
-                new View('main', 'account', [
-                    'title' => 'Account'
-                ]);
-                break;
-
-            case 'events':
-                $this->auth();
-                new View('main', 'events', [
-                    'title' => 'Events'
-                ]);
-                break;
-
-            case '':
-            case null:
-                new View('main', 'index', [
-                    'title' => 'Home'
-                ]);
-                break;
-
-            default:
-                new View('error', '404', [
-                    'title' => 'Page Not Found'
-                ]);
-                break;
-        }
+        default:
+            new View('error', '404', [
+                'title' => 'Page Not Found'
+            ]);
+            break;
     }
+}
+
+    public function redirect(string $url): void
+{
+    header("Location: $url");
+    exit(); 
+}
 }
