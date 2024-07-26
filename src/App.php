@@ -2,68 +2,57 @@
 
 namespace Crmlva\Exposy;
 
-use Crmlva\Exposy\Controllers\AuthController;
+use Crmlva\Exposy\Controllers\LoginController;
+use Crmlva\Exposy\Controllers\RegisterController;
 use Crmlva\Exposy\Controllers\UserController;
 
-final class App {
-
-    protected function auth(): void {
-        $authController = new AuthController();
-
-        if (!$authController->isLoggedIn()) {
-            $this->redirect('/login'); 
-        }
-    }
-
+final class App
+{
     public function bootstrap(): void
-    {
-        Session::start();
-        
-        $url = filter_input(INPUT_GET, 'url', FILTER_DEFAULT);
+{
+    Session::start();
+    
+    $url = filter_input(INPUT_GET, 'url', FILTER_DEFAULT);
+    // echo "Requested URL: " . $url . "\n"; // Debugging
 
-        switch ($url) {
-            case 'login':
-                $controller = new UserController();
-                $controller->login();
-                break;
+    switch ($url) {
+        case 'login':
+            $controller = new LoginController();
+            $controller->handleLogin();
+            break;
 
-            case 'register':
-                $controller = new UserController();
-                $controller->register();
-                break;
+        case 'register':
+            $controller = new RegisterController();
+            $controller->handleRegistration();
+            break;
 
-            case 'account':
-                $this->auth();
-                new View('main', 'account', [
-                    'title' => 'Account'
-                ]);
-                break;
+        case 'account':
+            $this->auth();
+            $controller = new UserController();
+            $controller->profile();
+            break;
 
-            case 'events':
-                $this->auth();
-                new View('main', 'events', [
-                    'title' => 'Events'
-                ]);
-                break;
+        case '':
+        case null:
+            new View('layout', 'index', [
+                'title' => 'Home'
+            ]);
+            break;
 
-            case '':
-            case null:
-                new View('main', 'index', [
-                    'title' => 'Home'
-                ]);
-                break;
-
-            default:
-                new View('error', '404', [
-                    'title' => 'Page Not Found'
-                ]);
-                break;
-        }
+        default:
+            new View('error', '404', [
+                'title' => 'Page Not Found'
+            ]);
+            break;
     }
+}
 
-    public function redirect(string $url): void
+private function auth(): void
     {
-        header("Location: $url");
-        exit(); 
+        if (!Session::has('user_id')) {
+            echo "Redirecting to login because user_id is not set.\n"; // Debugging
+            header('Location: /login');
+            exit();
+        }
     }
 }

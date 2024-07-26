@@ -8,11 +8,6 @@ class View
 
     public function __construct(string $layout, string $template, array $data = [])
     {
-        // Debugging: Check if TEMPLATES_DIR is defined
-        if (!defined('TEMPLATES_DIR')) {
-            die('TEMPLATES_DIR is not defined.');
-        }
-
         $this->data = $data;
 
         $header_landing_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "header-landing.php";
@@ -72,15 +67,22 @@ class View
     }
 
     public function renderInputError(string $name): void
-    {
-        if (isset($this->data['errors']) && isset($this->data['errors'][$name])) {
-            echo '<ul class="error-list">';
-            foreach ($this->data['errors'][$name] as $error) {
-                echo "<li class=\"error\">{$error}</li>";
-            }
-            echo '</ul>';
+{
+    if (isset($this->data['errors']) && isset($this->data['errors'][$name])) {
+        $errors = $this->data['errors'][$name];
+
+        // Ensure $errors is an array
+        if (!is_array($errors)) {
+            $errors = [$errors];
         }
+
+        echo '<ul class="error-list">';
+        foreach ($errors as $error) {
+            echo "<li class=\"error\">{$error}</li>";
+        }
+        echo '</ul>';
     }
+}
 
     public function getInputValue(string $name): string
     {

@@ -33,7 +33,7 @@ class User extends Model
 
     public function getById(int $id): array
     {
-        $stmt = $this->database->prepare('SELECT username, city, country FROM users WHERE id = :id');
+        $stmt = $this->database->prepare('SELECT username FROM users WHERE id = :id');
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }

@@ -1,5 +1,3 @@
-<!-- user-profile.php -->
-
 <div class="account">
     <div class="account-info">
         <div class="user-photo">
@@ -7,11 +5,10 @@
         </div>
         <div class="user-data">
             <h2>
-                <?php echo htmlspecialchars($username ?? 'Guest', ENT_QUOTES); ?>
+            <?php echo htmlspecialchars($this->data['username'] ?? ''); ?>
             </h2>
             <p>
-                <?php echo htmlspecialchars($city ?? 'Unknown City', ENT_QUOTES); ?>, 
-                <?php echo htmlspecialchars($country ?? 'Unknown Country', ENT_QUOTES); ?>
+                City, Country
             </p>
         </div>
     </div>
@@ -26,7 +23,7 @@
             <div class="photo-username">
                 <img src="/assets/icons/User photo.svg" alt="User photo">
                 <div class="username-category">
-                    <span><?php echo htmlspecialchars($username ?? 'Guest', ENT_QUOTES); ?></span>
+                    <span><?php echo htmlspecialchars($this->data['username'] ?? ''); ?></span>
                     <span class="edit-category">/General</span>
                 </div>
             </div>
