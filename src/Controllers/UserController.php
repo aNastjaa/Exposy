@@ -8,6 +8,7 @@ use Crmlva\Exposy\Session;
 use Crmlva\Exposy\Util;
 use Crmlva\Exposy\View;
 use Crmlva\Exposy\Validators\Validation;
+use PDOException;
 
 class UserController extends Controller
 {
@@ -54,15 +55,19 @@ class UserController extends Controller
             if ($userId) {
                 Session::set('status_message', 'Login successful');
                 Session::set('user_id', $userId);
+
+                // Debugging: Log the user ID
+                error_log("User ID set in session: {$userId}");
+
                 $this->redirect('/account');
             } else {
-                Session::set('errors', ['email' => 'Invalid email or password']);
+                Session::set('errors', ['email' => ['Invalid email or password']]);
                 Session::set('status_message', 'Login failed. Invalid credentials');
                 Session::set('submitted_data', $data);
                 $this->redirect('/login');
             }
         } else {
-            Session::set('errors', ['email' => 'Invalid email or password']);
+            Session::set('errors', ['email' => ['Invalid email or password']]);
             Session::set('status_message', 'Login failed. Invalid credentials');
             Session::set('submitted_data', $data);
             $this->redirect('/login');
@@ -78,6 +83,10 @@ class UserController extends Controller
     public function profile(): void
     {
         $userId = Session::get('user_id');
+
+        // Debugging: Log the user ID being fetched
+        error_log("Fetching profile for user ID: {$userId}");
+
         if (!$userId) {
             $this->redirect('/login');
             return;
@@ -86,12 +95,16 @@ class UserController extends Controller
         $userModel = new User();
         $user = $userModel->getById($userId);
 
+        // Debugging: Log the retrieved user data
+        error_log("Retrieved user data: " . print_r($user, true));
+
         if ($user) {
-            new View('layout', 'user-profile', [
-                'username' => $user['username'] ?? '',
-                'city' => $user['city'] ?? '',
-                'country' => $user['country'] ?? ''
-            ]);
+            $data = [
+                'username' => $user['username'] ?? 'Guest',
+                'city' => $user['city'] ?? 'Unknown',
+                'country' => $user['country'] ?? 'Unknown'
+            ];
+            new View('layout', 'user-profile', $data);
         } else {
             $this->redirect('/login');
         }
@@ -119,17 +132,28 @@ class UserController extends Controller
 
         if ($this->validateRegister($data)) {
             $userModel = new User();
-            $userId = $userModel->create(
-                $data['username'],
-                $data['email'],
-                $data['password']
-            );
+            try {
+                $userId = $userModel->create(
+                    $data['username'],
+                    $data['email'],
+                    $data['password']
+                );
 
-            if ($userId) {
-                Session::set('status_message', 'Registration successful. Please log in.');
-                $this->redirect('/login');
-            } else {
-                Session::set('status_message', 'Registration failed. Please try again.');
+                if ($userId) {
+                    Session::set('status_message', 'Registration successful. Please log in.');
+                    $this->redirect('/login');
+                } else {
+                    Session::set('status_message', 'Registration failed. Please try again.');
+                    $this->redirect('/register');
+                }
+            } catch (PDOException $e) {
+                if ($e->getCode() === '23000') { // Integrity constraint violation code
+                    $errors['username'] = ['Username already exists. Please choose another one.'];
+                } else {
+                    $errors['database'] = ['An unexpected error occurred. Please try again later.'];
+                }
+                Session::set('errors', $errors);
+                Session::set('submitted_data', $data);
                 $this->redirect('/register');
             }
         } else {
@@ -186,3 +210,4 @@ class UserController extends Controller
         return $isValid;
     }
 }
+
