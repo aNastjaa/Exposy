@@ -5,13 +5,7 @@
                 <div class="footer-logo">
                     <img src="/assets/icons/Logo L.svg" alt="Logo">
                 </div>
-                <div class="footer-nav">
-                    <ul class="nav-links">
-                        <li class="underline"><a href="/index.php">Home</a></li>
-                        <li><a href="/events">Events</a></li>
-                        <li><a href="/account">Account</a></li>
-                    </ul>
-                </div>
+              
                 <div class="footer-soc-icons">
                     <img src="/assets/icons/svg/instagram.svg" alt="instagram">
                     <img src="/assets/icons/svg/facebook.svg" alt="facebook" >

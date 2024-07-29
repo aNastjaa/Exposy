@@ -9,48 +9,46 @@ use Crmlva\Exposy\Controllers\UserController;
 final class App
 {
     public function bootstrap(): void
-{
-    Session::start();
-    
-    $url = filter_input(INPUT_GET, 'url', FILTER_DEFAULT);
-    // echo "Requested URL: " . $url . "\n"; // Debugging
+    {
+        Session::start();
+        
+        $url = filter_input(INPUT_GET, 'url', FILTER_DEFAULT);
 
-    switch ($url) {
-        case 'login':
-            $controller = new LoginController();
-            $controller->handleLogin();
-            break;
+        switch ($url) {
+            case 'login':
+                $controller = new LoginController();
+                $controller->handleLogin();
+                break;
 
-        case 'register':
-            $controller = new RegisterController();
-            $controller->handleRegistration();
-            break;
+            case 'register':
+                $controller = new RegisterController();
+                $controller->handleRegistration();
+                break;
 
-        case 'account':
-            $this->auth();
-            $controller = new UserController();
-            $controller->profile();
-            break;
+            case 'account':
+                $this->auth();
+                $controller = new UserController();
+                $controller->profile();
+                break;
 
-        case '':
-        case null:
-            new View('layout', 'index', [
-                'title' => 'Home'
-            ]);
-            break;
+            case '':
+            case null:
+                new View('layout', 'index', [
+                    'title' => 'Home'
+                ]);
+                break;
 
-        default:
-            new View('error', '404', [
-                'title' => 'Page Not Found'
-            ]);
-            break;
+            default:
+                new View('error', '404', [
+                    'title' => 'Page Not Found'
+                ]);
+                break;
+        }
     }
-}
 
-private function auth(): void
+    private function auth(): void
     {
         if (!Session::has('user_id')) {
-            echo "Redirecting to login because user_id is not set.\n"; // Debugging
             header('Location: /login');
             exit();
         }

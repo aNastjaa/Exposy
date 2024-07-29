@@ -77,18 +77,14 @@
                     </div>
                 </div>
 
-                <?php if (!empty($errors)): ?>
+                <?php if (!empty($errors['general'])): ?>
                     <div class="errors">
-                        <?php foreach ($errors as $field => $messages): ?>
-                            <div class="error">
-                                <strong><?php echo htmlspecialchars(ucfirst($field)); ?>:</strong>
-                                <ul>
-                                    <?php foreach ($messages as $message): ?>
-                                        <li><?php echo htmlspecialchars($message); ?></li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </div>
-                        <?php endforeach; ?>
+                        <div class="error">
+                            <strong>General:</strong>
+                            <ul>
+                                <li><?php echo htmlspecialchars($errors['general']); ?></li>
+                            </ul>
+                        </div>
                     </div>
                 <?php endif; ?>
 

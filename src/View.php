@@ -71,7 +71,6 @@ class View
     if (isset($this->data['errors']) && isset($this->data['errors'][$name])) {
         $errors = $this->data['errors'][$name];
 
-        // Ensure $errors is an array
         if (!is_array($errors)) {
             $errors = [$errors];
         }
