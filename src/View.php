@@ -19,6 +19,7 @@ class View
         $error_header_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "error-header.php";
         $error_footer_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "error-footer.php";
         $user_profile_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "user-profile.php";
+        $user_profile_form_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "user-profile-form.php";
 
         switch ($template) {
             case 'index':

@@ -35,6 +35,15 @@
                     <p>Don’t have an account?</p>
                     <a href="/register">Sign up</a>
                 </div>
+
+                 <!-- Display status message -->
+                <?php if (isset($_SESSION['status_message'])): ?>
+                    <div class="status-message">
+                        <?php echo $_SESSION['status_message']; ?>
+                    </div>
+                    <?php unset($_SESSION['status_message']);?>
+                <?php endif; ?>
+
             </form>
         </div>    
     </div>

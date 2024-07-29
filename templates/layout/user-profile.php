@@ -21,10 +21,10 @@
     <div class="edit-container">
         <div class="heading-content">
             <div class="photo-username">
-                <img src="/assets/icons/User photo.svg" alt="User photo">
+                <!-- <img src="/assets/icons/User photo.svg" alt="User photo"> -->
                 <div class="username-category">
                     <span><?php echo htmlspecialchars($this->data['username'] ?? ''); ?></span>
-                    <span class="edit-category">/General</span>
+                    <p class="edit-category gray">/General</p>
                 </div>
             </div>
             <div class="close-icon">
@@ -40,6 +40,13 @@
                     <li class="delete-account"><a href="#">Delete account</a></li>
                 </ul>
             </div>
+   
+      <!-- Include the user profile form directly here -->
+    <?php
+        // Adjust the path as necessary
+        include __DIR__ . '/user-profile-form.php';
+    ?>
+    
         </div>
     </div>
 </section>
