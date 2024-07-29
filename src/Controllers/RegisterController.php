@@ -67,6 +67,7 @@ class RegisterController extends Controller
     private function showRegistrationForm(array $submitted_data = [], array $errors = []): void
     {
         new View('auth', 'register', [
+            'title' => 'Sign up',
             'errors' => $errors,
             'submitted_data' => $submitted_data
         ]);
