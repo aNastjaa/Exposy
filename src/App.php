@@ -30,7 +30,7 @@ final class App
                 $controller = new UserController();
                 $controller->profile();
                 break;
-
+             
             case '':
             case null:
                 new View('layout', 'index', [

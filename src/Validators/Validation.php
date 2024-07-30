@@ -22,9 +22,10 @@ class Validation {
                 $this->errors[$field_name][] = "$field_name must not contain spaces";
             }
         }
-
+    
         return !isset($this->errors[$field_name]) || count($this->errors[$field_name]) === 0;
     }
+    
 
     public function validateEmail(?string $email): bool {
         if (is_null($email) || empty($email)) {
@@ -73,14 +74,14 @@ class Validation {
         return !isset($this->errors['password_repeat']) || count($this->errors['password_repeat']) === 0;
     }
 
-    public function validateSex(?string $sex): bool {
-        if (is_null($sex)) {
-            $this->errors['sex'][] = 'Please select a gender';
-        } elseif (!in_array($sex, GenderEnum::getAll())) {
-            $this->errors['sex'][] = 'Please select a valid gender';
+    public function validateGender(?string $gender): bool {
+        if (is_null($gender) || empty($gender)) {
+            $this->errors['gender'][] = 'Please select a gender';
+        } elseif (!in_array($gender, GenderEnum::getAll())) {
+            $this->errors['gender'][] = 'Please select a valid gender';
         }
 
-        return !isset($this->errors['sex']) || count($this->errors['sex']) === 0;
+        return !isset($this->errors['gender']) || count($this->errors['gender']) === 0;
     }
 
     public function validateCountry(?string $country): bool {

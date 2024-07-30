@@ -68,21 +68,21 @@ class View
     }
 
     public function renderInputError(string $name): void
-{
-    if (isset($this->data['errors']) && isset($this->data['errors'][$name])) {
-        $errors = $this->data['errors'][$name];
+    {
+        if (isset($this->data['errors']) && isset($this->data['errors'][$name])) {
+            $errors = $this->data['errors'][$name];
 
-        if (!is_array($errors)) {
-            $errors = [$errors];
-        }
+            if (!is_array($errors)) {
+                $errors = [$errors];
+            }
 
-        echo '<ul class="error-list">';
-        foreach ($errors as $error) {
-            echo "<li class=\"error\">{$error}</li>";
+            echo '<ul class="error-list">';
+            foreach ($errors as $error) {
+                echo "<li class=\"error\">{$error}</li>";
+            }
+            echo '</ul>';
         }
-        echo '</ul>';
     }
-}
 
     public function getInputValue(string $name): string
     {

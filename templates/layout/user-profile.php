@@ -5,10 +5,11 @@
         </div>
         <div class="user-data">
             <h2>
-            <?php echo htmlspecialchars($this->data['username'] ?? ''); ?>
+                <?php echo htmlspecialchars($this->data['username'] ?? ''); ?>
             </h2>
             <p>
-                City, Country
+                <?php echo htmlspecialchars($this->data['city'] ?? ''); ?>,
+                <?php echo htmlspecialchars($this->data['country'] ?? ''); ?>
             </p>
         </div>
     </div>
@@ -17,6 +18,7 @@
         <button type="button" class="blind-button" onclick="window.location.href='/index.php?action=logout'">Log Out</button>
     </div>
 </div>
+
 <section id="profile-edit">
     <div class="edit-container">
         <div class="heading-content">
@@ -41,12 +43,31 @@
                 </ul>
             </div>
    
-      <!-- Include the user profile form directly here -->
-    <?php
-        // Adjust the path as necessary
-        include __DIR__ . '/user-profile-form.php';
-    ?>
-    
+            <!-- Include the user profile form -->
+            <?php
+                include __DIR__ . '/user-profile-form.php';
+            ?>
         </div>
+        
+
+        <?php if (!empty($errors)): ?>
+            <?php foreach ($errors as $field => $errorList): ?>
+                <?php foreach ($errorList as $error): ?>
+                    <div class="error-message">
+                        <p><?php echo htmlspecialchars($error, ENT_QUOTES); ?></p>
+                    </div>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
+           
+        <!-- Check for success message in the session -->
+        <?php if (!empty($success)): ?>
+            <div id="success-popup" class="popup">
+                <p><?php echo htmlspecialchars($success, ENT_QUOTES); ?></p>
+                <button id="close-popup-button">Close</button>
+            </div>
+        <?php endif; ?>
+
+
     </div>
 </section>
