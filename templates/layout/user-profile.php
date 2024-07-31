@@ -12,7 +12,7 @@
         <button type="button" class="blind-button" onclick="showSection('general')">General</button>
         <button type="button" class="blind-button" onclick="showSection('edit-profile')">Edit Profile</button>
         <button type="button" class="blind-button" onclick="showSection('delete-profile')">Delete Account</button>
-        <button type="button" class="blind-button" onclick="window.location.href='/index.php?action=logout'">Log Out</button>
+        <button type="button" class="blind-button" onclick="showLogoutConfirmation()">Log Out</button>
     </div>
 </div>
 
@@ -60,3 +60,13 @@
         <?php endif; ?>
     </div>
 </section>
+
+<!-- Log Out Confirmation Modal -->
+<div id="logout-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeLogoutModal()">&times;</span>
+        <p>Are you sure you want to log out?</p>
+        <button id="confirm-logout-button" class="modal-blind-button">Confirm</button>
+        <button class="modal-cta-button" onclick="closeLogoutModal()">Decline</button>
+    </div>
+</div>
