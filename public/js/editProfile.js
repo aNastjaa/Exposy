@@ -1,15 +1,31 @@
-//Edit profile opener
+// Show the profile-edit section and the specific subsection
+function showSection(sectionId) {
+    // Show the profile-edit section
+    document.getElementById('profile-edit').style.display = 'block';
+
+    // Hide all subsections
+    document.querySelectorAll('#profile-edit .section').forEach(section => {
+        section.classList.remove('show');
+    });
+    
+    // Show the selected subsection
+    const sectionToShow = document.getElementById(sectionId);
+    if (sectionToShow) {
+        sectionToShow.classList.add('show');
+    }
+}
+
+// Hide the profile-edit section
+function hideAllSections() {
+    document.getElementById('profile-edit').style.display = 'none';
+    document.querySelectorAll('#profile-edit .section').forEach(section => {
+        section.classList.remove('show');
+    });
+}
+
+// Optional: Initial state setup
 document.addEventListener('DOMContentLoaded', () => {
-    const editProfileButton = document.querySelector('.account-buttons .blind-button:first-of-type');
-    const profileEditSection = document.getElementById('profile-edit');
-    const closeIcon = document.getElementById('close-profile-edit');
-
-    editProfileButton.addEventListener('click', () => {
-        profileEditSection.style.display = 'block';
-    });
-
-    closeIcon.addEventListener('click', () => {
-        profileEditSection.style.display = 'none';
-    });
+    // Initially hide the profile-edit section
+    document.getElementById('profile-edit').style.display = 'none';
 });
 

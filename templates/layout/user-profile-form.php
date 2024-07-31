@@ -1,5 +1,6 @@
 <div id="additional-info" class="additional-info">
     <form class="profile-form" id="profile-form" method="POST">
+    <h3>Complete your profile:</h3>
         <div class="form-row">
             <div class="input-section">
                 <label for="firstname">First name</label>
@@ -44,6 +45,10 @@
                     value="<?php echo htmlspecialchars($_POST['city'] ?? '', ENT_QUOTES); ?>">
                 <?php $this->renderInputError('city'); ?>
             </div>
+        </div>
+        <div class="input-section">
+            <label for="user-photo">Add your user photo here:</label>
+            <input type="file" id="user-photo" name="user-photo">
         </div>
 
         <div class="form-row submit-button full-width">

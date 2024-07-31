@@ -95,14 +95,6 @@
                     <p>Already have an account?</p>
                     <a href="/login">Log in</a>
                 </div>
-
-                 <!-- Display status message -->
-                <?php if (isset($_SESSION['status_message'])): ?>
-                    <div class="status-message">
-                        <?php echo $_SESSION['status_message']; ?>
-                    </div>
-                    <?php unset($_SESSION['status_message']);?>
-                <?php endif; ?>
             </form>
         </div>    
     </div>

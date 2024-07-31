@@ -1,3 +1,10 @@
+h3{
+    font-family: "Bebas Neue";
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    letter-spacing: 1.2px;
+    color: #272727;
+    margin-bottom: 1rem;
+}
 .form-row {
     display: flex;
     flex-wrap: wrap;
@@ -105,6 +112,7 @@ textarea {
     color: white;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-top: 1rem;
 }
 
 .submit-button button:hover {
@@ -127,4 +135,12 @@ textarea {
     letter-spacing: 1.3px;
     text-align: center;
     padding: 1rem;
+}
+
+#delete-profile.profile-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+    text-align: center;
 }

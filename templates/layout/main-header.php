@@ -7,7 +7,7 @@
 
     <?php
         $this->embedStylesheets(['/css/header.css','/css/footer.css','/css/headerAndFooterResponsive.css','/css/global.css', '/css/account.css', '/css/form.css']);
-        $this->embedScripts(['/js/burgerMenu.js', '/js/editProfile.js', '/js/popup.js']);
+        $this->embedScripts(['/js/burgerMenu.js', '/js/editProfile.js', '/js/popup.js','/js/password.js']);
     ?>
 <style>
         .blind-button {

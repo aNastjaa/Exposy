@@ -1,20 +1,11 @@
-.cta-button {
-    padding: 0.5rem 1.1rem;
-    flex-shrink: 0;
-    border-radius: 30px;
-    background-color: rgba(253, 120, 152, 1);
-    border: none;
-    font-family: "Bebas Neue";
-    color: #F7F7F7;
-    font-size: 20px;
-    letter-spacing: 1.2px;
-    transition: all 0.3s ease-in-out;
+/* General styling for sections */
+.section {
+    display: none; /* Hide sections by default */
 }
 
-.cta-button:hover {
-    cursor: pointer;
-    background-color: #DD4A6D;
-    scale: 1.1;
+/* Styling for visible sections */
+.section.show {
+    display: block; /* Display the section when active */
 }
 
 /*------------------------------------------------------------------------------------------*/
@@ -88,146 +79,63 @@ h2{
     border: #272727 2px solid;
 }
 
-
-/*------------------------------------------------------------------------------------------------------*/
+/* Profile edit section styling */
 #profile-edit {
-    display: none; /* Initially hidden */
     width: 100%;
+    display: none;
 }
 
-.edit-container{
+.edit-container {
     max-width: 68.75rem;
-    margin: 1rem auto; 
-    background-color: #f7f7f7c9; 
+    margin: 1rem auto;
+    background-color: #f7f7f7c9;
     box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.15);
     border-radius: 50px;
-    padding: 0.5rem 1rem; 
+    padding: 0.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.heading-content{
+.heading-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
 }
 
-.photo-username{
+.photo-username {
     display: flex;
     align-items: center;
-    padding: 2rem;
+    padding: 0.5rem 2rem;
 }
 
-.username-category{
+.username-category {
     display: flex;
     align-items: center;
 }
 
-p.edit-categoty.gray{
+p.edit-category.gray {
     color: #7C7B7B;
 }
 
-.photo-username span{
+.photo-username span {
     font-size: clamp(1.2rem, 2.5vw, 1.8rem);
 }
 
-.heading-content .close-icon img{
+.heading-content .close-icon img {
     width: 2rem;
     cursor: pointer;
 }
 
-.heading-content img{
+.heading-content img {
     width: 5rem;
 }
 
-.categories-and-Form{
+.categories-and-form {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     padding: 0 1rem;
-}
-
-.category-list{
-   
-   width: 30%;
-   display: flex;
-}
-.edit-category{
-    font-family: "Bebas Neue";
-    font-size: clamp(1rem, 2.5vw, 1.3rem);
-    padding: 1rem 0;
-    font-stretch: normal;
-    letter-spacing: 0.05em;
-    text-align: left;
-    color: #272727;
-}
-.edit-category li{
-    margin-bottom: 1rem;
-}
-.edit-categoty ul li a{
-    font-family: "Bebas Neue";
-    font-size: clamp(1rem, 2.5vw, 1.3rem);
-    color: #272727;
-    padding: 2rem 0;
-    font-stretch: normal;
-    letter-spacing: 0.05em;
-    text-align: center;
-    margin-top: 1rem;
-}
-
-.selected a{
-    text-decoration: underline;
-    color: #272727;
-    
-}
-.delete-account a{
-    color: #DD4A6D;
-    text-decoration: none;
-}
- .gray a{
-    color: #7C7B7B;
-    text-decoration: none;
-    
-}
-span.edit-categoty {
-    color: #7C7B7B;
-}
-
-.profile-form{
-    width: 100%;
-}
-
-.additional-info{
-    width: 60%;
-}
-
-.popup {
-    display: block; 
-    position: fixed;
-    left: 50%;
-    top: 30%;
-    transform: translate(-50%, -50%);
-    background: #f7f7f7;
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.15);
-    z-index: 1000; 
-    width: 300px;
-    text-align: center;
-}
-
-.popup p{
-    padding: 1rem 0;
-   
-}
-.popup button {
-    background: #FE7999;
-    color: white;
-    border: none;
-    font-family: "Bebas Neue";
-    font-size: 16px;
-    letter-spacing: 1.2px;
-    padding: 0.5rem 1rem;
-    border-radius: 30px;
-    cursor: pointer;
-}
-.popup button:hover {
-    background-color: #DD4A6D;
+    width: 70%;
 }
