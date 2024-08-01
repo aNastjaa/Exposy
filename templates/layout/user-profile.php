@@ -1,12 +1,14 @@
 <div class="account">
     <div class="account-info">
-        <div class="user-photo">
-            <img src="/assets/icons/User photo.svg" alt="User photo">
+    <div class="user-photo">
+            <img src="/uploads/user_photos/<?php echo htmlspecialchars($this->data['photo'], ENT_QUOTES); ?>" alt="User photo" />
         </div>
+
         <div class="user-data">
             <h2><?php echo htmlspecialchars($this->data['username'] ?? ''); ?></h2>
             <p><?php echo htmlspecialchars($this->data['city'] ?? ''); ?>, <?php echo htmlspecialchars($this->data['country'] ?? ''); ?></p>
         </div>
+
     </div>
     <div class="account-buttons">
         <button type="button" class="blind-button" onclick="showSection('general')">General</button>

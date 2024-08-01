@@ -46,3 +46,6 @@ Options -Indexes
     Header set X-XSS-Protection "1; mode=block"
     Header set X-Content-Type-Options nosniff
 </IfModule>
+
+php_value upload_max_filesize 2M
+php_value post_max_size 2M

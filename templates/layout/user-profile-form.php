@@ -1,5 +1,5 @@
 <div id="additional-info" class="additional-info">
-    <form class="profile-form" id="profile-form" method="POST">
+    <form class="profile-form" id="profile-form" method="POST" enctype="multipart/form-data">
     <h3>Complete your profile:</h3>
         <div class="form-row">
             <div class="input-section">
@@ -49,6 +49,7 @@
         <div class="input-section">
             <label for="user-photo">Add your user photo here:</label>
             <input type="file" id="user-photo" name="user-photo">
+            <?php $this->renderInputError('user-photo'); ?>
         </div>
 
         <div class="form-row submit-button full-width">
@@ -56,5 +57,3 @@
         </div>
     </form>
 </div>
-
-

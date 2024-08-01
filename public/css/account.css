@@ -42,8 +42,22 @@ span{
     justify-content: center; 
 }
 
-.user-photo{
-    padding: 1rem;
+.user-photo {
+    width: 150px; 
+    height: 150px;
+    overflow: hidden; 
+    border-radius: 50%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FE7999; 
+    margin: 1rem;
+}
+
+.user-photo img {
+    width: 100%;
+    height: auto; 
+    object-fit: cover; 
 }
 
 h2{
