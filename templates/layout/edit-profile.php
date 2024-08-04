@@ -4,14 +4,14 @@
     <div class="form-row">    
         <div class="input-section">
             <label for="username">New username:</label>
-            <input type="text" id="username" name="username" placeholder="Enter your new username">
+            <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($this->data['username'] ?? ''); ?>" placeholder="Enter your new username">
             <?php $this->renderInputError('username'); ?>
         </div>
     </div>
     <div class="form-row">  
         <div class="input-section">
             <label for="email">New Email:</label>
-            <input type="email" id="email" name="email" placeholder="Enter your new email">
+            <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($this->data['email'] ?? ''); ?>" placeholder="Enter your new email">
             <?php $this->renderInputError('email'); ?>
         </div>
     </div>

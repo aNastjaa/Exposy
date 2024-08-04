@@ -36,7 +36,7 @@ class User extends Model
 
     public function getById(int $id): array
     {
-        $query = "SELECT username FROM users WHERE id = :id";
+        $query = "SELECT username,email FROM users WHERE id = :id";
         $stmt = $this->database->prepare($query);
         $stmt->execute([':id' => $id]);
 
