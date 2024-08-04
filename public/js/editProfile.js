@@ -42,12 +42,45 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = '/index.php?action=logout';
         });
     }
-});
-
-
-// Optional: Initial state setup
-document.addEventListener('DOMContentLoaded', () => {
+    
     // Initially hide the profile-edit section
     document.getElementById('profile-edit').style.display = 'none';
-});
 
+    // Handle form submission with AJAX
+    const form = document.getElementById('profile-form');
+    const responseMessageDiv = document.getElementById('response-message');
+    const responseText = responseMessageDiv.querySelector('.response-text');
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault(); // Prevent the default form submission
+
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                responseText.textContent = result.message || 'Profile updated successfully!';
+                responseMessageDiv.className = 'response-message success';
+            } else {
+                const errorMessages = Object.values(result.errors).flat();
+                responseText.textContent = errorMessages.join(', ');
+                responseMessageDiv.className = 'response-message error';
+            }
+
+        } catch (error) {
+            responseText.textContent = 'An error occurred while updating the profile.';
+            responseMessageDiv.className = 'response-message error';
+        }
+
+        responseMessageDiv.style.display = 'block'; // Show the response message
+    });
+});

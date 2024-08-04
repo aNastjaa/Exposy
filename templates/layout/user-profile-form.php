@@ -46,10 +46,18 @@
                 <?php $this->renderInputError('city'); ?>
             </div>
         </div>
+        <div class="form-row">
         <div class="input-section">
             <label for="user-photo">Add your user photo here:</label>
             <input type="file" id="user-photo" name="user-photo">
             <?php $this->renderInputError('user-photo'); ?>
+        </div>
+        <div class="input-section">
+            <label for="alt_text">Alternative Text</label>
+            <input type="text" id="alt_text" name="alt_text" placeholder="Enter alternative text"
+                value="<?php echo htmlspecialchars($this->data['alt_text'] ?? '', ENT_QUOTES); ?>">
+            <?php $this->renderInputError('alt_text'); ?>
+        </div>
         </div>
 
         <div class="form-row submit-button full-width">

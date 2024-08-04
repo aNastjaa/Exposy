@@ -236,3 +236,19 @@ p.edit-category.gray {
 .modal-content .modal-cta-button:hover {
     background-color: #FE7999;
 }
+
+.response-message {
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.response-message.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.response-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}

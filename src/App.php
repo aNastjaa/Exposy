@@ -30,6 +30,13 @@ final class App
                 $controller = new UserController();
                 $controller->profile();
                 break;
+
+            case 'profile/update':
+                $this->auth();
+                $userId = Session::get('user_id'); 
+                $controller = new UserController();
+                $controller->handleProfileUpdate($userId); 
+                break;  
              
             case '':
             case null:

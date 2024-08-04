@@ -2,56 +2,72 @@
 
 namespace Crmlva\Exposy;
 
-use Exception;
+class Uploader
+{
+    protected static string $uploadPath = '/Users/crmlva/Documents/Exposy/public/uploads/';
 
-class Uploader {
-    protected static String $uploadPath = '/Users/crmlva/Documents/Exposy/public/uploads/user_photos/';
-
-    public function handleFileUploads($subdirectory): array {
-        $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
-
+    public static function handleFileUploads($path): array
+    {
         $media = [];
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
+        $maxSize = 5 * 1024 * 1024; // 5 MB
+        $errors = [];
+
         foreach ($_FILES as $file) {
             if ($file['name'] && $file['error']) {
-                throw new Exception("File " . $file['name'] . " could not be uploaded. (error $file[error])", 422);
+                $errors[] = "File " . $file['name'] . " could not be uploaded. (error $file[error])";
+                continue;
             }
+
             if ($file['tmp_name'] && !$file['error']) {
-                // Validate file type
-                if (!in_array($file['type'], $allowedMimeTypes)) {
-                    throw new Exception("File type not allowed: " . $file['type'], 422);
+                if (!in_array($file['type'], $allowedTypes)) {
+                    $errors[] = "File type not allowed for " . $file['name'];
+                    continue;
                 }
 
-                $fullPath = self::$uploadPath . $subdirectory;
+                if ($file['size'] > $maxSize) {
+                    $errors[] = "File " . $file['name'] . " exceeds the maximum allowed size";
+                    continue;
+                }
 
-                // Create Directory if it does not exist
+                $datePath = date('Y/m/d/');
+                $fullPath = self::$uploadPath . $path . $datePath;
+
                 if (!file_exists($fullPath)) {
-                    mkdir($fullPath, 0755, true);
+                    mkdir($fullPath, 0700, true);
                 }
 
-                // Generate unique filename
-                $file['target'] = $this->generateUniqueFilename($fullPath);
+                $file['target'] = self::generateUniqueFilename($fullPath);
 
-                // Move temporary file to final destination
                 $fileDestination = $fullPath . $file['target'];
                 if (!file_exists($fileDestination)) {
                     move_uploaded_file($file['tmp_name'], $fileDestination);
                 }
 
-                // Create and append entry to $media array
                 $media[] = [
-                    'path' => $subdirectory . $file['target'],
+                    'path' => $path . $datePath . $file['target'],
                     'type' => $file['type'],
                     'size' => filesize($fileDestination),
-                    'original' => $file['name']
+                    'original' => $file['name'],
+                    'alt' => $_POST['alt_text'] ?? ''  // Collect alt text from form input
                 ];
             }
         }
+
+        if (!empty($errors)) {
+            http_response_code(422);
+            header('Content-Type: application/json');
+            echo json_encode(['errors' => $errors]);
+            exit;
+        }
+
         return $media;
     }
 
-    public function generateUniqueFilename($path, $prefix = '') {
+    public static function generateUniqueFilename($path, $prefix = ''): string
+    {
         $uniqueName = tempnam($path, $prefix);
         unlink($uniqueName);
-        return basename($uniqueName);
+        return substr($uniqueName, strlen($path));
     }
 }
