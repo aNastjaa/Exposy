@@ -67,20 +67,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const result = await response.json();
 
-            if (response.ok) {
+            if (response.ok && result.success) {
+                // Display success message
                 responseText.textContent = result.message || 'Profile updated successfully!';
                 responseMessageDiv.className = 'response-message success';
             } else {
-                const errorMessages = Object.values(result.errors).flat();
-                responseText.textContent = errorMessages.join(', ');
+                // Display error messages
+                const errorMessages = Object.entries(result.errors || {}).map(([field, messages]) => {
+                    return messages.join(', ');
+                }).join(' ');
+
+                responseText.textContent = errorMessages || 'An error occurred.';
                 responseMessageDiv.className = 'response-message error';
             }
+
 
         } catch (error) {
             responseText.textContent = 'An error occurred while updating the profile.';
             responseMessageDiv.className = 'response-message error';
         }
 
-        responseMessageDiv.style.display = 'block'; // Show the response message
+        responseMessageDiv.style.display = 'block'; 
     });
 });
