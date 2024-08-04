@@ -29,6 +29,7 @@ class UserController extends Controller
         } else {
             $this->renderView('account', [
                 'username' => $user['username'],
+                'email' => $user['email'], 
                 'firstname' => $profile['firstname'] ?? '',
                 'lastname' => $profile['lastname'] ?? '',
                 'gender' => $profile['gender'] ?? '',
