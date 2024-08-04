@@ -41,21 +41,22 @@ class UserController extends Controller
                 'success' => $_SESSION['success'] ?? ''
             ]);
 
+            // Clear session errors and success message after rendering them
             unset($_SESSION['errors'], $_SESSION['success']);
         }
     }
 
     public function handleProfileUpdate(int $userId): void {
         $data = $this->getData();
-
+    
         // Handle file upload
         $uploader = new Uploader();
         $uploadedFiles = $uploader->handleFileUploads('user_photos/');
-
+    
         if (!empty($uploadedFiles)) {
             $data['photo'] = $uploadedFiles[0]['path'];
         }
-
+    
         $validation = new Validation();
         $validation->validateStringField($data['firstname'] ?? '', 'firstname', 1, 255);
         $validation->validateStringField($data['lastname'] ?? '', 'lastname', 1, 255);
@@ -63,7 +64,7 @@ class UserController extends Controller
         $validation->validateCountry($data['country'] ?? '');
         $validation->validateGender($data['gender'] ?? '');
         $validation->validateStringField($data['alt_text'] ?? '', 'alt_text', 1, 255);
-
+    
         if ($validation->getErrors()) {
             header('Content-Type: application/json');
             echo json_encode([
@@ -75,7 +76,7 @@ class UserController extends Controller
         } else {
             $profileModel = new UserProfile();
             $profileModel->updateProfile($userId, $data);
-
+    
             header('Content-Type: application/json');
             echo json_encode([
                 'success' => true,

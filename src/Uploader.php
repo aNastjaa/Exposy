@@ -10,7 +10,7 @@ class Uploader
     {
         $media = [];
         $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
-        $maxSize = 5 * 1024 * 1024; // 5 MB
+        $maxSize = 5 * 1024 * 1024; 
         $errors = [];
 
         foreach ($_FILES as $file) {
