@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Define valid values for countries and genders based on your PHP enums
+    const validCountries = [
+        'Germany', 'Austria', 'Belgium', 'Czech Republic', 'Denmark', 'France', 
+        'Hungary', 'Italy', 'Luxembourg', 'Netherlands', 'Poland', 'Slovakia', 
+        'Switzerland', 'Liechtenstein', 'Slovenia', 'Croatia'
+    ];
+
+    const validGenders = ['Male', 'Female', 'Diverse'];
+
     // Function to validate a field with the provided rules
     function validateField(field, rules) {
         const value = field.value.trim();
@@ -23,9 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
             isValid = false;
         } else if (rules.username && !validateStringField(value, 3, 255)) {
             isValid = false;
-        } else if (rules.gender && !['male', 'female', 'other'].includes(value)) {
+        } else if (rules.gender && !validGenders.includes(value)) {
             isValid = false;
-        } else if (rules.country && !['USA', 'Canada', 'UK'].includes(value)) { // Replace with your valid countries
+        } else if (rules.country && !validCountries.includes(value)) {
             isValid = false;
         } else if (rules.terms && !document.querySelector('[name="terms"]').checked) {
             isValid = false;

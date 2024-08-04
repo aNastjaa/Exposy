@@ -6,6 +6,7 @@ ini_set("display_errors","1");
 // project directory paths
 define('PUBLIC_DIR', __DIR__ . DIRECTORY_SEPARATOR . 'public');
 define('TEMPLATES_DIR', __DIR__ . DIRECTORY_SEPARATOR . 'templates');
+define('UPLOAD_PATH', PUBLIC_DIR . DIRECTORY_SEPARATOR . 'uploads');
 
 // database configuration
 define('DB_HOST', '127.0.0.1');

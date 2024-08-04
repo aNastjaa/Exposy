@@ -10,12 +10,14 @@ h3{
     flex-wrap: wrap;
     gap: 1rem;
     margin-bottom: 1rem;
+    align-items: center;
 }
 
 .input-section {
-    flex: 1;
     display: flex;
     flex-direction: column;
+    flex: 1;
+    width: 50%;
 }
 
 .input-section label {
@@ -143,4 +145,55 @@ textarea {
     align-items: center;
     margin-bottom: 2rem;
     text-align: center;
+}
+
+.photo-input-section{
+    display: flex;
+    align-items: center;
+    width: 50%;
+    justify-content: space-around;
+}
+
+.thumbnail-photo{
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FE7999;
+    margin: 1rem;
+}
+
+.thumbnail-photo img{
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+/* File Input Label */
+.file-input-label {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    color: #272727;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    transition: all 0.1s ease-in-out;
+    border: 1px solid #272727;
+}
+
+.file-input-text {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.file-input {
+    display: none; /* Hide default file input */
+}
+
+.file-input-label:hover {
+    background-color: #272727;
+    color: #f9f9f9; /* Darker shade on hover */
 }

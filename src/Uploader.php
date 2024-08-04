@@ -4,9 +4,9 @@ namespace Crmlva\Exposy;
 
 class Uploader
 {
-    protected static string $uploadPath = '/Users/crmlva/Documents/Exposy/public/uploads/';
+    protected static string $uploadPath = UPLOAD_PATH;
 
-    public static function handleFileUploads($path): array
+    public static function handleFileUploads(string $path): array
     {
         $media = [];
         $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
@@ -31,7 +31,7 @@ class Uploader
                 }
 
                 $datePath = date('Y/m/d/');
-                $fullPath = self::$uploadPath . $path . $datePath;
+                $fullPath = self::$uploadPath . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . $datePath;
 
                 if (!file_exists($fullPath)) {
                     mkdir($fullPath, 0700, true);
@@ -45,11 +45,11 @@ class Uploader
                 }
 
                 $media[] = [
-                    'path' => $path . $datePath . $file['target'],
+                    'path' => $path . '/' . $datePath . $file['target'],
                     'type' => $file['type'],
                     'size' => filesize($fileDestination),
                     'original' => $file['name'],
-                    'alt' => $_POST['alt_text'] ?? ''  // Collect alt text from form input
+                    'alt' => $_POST['alt_text'] ?? ''
                 ];
             }
         }
@@ -64,7 +64,7 @@ class Uploader
         return $media;
     }
 
-    public static function generateUniqueFilename($path, $prefix = ''): string
+    public static function generateUniqueFilename(string $path, string $prefix = ''): string
     {
         $uniqueName = tempnam($path, $prefix);
         unlink($uniqueName);

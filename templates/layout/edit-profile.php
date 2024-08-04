@@ -1,5 +1,5 @@
 <!-- edit-profile.php -->
-<form class="profile-form" id="edit-profile" method="POST">
+<form class="profile-form" id="edit-profile-dsts" method="POST">
     <h3>Edit your profile information:</h3>
     <div class="form-row">    
         <div class="input-section">
@@ -7,17 +7,31 @@
             <input type="text" id="username" name="username" placeholder="Enter your new username">
             <?php $this->renderInputError('username'); ?>
         </div>
+    </div>
+    <div class="form-row">  
         <div class="input-section">
             <label for="email">New Email:</label>
             <input type="email" id="email" name="email" placeholder="Enter your new email">
             <?php $this->renderInputError('email'); ?>
         </div>
     </div>
+    <div class="form-row submit-button full-width">
+        <button type="submit" id="save-change-button">Save changes</button>
+    </div>
+</form>
+<form class="profile-form" id="edit-password" method="POST">
+    <div class="form-row">    
+        <div class="input-section full-width">
+            <label for="pwd_rep">Old password</label>
+            <input type="password" name="password" placeholder="Enter your old password" id="pwd_rep">
+            <?php $this->renderInputError('password'); ?>      
+        </div>
+    </div>
     <div class="form-row">
         <div class="input-section full-width">
-            <label for="pwd">Password</label>
+            <label for="pwd">New Password</label>
             <div class="input-icon-container">
-                <input type="password" name="password" placeholder="Enter your password" id="pwd">
+                <input type="password" name="new-password" placeholder="Enter your new password" id="pwd">
                 <img src="../assets/icons/svg/info.svg" alt="Info" class="password-icon">
                 <div class="password-requirements">
                     <p>Password Requirements:</p>
@@ -32,13 +46,7 @@
             </div>
         </div>
     </div>
-    <div class="form-row">    
-        <div class="input-section full-width">
-            <label for="pwd_rep">Repeat password</label>
-            <input type="password" name="pwd_rep" placeholder="Repeat your password" id="pwd_rep">
-            <?php $this->renderInputError('password_repeat'); ?>      
-        </div>
-    </div>
+    
     <div class="form-row submit-button full-width">
         <button type="submit" id="save-change-button">Save changes</button>
     </div>
