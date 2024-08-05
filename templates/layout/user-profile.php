@@ -1,12 +1,23 @@
 <div class="account">
         <div class="account-info">
             <div class="user-photo">
-                <img src="/uploads/<?php echo htmlspecialchars($this->data['photo'], ENT_QUOTES); ?>" alt="<?php echo htmlspecialchars($this->data['alt_text'] ?? 'User photo', ENT_QUOTES); ?>" />
+                <img src="<?php echo htmlspecialchars(\Crmlva\Exposy\App::getUserPhotoUrl($this->data['photo'] ?? null), ENT_QUOTES); ?>" alt="<?php echo htmlspecialchars($this->data['alt_text'] ?? 'User photo', ENT_QUOTES); ?>" 
+                alt="<?php echo htmlspecialchars($this->data['alt_text'] ?? 'User photo', ENT_QUOTES); ?>"/>
             </div>
 
             <div class="user-data">
                 <h2><?php echo htmlspecialchars($this->data['username'] ?? ''); ?></h2>
-                <p><?php echo htmlspecialchars($this->data['city'] ?? ''); ?>, <?php echo htmlspecialchars($this->data['country'] ?? ''); ?></p>
+                <p>
+                <?php
+                $city = htmlspecialchars($this->data['city'] ?? '');
+                $country = htmlspecialchars($this->data['country'] ?? '');
+                echo $city;
+                if ($city && $country) {
+                    echo ', ';
+                }
+                echo $country;
+                ?>
+                </p>
             </div>
 
         </div>
@@ -52,7 +63,7 @@
             <span class="close" onclick="closeLogoutModal()">&times;</span>
             <p>Are you sure you want to log out?</p>
             <button id="confirm-logout-button" class="modal-blind-button">Confirm</button>
-            <button class="modal-cta-button" onclick="closeLogoutModal()">Decline</button>
+            <button class="modal-cta-button" onclick="closeLogoutModal()">Cancel</button>
         </div>
     </div>
 

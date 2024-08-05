@@ -55,7 +55,7 @@
         <div class="photo-form-row">
             <div class="photo-input-section">
                 <div class="user-photo-container">
-                    <img src="/uploads/<?php echo htmlspecialchars($this->data['photo'] ?? 'default-thumbnail.jpg', ENT_QUOTES); ?>" 
+                <img src="<?php echo htmlspecialchars(\Crmlva\Exposy\App::getUserPhotoUrl($this->data['photo'] ?? null), ENT_QUOTES); ?>" alt="<?php echo htmlspecialchars($this->data['alt_text'] ?? 'User photo', ENT_QUOTES); ?>" 
                         alt="<?php echo htmlspecialchars($this->data['alt_text'] ?? 'User photo', ENT_QUOTES); ?>" 
                         class="thumbnail-photo">
                 </div>

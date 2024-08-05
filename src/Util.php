@@ -13,4 +13,16 @@ abstract class Util
     {
         return password_verify($password, $hashedPassword);
     }
+
+    public static function getUserPhotoUrl(string $photo = null): string
+    {
+        $defaultPhoto = '/assets/icons/User photo.svg';
+        $uploadsPath = '/uploads/';
+        
+        if ($photo && is_file($_SERVER['DOCUMENT_ROOT'] . $uploadsPath . $photo)) {
+            return $uploadsPath . $photo;
+        }
+  
+        return $defaultPhoto;
+    }
 }

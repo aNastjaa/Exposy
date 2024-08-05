@@ -73,4 +73,10 @@ final class App
             exit();
         }
     }
+
+    public static function getUserPhotoUrl($photo = null): string
+    {
+        return Util::getUserPhotoUrl($photo);
+    }
 }
+?>
