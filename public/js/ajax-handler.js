@@ -117,3 +117,47 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+//---------- DELTE ACCOUNT -----------------
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Define the deleteAccount function
+    const deleteAccount = async () => {
+        try {
+            const response = await fetch('/account/delete', { 
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ action: 'delete_account' }) 
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                alert(data.message);
+                window.location.href = '/register'; 
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while deleting your account.');
+        }
+    };
+
+    // Attach event listener to confirm delete button
+    const confirmDeleteButton = document.getElementById('confirm-delete-button');
+    if (confirmDeleteButton) {
+        confirmDeleteButton.addEventListener('click', () => {
+            deleteAccount();
+        });
+    } else {
+        console.error('Confirm delete button not found.');
+    }
+});
+
+

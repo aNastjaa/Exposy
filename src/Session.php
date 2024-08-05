@@ -47,4 +47,11 @@ class Session
         session_unset();
         session_destroy();
     }
+
+    public static function destroy(): void
+    {
+        self::start();
+        session_unset();
+        session_destroy(); 
+    }
 }

@@ -7,6 +7,11 @@ use PDO;
 
 class UserProfile extends Model
 {
+    public function __construct()
+    {
+        $this->database = \Crmlva\Exposy\Database::getInstance();
+    }
+
     public function getProfileByUserId(int $userId): array
     {
         $query = "SELECT firstname, lastname, gender, city, country, photo, alt_text FROM user_profiles WHERE user_id = :user_id";
@@ -30,7 +35,12 @@ class UserProfile extends Model
         ]);
     }
 
-    // Generic method to fetch a single result
+    public function deleteProfile(int $userId): bool
+    {
+        $query = "DELETE FROM user_profiles WHERE user_id = :user_id";
+        return $this->execute($query, [':user_id' => $userId]);
+    }
+
     private function fetchOne(string $query, array $params): array
     {
         $stmt = $this->database->prepare($query);
@@ -38,7 +48,6 @@ class UserProfile extends Model
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
     }
 
-    // Generic method to execute queries
     private function execute(string $query, array $params): bool
     {
         $stmt = $this->database->prepare($query);

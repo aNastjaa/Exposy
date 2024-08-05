@@ -14,6 +14,11 @@ class User extends Model
     public string $password;
     public string $created_at;
 
+    public function __construct()
+    {
+        $this->database = \Crmlva\Exposy\Database::getInstance();
+    }
+
     public function getByEmail(string $email): ?array
     {
         $query = "SELECT * FROM users WHERE email = :email";
@@ -76,7 +81,12 @@ class User extends Model
         return Util::verifyPassword($password, $this->password);
     }
 
-    // Generic method to fetch a single result
+    public function deleteUser(int $userId): bool
+    {
+        $query = "DELETE FROM users WHERE id = :id";
+        return $this->execute($query, [':id' => $userId]);
+    }
+
     private function fetchOne(string $query, array $params): ?array
     {
         $stmt = $this->database->prepare($query);
@@ -84,7 +94,6 @@ class User extends Model
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
-    // Generic method to execute queries
     private function execute(string $query, array $params): bool
     {
         $stmt = $this->database->prepare($query);

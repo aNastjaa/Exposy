@@ -56,6 +56,16 @@
         </div>
     </div>
 
+    <!-- Account Deletion Confirmation Modal -->
+    <div id="delete-account-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDeleteAccountModal()">&times;</span>
+            <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+            <button id="confirm-delete-button" class="modal-blind-button">Confirm</button>
+            <button class="modal-cta-button" onclick="closeDeleteAccountModal()">Cancel</button>
+        </div>
+    </div>
+
     <div id="response-message" class="response-message" style="display: none;">
         <p class="response-text"></p>
     </div>

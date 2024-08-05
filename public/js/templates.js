@@ -1,5 +1,3 @@
-// templates.js
-
 // Function to show the profile-edit section and the specific subsection
 function showSection(sectionId) {
     document.getElementById('profile-edit').style.display = 'block';
@@ -43,4 +41,50 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = '/index.php?action=logout';
         });
     }
+});
+
+//____________ Delete account______________
+
+document.addEventListener('DOMContentLoaded', () => {
+    const deleteProfileForm = document.getElementById('delete-profile'); // Div, not a form
+    const modal = document.getElementById('delete-account-modal');
+    const confirmDeleteButton = document.getElementById('confirm-delete-button');
+    const declineDeleteButton = document.querySelector('#delete-account-modal .modal-cta-button');
+    const closeModalButton = document.querySelector('#delete-account-modal .close');
+
+    if (!modal || !deleteProfileForm || !confirmDeleteButton || !declineDeleteButton || !closeModalButton) {
+        console.error('Required modal elements not found.');
+        return;
+    }
+
+    const openDeleteModal = () => {
+        modal.style.display = 'block';
+    };
+
+    const closeDeleteModal = () => {
+        modal.style.display = 'none';
+    };
+
+    deleteProfileForm.addEventListener('click', (event) => {
+        event.preventDefault();
+        openDeleteModal();
+    });
+
+    confirmDeleteButton.addEventListener('click', () => {
+        if (typeof deleteAccount === 'function') {
+            deleteAccount(); 
+        } else {
+            console.error('deleteAccount function is not defined.');
+        }
+        closeDeleteModal();
+    });
+
+    declineDeleteButton.addEventListener('click', closeDeleteModal);
+    closeModalButton.addEventListener('click', closeDeleteModal);
+
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            closeDeleteModal();
+        }
+    });
 });

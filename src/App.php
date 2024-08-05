@@ -13,6 +13,7 @@ final class App
     {
         Session::start();
         
+        // Retrieve the URL path from the query parameters
         $url = filter_input(INPUT_GET, 'url', FILTER_DEFAULT);
 
         switch ($url) {
@@ -42,6 +43,12 @@ final class App
                 $this->auth();
                 $controller = new UserAccountController();
                 $controller->updatePassword();
+                break;
+                
+            case 'account/delete':
+                $this->auth();
+                $controller = new UserAccountController();
+                $controller->deleteAccount();
                 break;
 
             case '':

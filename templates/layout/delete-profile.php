@@ -1,4 +1,4 @@
-<form class="profile-form" id="delete-profile">
+<div class="delete-profile" id="delete-profile" action="account/delete" method="POST">
     <h3>Are you sure you want to delete your account? <br> This action cannot be undone.</h3>
-    <button type="submit" class="blind-button">Delete Account</button>
-</form>
+    <button id="delete-account-button" class="blind-button">Delete Account</button>
+</div>

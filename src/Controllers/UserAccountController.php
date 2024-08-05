@@ -4,9 +4,11 @@ namespace Crmlva\Exposy\Controllers;
 
 use Crmlva\Exposy\Controller;
 use Crmlva\Exposy\Models\User;
+use Crmlva\Exposy\Models\UserProfile;
 use Crmlva\Exposy\Session;
 use Crmlva\Exposy\Validators\Validation;
 use Crmlva\Exposy\Util;
+use Crmlva\Exposy\Database;
 
 class UserAccountController extends Controller
 {
@@ -86,6 +88,43 @@ class UserAccountController extends Controller
         }
     }
 
+    public function deleteAccount(): void
+    {
+        $userId = Session::get('user_id');
+        if (!$userId) {
+            $this->redirect('/login');
+            return;
+        }
+
+        if ($this->isRequestMethod(self::REQUEST_METHOD_POST)) {
+            $userModel = new User();
+            $db = Database::getInstance(); // Get the singleton instance
+
+            // Start a transaction to ensure data integrity
+            $db->beginTransaction();
+
+            try {
+                // Delete user profile (if applicable)
+                $userProfileModel = new UserProfile();
+                $userProfileModel->deleteProfile($userId);
+
+                // Delete the user account
+                $userModel->deleteUser($userId);
+
+                // Commit the transaction
+                $db->commit();
+
+                // End the session and redirect to login
+                Session::clearAll();
+                $this->sendJsonResponse(true, ['message' => 'Account deleted successfully!'], 200);
+            } catch (\Exception $e) {
+                // Rollback the transaction if something goes wrong
+                $db->rollBack();
+                $this->sendJsonResponse(false, ['message' => 'Failed to delete account.'], 500);
+            }
+        }
+    }
+
     private function sendJsonResponse(bool $success, array $data, int $statusCode): void
     {
         header('Content-Type: application/json');
@@ -93,4 +132,5 @@ class UserAccountController extends Controller
         http_response_code($statusCode);
         exit();
     }
+
 }
