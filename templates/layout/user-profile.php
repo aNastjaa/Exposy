@@ -22,10 +22,10 @@
 
         </div>
         <div class="account-buttons">
-            <button type="button" class="blind-button" onclick="showSection('general')">General</button>
-            <button type="button" class="blind-button" onclick="showSection('edit-profile')">Edit Profile</button>
-            <button type="button" class="blind-button" onclick="showSection('delete-profile')">Delete Account</button>
-            <button type="button" class="blind-button" onclick="showLogoutConfirmation()">Log Out</button>
+            <button type="button" class="account-button" onclick="showSection('general')">General</button>
+            <button type="button" class="account-button" onclick="showSection('edit-profile')">Edit Profile</button>
+            <button type="button" class="account-button" onclick="showSection('delete-profile')">Delete Account</button>
+            <button type="button" class="account-button" onclick="showLogoutConfirmation()">Log Out</button>
         </div>
     </div>
 

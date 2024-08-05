@@ -163,6 +163,7 @@ textarea {
     flex-direction: column;
     align-content: space-between;
     justify-content: center;
+    align-items: center;
 }
 .photo-input-section{
     display: flex;
