@@ -67,25 +67,20 @@ class UserController extends Controller
         $validation->validateStringField($data['alt_text'] ?? '', 'alt_text', 1, 255);
     
         if ($validation->getErrors()) {
-            header('Content-Type: application/json');
-            echo json_encode([
-                'success' => false,
-                'errors' => $validation->getErrors()
-            ]);
-            http_response_code(422);
-            exit();
+            $this->sendJsonResponse(false, $validation->getErrors(), 422);
         } else {
             $profileModel = new UserProfile();
             $profileModel->updateProfile($userId, $data);
     
-            header('Content-Type: application/json');
-            echo json_encode([
-                'success' => true,
-                'message' => 'Profile updated successfully!',
-                'photo' => $data['photo'] ?? ''
-            ]);
-            http_response_code(200);
-            exit();
+            $this->sendJsonResponse(true, ['message' => 'Profile updated successfully!', 'photo' => $data['photo'] ?? ''], 200);
         }
+    }
+
+    private function sendJsonResponse(bool $success, array $data, int $statusCode): void
+    {
+        header('Content-Type: application/json');
+        echo json_encode(['success' => $success] + $data);
+        http_response_code($statusCode);
+        exit();
     }
 }

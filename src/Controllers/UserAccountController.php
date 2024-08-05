@@ -1,4 +1,5 @@
 <?php
+
 namespace Crmlva\Exposy\Controllers;
 
 use Crmlva\Exposy\Controller;
@@ -25,7 +26,7 @@ class UserAccountController extends Controller
             $validation->validateEmail($data['email'] ?? '');
 
             if ($validation->getErrors()) {
-                $this->sendErrorResponse($validation->getErrors());
+                $this->sendJsonResponse(false, $validation->getErrors(), 422);
             } else {
                 $userModel = new User();
 
@@ -38,12 +39,12 @@ class UserAccountController extends Controller
                 }
 
                 if ($validation->getErrors()) {
-                    $this->sendErrorResponse($validation->getErrors());
+                    $this->sendJsonResponse(false, $validation->getErrors(), 422);
                 } else {
                     $userModel->updateUserProfile($userId, $data['username'], $data['email']);
                     Session::set('username', $data['username']);
                     Session::set('email', $data['email']);
-                    $this->sendSuccessResponse('Profile updated successfully!');
+                    $this->sendJsonResponse(true, ['message' => 'Profile updated successfully!'], 200);
                 }
             }
         }
@@ -60,51 +61,36 @@ class UserAccountController extends Controller
         if ($this->isRequestMethod(self::REQUEST_METHOD_POST)) {
             $data = $this->getData();
 
-            // Debugging: Output the received data
-            error_log('Form data: ' . print_r($data, true));
-
             $validation = new Validation();
             $validation->validatePassword($data['new-password'] ?? '');
 
             if ($validation->getErrors()) {
-                $this->sendErrorResponse($validation->getErrors());
+                $this->sendJsonResponse(false, $validation->getErrors(), 422);
                 return;
             }
 
             $userModel = new User();
             $user = $userModel->getById($userId);
 
-            // Debugging: Output the user data
-            error_log('Fetched user data: ' . print_r($user, true));
-
-            // Verify old password
             if (!$user || !isset($data['password']) || !Util::verifyPassword($data['password'], $user['password'])) {
                 $validation->addError('password', 'Old password is incorrect');
             }
 
             if ($validation->getErrors()) {
-                $this->sendErrorResponse($validation->getErrors());
+                $this->sendJsonResponse(false, $validation->getErrors(), 422);
             } else {
                 $hashedPassword = Util::hashPassword($data['new-password']);
                 $userModel->updateUserPassword($userId, $hashedPassword);
-                $this->sendSuccessResponse('Password updated successfully!');
+                $this->sendJsonResponse(true, ['message' => 'Password updated successfully!'], 200);
             }
         }
     }
 
-    private function sendErrorResponse(array $errors): void
+    private function sendJsonResponse(bool $success, array $data, int $statusCode): void
     {
         header('Content-Type: application/json');
-        echo json_encode(['success' => false, 'errors' => $errors]);
-        http_response_code(422);
-        exit();
-    }
-
-    private function sendSuccessResponse(string $message): void
-    {
-        header('Content-Type: application/json');
-        echo json_encode(['success' => true, 'message' => $message]);
-        http_response_code(200);
+        echo json_encode(['success' => $success] + $data);
+        http_response_code($statusCode);
         exit();
     }
 }

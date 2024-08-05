@@ -13,6 +13,18 @@ h3{
     align-items: center;
 }
 
+.error-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.error-list .error {
+    color: red;
+    font-size: 0.9em;
+}
+
+
 .input-section {
     display: flex;
     flex-direction: column;

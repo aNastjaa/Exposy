@@ -1,6 +1,3 @@
-// ajax-handler.js
-
-// Function to handle AJAX form submission
 async function handleFormSubmission(form, responseMessageDiv) {
     const responseText = responseMessageDiv.querySelector('.response-text');
     const formData = new FormData(form);
@@ -25,16 +22,23 @@ async function handleFormSubmission(form, responseMessageDiv) {
             responseMessageDiv.className = 'response-message success';
         } else {
             // Display server-side validation errors
-            for (const [field, messages] of Object.entries(result.errors || {})) {
-                const fieldElement = document.querySelector(`#${field}`);
-                if (fieldElement) {
-                    const errorList = fieldElement.closest('.input-section').querySelector('.error-list');
-                    if (errorList) {
-                        errorList.innerHTML = messages.map(msg => `<li class="error">${msg}</li>`).join('');
-                    }
+            for (const [field, messages] of Object.entries(result)) {
+                // Check if the field is an error and has messages
+                if (field !== 'success' && messages.length > 0) {
+                    const fieldElement = document.querySelector(`[name="${field}"]`);
+                    if (fieldElement) {
+                        const errorList = fieldElement.closest('.input-section')?.querySelector('.error-list');
+                        if (errorList) {
+                            errorList.innerHTML = messages.map(msg => `<li class="error">${msg}</li>`).join('');
+                        } else {
+                            console.warn(`Error list for field "${field}" not found.`);
+                        }
 
-                    // Highlight field border in red
-                    fieldElement.style.borderColor = 'red';
+                        // Highlight field border in red
+                        fieldElement.style.borderColor = 'red';
+                    } else {
+                        console.warn(`Field with name "${field}" not found.`);
+                    }
                 }
             }
 
@@ -43,6 +47,7 @@ async function handleFormSubmission(form, responseMessageDiv) {
         }
 
     } catch (error) {
+        console.error('Error during form submission:', error);
         responseText.textContent = 'An error occurred while processing the request.';
         responseMessageDiv.className = 'response-message error';
     }

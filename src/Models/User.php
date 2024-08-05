@@ -17,94 +17,45 @@ class User extends Model
     public function getByEmail(string $email): ?array
     {
         $query = "SELECT * FROM users WHERE email = :email";
-        $stmt = $this->database->prepare($query);
-        $stmt->execute([':email' => $email]);
-
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ?: null;
+        return $this->fetchOne($query, ['email' => $email]);
     }
 
     public function getByUsername(string $username): ?array
     {
         $query = "SELECT * FROM users WHERE username = :username";
-        $stmt = $this->database->prepare($query);
-        $stmt->execute([':username' => $username]);
-
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ?: null;
+        return $this->fetchOne($query, ['username' => $username]);
     }
 
     public function getById(int $id): ?array
     {
         $query = "SELECT * FROM users WHERE id = :id";
-        $stmt = $this->database->prepare($query);
-        $stmt->execute([':id' => $id]);
-
-        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+        return $this->fetchOne($query, ['id' => $id]);
     }
 
     public function create(string $username, string $email, string $password): bool|string
     {
-        // Check for existing username
         if ($this->getByUsername($username)) {
             return 'Username already exists';
         }
 
-        // Check for existing email
         if ($this->getByEmail($email)) {
             return 'Email already exists';
         }
 
-        $hashed_password = Util::hashPassword($password);
+        $hashedPassword = Util::hashPassword($password);
         $query = "INSERT INTO users (username, email, password, created_at) VALUES (:username, :email, :password, NOW())";
-        $stmt = $this->database->prepare($query);
-
-        try {
-            $stmt->execute([
-                ':username' => $username,
-                ':email' => $email,
-                ':password' => $hashed_password
-            ]);
-
-            return $this->database->lastInsertId();
-        } catch (\PDOException $e) {
-            // Handle other SQL errors (e.g., connection issues)
-            return 'Database error: ' . $e->getMessage();
-        }
-    }
-
-    public function find(int $id): ?object
-    {
-        $stmt = $this->database->prepare("SELECT * FROM users WHERE id = :id LIMIT 1");
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-
-        $user = $stmt->fetch(PDO::FETCH_OBJ);
         
-        return $user ?: null;
-    }
-
-    public static function findByEmail(string $email): ?self
-    {
-        $query = "SELECT * FROM users WHERE email = :email";
-        $stmt = self::getDatabaseInstance()->prepare($query);
-        $stmt->execute([':email' => $email]);
-
-        $result = $stmt->fetchObject(self::class);
-        return $result ?: null;
-    }
-
-    public function verifyPassword(string $password): bool
-    {
-        return password_verify($password, $this->password);
+        return $this->execute($query, [
+            ':username' => $username,
+            ':email' => $email,
+            ':password' => $hashedPassword
+        ]) ? $this->database->lastInsertId() : 'Database error';
     }
 
     public function updateUserProfile(int $userId, string $username, string $email): bool
     {
         $query = "UPDATE users SET username = :username, email = :email WHERE id = :id";
-        $stmt = $this->database->prepare($query);
-
-        return $stmt->execute([
+        return $this->execute($query, [
             ':username' => $username,
             ':email' => $email,
             ':id' => $userId
@@ -114,21 +65,29 @@ class User extends Model
     public function updateUserPassword(int $userId, string $hashedPassword): bool
     {
         $query = "UPDATE users SET password = :password WHERE id = :id";
-        $stmt = $this->database->prepare($query);
-
-        return $stmt->execute([
+        return $this->execute($query, [
             ':password' => $hashedPassword,
             ':id' => $userId
         ]);
     }
 
-    public function getPasswordHashById(int $userId): ?string
+    public function verifyPassword(string $password): bool
     {
-        $query = "SELECT password FROM users WHERE id = :id";
-        $stmt = $this->database->prepare($query);
-        $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
-        $stmt->execute();
+        return Util::verifyPassword($password, $this->password);
+    }
 
-        return $stmt->fetchColumn() ?: null;
+    // Generic method to fetch a single result
+    private function fetchOne(string $query, array $params): ?array
+    {
+        $stmt = $this->database->prepare($query);
+        $stmt->execute($params);
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
+
+    // Generic method to execute queries
+    private function execute(string $query, array $params): bool
+    {
+        $stmt = $this->database->prepare($query);
+        return $stmt->execute($params);
     }
 }
