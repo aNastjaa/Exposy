@@ -1,3 +1,4 @@
+// Function to handle AJAX form submission
 async function handleFormSubmission(form, responseMessageDiv) {
     const responseText = responseMessageDiv.querySelector('.response-text');
     const formData = new FormData(form);
@@ -14,28 +15,45 @@ async function handleFormSubmission(form, responseMessageDiv) {
         const result = await response.json();
 
         // Clear previous error messages
-        document.querySelectorAll('.input-section .error-list').forEach(el => el.innerHTML = '');
+        document.querySelectorAll('.error-list').forEach(el => el.innerHTML = '');
 
         if (response.ok && result.success) {
             // Display success message
             responseText.textContent = result.message || 'Action completed successfully!';
             responseMessageDiv.className = 'response-message success';
+            responseMessageDiv.style.display = 'block';
         } else {
+            // Log the result to debug what is coming from the server
+            console.log('Server response:', result);
+
             // Display server-side validation errors
             for (const [field, messages] of Object.entries(result)) {
-                // Check if the field is an error and has messages
-                if (field !== 'success' && messages.length > 0) {
-                    const fieldElement = document.querySelector(`[name="${field}"]`);
-                    if (fieldElement) {
-                        const errorList = fieldElement.closest('.input-section')?.querySelector('.error-list');
+                if (field === 'success') continue; // Skip the 'success' field
+
+                const fieldElement = document.querySelector(`[name="${field}"]`);
+                if (fieldElement) {
+                    const errorList = fieldElement.closest('.input-section, .radio-section')?.querySelector('.error-list');
+                    if (errorList) {
+                        errorList.innerHTML = messages.map(msg => `<li class="error">${msg}</li>`).join('');
+                    } else {
+                        console.warn(`Error list for field "${field}" not found.`);
+                    }
+
+                    // Highlight field border in red
+                    fieldElement.style.borderColor = 'red';
+                } else {
+                    // Special handling for radio buttons (gender)
+                    const radioGroup = document.querySelectorAll(`input[name="${field}"]`);
+                    if (radioGroup.length > 0) {
+                        const errorList = radioGroup[0].closest('.radio-section')?.querySelector('.error-list');
                         if (errorList) {
                             errorList.innerHTML = messages.map(msg => `<li class="error">${msg}</li>`).join('');
                         } else {
                             console.warn(`Error list for field "${field}" not found.`);
                         }
-
-                        // Highlight field border in red
-                        fieldElement.style.borderColor = 'red';
+                        radioGroup.forEach(radio => {
+                            radio.style.outline = '2px solid red';
+                        });
                     } else {
                         console.warn(`Field with name "${field}" not found.`);
                     }
@@ -44,16 +62,15 @@ async function handleFormSubmission(form, responseMessageDiv) {
 
             responseText.textContent = 'Please correct the highlighted fields and try again.';
             responseMessageDiv.className = 'response-message error';
+            responseMessageDiv.style.display = 'block';
         }
 
     } catch (error) {
         console.error('Error during form submission:', error);
         responseText.textContent = 'An error occurred while processing the request.';
         responseMessageDiv.className = 'response-message error';
+        responseMessageDiv.style.display = 'block';
     }
-
-    // Show the response message
-    responseMessageDiv.style.display = 'block';
 }
 
 // Event listener for DOMContentLoaded
@@ -64,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (profileForm) {
         profileForm.addEventListener('submit', (event) => {
-            event.preventDefault(); // Prevent the default form submission
+            event.preventDefault(); 
             handleFormSubmission(profileForm, profileResponseMessageDiv);
         });
     }
