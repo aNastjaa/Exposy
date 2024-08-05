@@ -34,13 +34,13 @@ class User extends Model
         return $result ?: null;
     }
 
-    public function getById(int $id): array
+    public function getById(int $id): ?array
     {
-        $query = "SELECT username,email FROM users WHERE id = :id";
+        $query = "SELECT * FROM users WHERE id = :id";
         $stmt = $this->database->prepare($query);
         $stmt->execute([':id' => $id]);
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
     public function create(string $username, string $email, string $password): bool|string
@@ -73,6 +73,17 @@ class User extends Model
         }
     }
 
+    public function find(int $id): ?object
+    {
+        $stmt = $this->database->prepare("SELECT * FROM users WHERE id = :id LIMIT 1");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $user = $stmt->fetch(PDO::FETCH_OBJ);
+        
+        return $user ?: null;
+    }
+
     public static function findByEmail(string $email): ?self
     {
         $query = "SELECT * FROM users WHERE email = :email";
@@ -86,5 +97,38 @@ class User extends Model
     public function verifyPassword(string $password): bool
     {
         return password_verify($password, $this->password);
+    }
+
+    public function updateUserProfile(int $userId, string $username, string $email): bool
+    {
+        $query = "UPDATE users SET username = :username, email = :email WHERE id = :id";
+        $stmt = $this->database->prepare($query);
+
+        return $stmt->execute([
+            ':username' => $username,
+            ':email' => $email,
+            ':id' => $userId
+        ]);
+    }
+
+    public function updateUserPassword(int $userId, string $hashedPassword): bool
+    {
+        $query = "UPDATE users SET password = :password WHERE id = :id";
+        $stmt = $this->database->prepare($query);
+
+        return $stmt->execute([
+            ':password' => $hashedPassword,
+            ':id' => $userId
+        ]);
+    }
+
+    public function getPasswordHashById(int $userId): ?string
+    {
+        $query = "SELECT password FROM users WHERE id = :id";
+        $stmt = $this->database->prepare($query);
+        $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchColumn() ?: null;
     }
 }

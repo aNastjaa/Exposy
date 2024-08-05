@@ -4,113 +4,232 @@ namespace Crmlva\Exposy\Validators;
 
 use Crmlva\Exposy\Enums\GenderEnum;
 use Crmlva\Exposy\Enums\CountryEnum;
+use Crmlva\Exposy\Models\User; // Assuming a User model for database interaction
 
-class Validation {
+class Validation
+{
     private array $errors = [];
 
-    public function validateStringField(?string $field_value, string $field_name, int $min_length, int $max_length): bool {
-        if (is_null($field_value) || empty($field_value)) {
-            $this->errors[$field_name][] = "Please enter your $field_name";
+    /**
+     * Validates a string field based on minimum and maximum length constraints.
+     *
+     * @param string|null $field_value
+     * @param string $field_name
+     * @param int $min_length
+     * @param int $max_length
+     * @return bool
+     */
+    public function validateStringField(?string $field_value, string $field_name, int $min_length, int $max_length): bool
+    {
+        if (is_null($field_value) || trim($field_value) === '') {
+            $this->errors[$field_name][] = "Please enter your $field_name.";
         } else {
             if (strlen($field_value) < $min_length) {
-                $this->errors[$field_name][] = "$field_name must be at least $min_length characters long";
+                $this->errors[$field_name][] = "$field_name must be at least $min_length characters long.";
             }
             if (strlen($field_value) > $max_length) {
-                $this->errors[$field_name][] = "$field_name must not exceed $max_length characters";
+                $this->errors[$field_name][] = "$field_name must not exceed $max_length characters.";
             }
             if (preg_match('/\s/', $field_value)) {
-                $this->errors[$field_name][] = "$field_name must not contain spaces";
+                $this->errors[$field_name][] = "$field_name must not contain spaces.";
             }
         }
-    
-        return !isset($this->errors[$field_name]) || count($this->errors[$field_name]) === 0;
-    }
-    
 
-    public function validateEmail(?string $email): bool {
-        if (is_null($email) || empty($email)) {
-            $this->errors['email'][] = 'Please enter your email';
+        return empty($this->errors[$field_name]);
+    }
+
+    /**
+     * Validates the email format.
+     *
+     * @param string|null $email
+     * @return bool
+     */
+    public function validateEmail(?string $email): bool
+    {
+        if (is_null($email) || trim($email) === '') {
+            $this->errors['email'][] = 'Please enter your email.';
         } else {
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $this->errors['email'][] = 'Please enter a valid email address';
+                $this->errors['email'][] = 'Please enter a valid email address.';
             }
         }
 
-        return !isset($this->errors['email']) || count($this->errors['email']) === 0;
+        return empty($this->errors['email']);
     }
 
-    public function validatePassword(?string $password): bool {
-        if (is_null($password) || empty($password)) {
-            $this->errors['password'][] = 'Please enter your password';
+    /**
+     * Validates a password against security and complexity criteria.
+     *
+     * @param string|null $password
+     * @return bool
+     */
+    public function validatePassword(?string $password): bool
+    {
+        return $this->checkPasswordCriteria($password, 'password');
+    }
+
+    /**
+     * Validates a new password against security and complexity criteria.
+     *
+     * @param string|null $new_password
+     * @return bool
+     */
+    public function validateNewPassword(?string $new_password): bool
+    {
+        return $this->checkPasswordCriteria($new_password, 'new-password');
+    }
+
+    /**
+     * Checks password criteria including length, character variety, and lack of spaces.
+     *
+     * @param string|null $password
+     * @param string $field_name
+     * @return bool
+     */
+    private function checkPasswordCriteria(?string $password, string $field_name): bool
+    {
+        if (is_null($password) || trim($password) === '') {
+            $this->errors[$field_name][] = "Please enter your $field_name.";
         } else {
             if (strlen($password) < 8) {
-                $this->errors['password'][] = 'Password must be at least 8 characters long';
+                $this->errors[$field_name][] = 'Password must be at least 8 characters long.';
             }
             if (!preg_match('/[a-z]/', $password)) {
-                $this->errors['password'][] = 'Password must contain at least one lowercase letter';
+                $this->errors[$field_name][] = 'Password must contain at least one lowercase letter.';
             }
             if (!preg_match('/[A-Z]/', $password)) {
-                $this->errors['password'][] = 'Password must contain at least one uppercase letter';
+                $this->errors[$field_name][] = 'Password must contain at least one uppercase letter.';
             }
             if (!preg_match('/[0-9]/', $password)) {
-                $this->errors['password'][] = 'Password must contain at least one number';
+                $this->errors[$field_name][] = 'Password must contain at least one number.';
             }
             if (!preg_match('/[\W_]/', $password)) {
-                $this->errors['password'][] = 'Password must contain at least one special character';
+                $this->errors[$field_name][] = 'Password must contain at least one special character.';
             }
             if (preg_match('/\s/', $password)) {
-                $this->errors['password'][] = 'Password must not contain spaces';
+                $this->errors[$field_name][] = 'Password must not contain spaces.';
             }
         }
 
-        return !isset($this->errors['password']) || count($this->errors['password']) === 0;
+        return empty($this->errors[$field_name]);
     }
 
-    public function validatePasswordRepeat(?string $password, ?string $password_repeat): bool {
+    /**
+     * Validates password and its confirmation match.
+     *
+     * @param string|null $password
+     * @param string|null $password_repeat
+     * @return bool
+     */
+    public function validatePasswordRepeat(?string $password, ?string $password_repeat): bool
+    {
         if ($password !== $password_repeat) {
-            $this->errors['password_repeat'][] = 'Passwords do not match';
+            $this->errors['password_repeat'][] = 'Passwords do not match.';
         }
 
-        return !isset($this->errors['password_repeat']) || count($this->errors['password_repeat']) === 0;
+        return empty($this->errors['password_repeat']);
     }
 
-    public function validateGender(?string $gender): bool {
-        if (is_null($gender) || empty($gender)) {
-            $this->errors['gender'][] = 'Please select a gender';
+    /**
+     * Validates old password against the stored password in the database.
+     *
+     * @param string|null $old_password
+     * @param int $user_id
+     * @return bool
+     */
+    public function validateOldPassword(?string $old_password, int $user_id): bool
+    {
+        if (is_null($old_password) || trim($old_password) === '') {
+            $this->errors['old_password'][] = 'Please enter your old password.';
+            return false;
+        }
+
+        $user = new User();
+        $user = $user->find($user_id);
+
+        if (!$user || !password_verify($old_password, $user->password)) {
+            $this->errors['old_password'][] = 'Old password is incorrect.';
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Validates gender against available options.
+     *
+     * @param string|null $gender
+     * @return bool
+     */
+    public function validateGender(?string $gender): bool
+    {
+        if (is_null($gender) || trim($gender) === '') {
+            $this->errors['gender'][] = 'Please select a gender.';
         } elseif (!in_array($gender, GenderEnum::getAll())) {
-            $this->errors['gender'][] = 'Please select a valid gender';
+            $this->errors['gender'][] = 'Please select a valid gender.';
         }
 
-        return !isset($this->errors['gender']) || count($this->errors['gender']) === 0;
+        return empty($this->errors['gender']);
     }
 
-    public function validateCountry(?string $country): bool {
+    /**
+     * Validates country against available options.
+     *
+     * @param string|null $country
+     * @return bool
+     */
+    public function validateCountry(?string $country): bool
+    {
         if (is_null($country) || $country === 'none') {
-            $this->errors['country'][] = 'Please select a country';
+            $this->errors['country'][] = 'Please select a country.';
         } elseif (!in_array($country, CountryEnum::getAll())) {
-            $this->errors['country'][] = 'Please select a valid country';
+            $this->errors['country'][] = 'Please select a valid country.';
         }
 
-        return !isset($this->errors['country']) || count($this->errors['country']) === 0;
+        return empty($this->errors['country']);
     }
 
-    public function validateTerms(?string $terms): bool {
-        if (is_null($terms)) {
-            $this->errors['terms'][] = 'You must agree to the terms of service';
+    /**
+     * Validates acceptance of terms.
+     *
+     * @param string|null $terms
+     * @return bool
+     */
+    public function validateTerms(?string $terms): bool
+    {
+        if (is_null($terms) || trim($terms) === '') {
+            $this->errors['terms'][] = 'You must agree to the terms of service.';
         }
 
-        return !isset($this->errors['terms']) || count($this->errors['terms']) === 0;
+        return empty($this->errors['terms']);
     }
 
-    public function clearErrors(): void {
+    /**
+     * Clears all validation errors.
+     */
+    public function clearErrors(): void
+    {
         $this->errors = [];
     }
 
-    public function getErrors(): array {
+    /**
+     * Retrieves all validation errors.
+     *
+     * @return array
+     */
+    public function getErrors(): array
+    {
         return $this->errors;
     }
 
-    public function addError(string $field, string $message): void {
+    /**
+     * Adds an error message for a specific field.
+     *
+     * @param string $field
+     * @param string $message
+     */
+    public function addError(string $field, string $message): void
+    {
         $this->errors[$field][] = $message;
     }
 }

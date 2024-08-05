@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             isValid = false;
         } else if (rules.password && !validatePassword(value)) {
             isValid = false;
-        } else if (rules.passwordRepeat && value !== document.querySelector('[name="password"]').value) {
+        } else if (rules.passwordRepeat && value !== document.querySelector('[name="new-password"]').value) {
             isValid = false;
         } else if (rules.username && !validateStringField(value, 3, 255)) {
             isValid = false;
@@ -78,28 +78,29 @@ document.addEventListener('DOMContentLoaded', () => {
         username: { required: true, username: true },
         file: { required: true, file: true },
         alt_text: { required: true, altText: true },
-        terms: { required: true, terms: true }
+        terms: { required: true, terms: true },
+        'old-password': { required: true, password: true }, // Ensure old password is included
+        'new-password': { required: true, password: true }
     };
 
     // Handle input events for real-time validation
-    document.querySelectorAll('#profile-form input, #profile-form select').forEach(field => {
+    document.querySelectorAll('#edit-profile-dsts input, #edit-profile-dsts select, #edit-password input').forEach(field => {
         field.addEventListener('input', () => {
-            if (rules[field.name]) {
-                validateField(field, rules[field.name]);
+            if (rules[field.id] || rules[field.name]) {
+                validateField(field, rules[field.id] || rules[field.name]);
             }
         });
     });
 
     // Handle form submission
-    const form = document.getElementById('profile-form');
-    if (form) {
+    document.querySelectorAll('.profile-form').forEach(form => {
         form.addEventListener('submit', (event) => {
             let allValid = true;
 
-            // Validate all fields
-            document.querySelectorAll('#profile-form input, #profile-form select').forEach(field => {
-                if (rules[field.name]) {
-                    const isValid = validateField(field, rules[field.name]);
+            // Validate all fields in the form
+            form.querySelectorAll('input, select').forEach(field => {
+                if (rules[field.id] || rules[field.name]) {
+                    const isValid = validateField(field, rules[field.id] || rules[field.name]);
                     if (!isValid) {
                         allValid = false;
                     }
@@ -109,12 +110,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // If not all fields are valid, set border color to red and prevent form submission
             if (!allValid) {
                 event.preventDefault();
-                document.querySelectorAll('#profile-form input, #profile-form select').forEach(field => {
-                    if (rules[field.name]) {
-                        validateField(field, rules[field.name]);
+                form.querySelectorAll('input, select').forEach(field => {
+                    if (rules[field.id] || rules[field.name]) {
+                        validateField(field, rules[field.id] || rules[field.name]);
                     }
                 });
             }
         });
-    }
+    });
 });

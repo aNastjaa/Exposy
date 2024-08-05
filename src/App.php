@@ -5,6 +5,7 @@ namespace Crmlva\Exposy;
 use Crmlva\Exposy\Controllers\LoginController;
 use Crmlva\Exposy\Controllers\RegisterController;
 use Crmlva\Exposy\Controllers\UserController;
+use Crmlva\Exposy\Controllers\UserAccountController; 
 
 final class App
 {
@@ -31,13 +32,18 @@ final class App
                 $controller->profile();
                 break;
 
-            case 'profile/update':
+            case 'account/edit': 
                 $this->auth();
-                $userId = Session::get('user_id'); 
-                $controller = new UserController();
-                $controller->handleProfileUpdate($userId); 
-                break;  
-             
+                $controller = new UserAccountController();
+                $controller->updateAccount();
+                break;
+
+            case 'account/edit/password': 
+                $this->auth();
+                $controller = new UserAccountController();
+                $controller->updatePassword();
+                break;
+
             case '':
             case null:
                 new View('layout', 'index', [

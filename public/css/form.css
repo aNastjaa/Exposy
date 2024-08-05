@@ -146,7 +146,12 @@ textarea {
     margin-bottom: 2rem;
     text-align: center;
 }
-
+.photo-form-row{
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    justify-content: center;
+}
 .photo-input-section{
     display: flex;
     align-items: center;
@@ -174,7 +179,7 @@ textarea {
 /* File Input Label */
 .file-input-label {
     display: inline-block;
-    padding: 0.8rem 1.5rem;
+    padding: 0.8rem 2rem;
     color: #272727;
     border-radius: 10px;
     cursor: pointer;
