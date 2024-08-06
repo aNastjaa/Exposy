@@ -24,7 +24,10 @@
                     <div class="buttons">
                         <!-- Link to the corresponding global event using an anchor link -->
                         <a href="#event-<?= htmlspecialchars($event['id']) ?>" class="button read-more">Read More</a>
-                        <button class="button save-button" onclick="saveEvent(<?php echo htmlspecialchars($event['id']); ?>)">Save</button>
+                        <form method="POST" action="/save-event">
+                            <input type="hidden" name="event_id" value="<?= htmlspecialchars($event['id']) ?>">
+                                <button type="submit" class="button save-event-button">Save</button>
+                        </form>
                     </div>
                 </div>
             <?php endforeach; ?>

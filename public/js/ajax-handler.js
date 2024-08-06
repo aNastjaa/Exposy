@@ -160,4 +160,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// AJAX FOR EVENT SAVING PROCESS
 
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.save-event-button').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            const eventId = this.dataset.eventId;
+            fetch('/account', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({ event_id: eventId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                }
+            });
+        });
+    });
+});

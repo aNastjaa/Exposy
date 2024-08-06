@@ -30,4 +30,10 @@ abstract class Model
         $stmt->execute($params);
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
+
+    protected function execute(string $query, array $params = []): bool
+    {
+        $stmt = $this->database->prepare($query);
+        return $stmt->execute($params);
+    }
 }

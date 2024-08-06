@@ -25,18 +25,15 @@ class EventsController extends Controller
         $eventModel = new Event();
         $localEvents = $eventModel->getEventsByCity($city);
 
-        // Get filter parameters from the request (GET)
         $selectedCity = $_GET['city-filter'] ?? 'none';
         $selectedCategory = $_GET['category-filter'] ?? 'none';
 
-        // Validate selected city and category against enum values
         $validCities = CityEnum::values();
         $validCategories = CategoryEnum::values();
 
         $selectedCity = in_array($selectedCity, $validCities) ? $selectedCity : null;
         $selectedCategory = in_array($selectedCategory, $validCategories) ? $selectedCategory : null;
 
-        // Filter global events based on selected city and category
         $globalEvents = $eventModel->getAllEvents($selectedCity, $selectedCategory);
 
         foreach ($localEvents as &$event) {
@@ -61,5 +58,40 @@ class EventsController extends Controller
     {
         $dateTime = new \DateTime($date);
         return $dateTime->format('F j, Y');
+    }
+
+    public function saveEvent(): void
+    {
+        $userId = Session::get('user_id');
+        if (!$userId) {
+            $this->sendJsonResponse(false, ['message' => 'User not authenticated'], 403);
+            return;
+        }
+
+        if ($this->isRequestMethod(self::REQUEST_METHOD_POST)) {
+            $data = $this->getData();
+            $eventId = $data['event_id'] ?? null;
+
+            if ($eventId) {
+                $eventModel = new Event();
+                $result = $eventModel->saveEventForUser($userId, $eventId);
+
+                if ($result) {
+                    $this->sendJsonResponse(true, ['message' => 'Event saved successfully!'], 200);
+                } else {
+                    $this->sendJsonResponse(false, ['message' => 'Failed to save event'], 500);
+                }
+            } else {
+                $this->sendJsonResponse(false, ['message' => 'Invalid event ID'], 400);
+            }
+        }
+    }
+
+    private function sendJsonResponse(bool $success, array $data, int $statusCode): void
+    {
+        header('Content-Type: application/json');
+        echo json_encode(['success' => $success] + $data);
+        http_response_code($statusCode);
+        exit();
     }
 }

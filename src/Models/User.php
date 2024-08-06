@@ -94,9 +94,4 @@ class User extends Model
         return $this->execute($query, [':id' => $userId]);
     }
 
-    private function execute(string $query, array $params): bool
-    {
-        $stmt = $this->database->prepare($query);
-        return $stmt->execute($params);
-    }
 }

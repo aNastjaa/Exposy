@@ -41,9 +41,4 @@ class UserProfile extends Model
         return $this->execute($query, [':user_id' => $userId]);
     }
 
-    private function execute(string $query, array $params): bool
-    {
-        $stmt = $this->database->prepare($query);
-        return $stmt->execute($params);
-    }
 }

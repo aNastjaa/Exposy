@@ -1,5 +1,4 @@
 <?php
-
 namespace Crmlva\Exposy;
 
 use Crmlva\Exposy\Controllers\LoginController;
@@ -35,11 +34,7 @@ final class App
             case 'account':
                 $this->auth();
                 $controller = new UserController();
-                $controller->profile();
-                new View('layout', 'account', [
-                    'title' => 'Account',
-                    'currentPage' => 'account'
-                ]);
+                $controller->profile(); 
                 break;
 
             case 'account/edit': 
@@ -63,11 +58,18 @@ final class App
             case 'events':
                 $controller = new EventsController();
                 $controller->showEvents();
-                
                 new View('layout', 'events', [
-                        'title' => 'Events',
-                        'currentPage' => 'events',
+                    'title' => 'Events',
+                    'currentPage' => 'events',
                 ]);
+                break;
+
+            case 'save-event': 
+                $this->auth();
+                $controller = new EventsController();
+                $controller->saveEvent();
+                header('Location: /account');
+                exit();
                 break;
 
             case '':
@@ -80,7 +82,7 @@ final class App
             default:
                 new View('error', '404', [
                     'title' => 'Page Not Found',
-                    'currentPage' => '404', // Optional, for clarity
+                    'currentPage' => '404', 
                 ]);
                 break;
         }

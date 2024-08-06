@@ -51,7 +51,10 @@
                                     <p class="contact-info"><?= htmlspecialchars($event['contact_information']) ?></p>
                                 </div>
                                 <div>
-                                <button class="button save-button" onclick="saveEvent(<?php echo htmlspecialchars($event['id']); ?>)">Save</button>
+                                    <form method="POST" action="/save-event">
+                                        <input type="hidden" name="event_id" value="<?= htmlspecialchars($event['id']) ?>">
+                                        <button type="submit" class="button save-event-button">Save</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

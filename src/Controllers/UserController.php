@@ -8,10 +8,13 @@ use Crmlva\Exposy\Models\UserProfile;
 use Crmlva\Exposy\Session;
 use Crmlva\Exposy\Validators\Validation;
 use Crmlva\Exposy\Uploader;
+use Crmlva\Exposy\Models\Event;
 
 class UserController extends Controller
 {
-    public function profile(): void {
+
+    public function profile(): void
+    {
         $userId = Session::get('user_id');
         if (!$userId) {
             $this->redirect('/login');
@@ -23,6 +26,10 @@ class UserController extends Controller
 
         $profileModel = new UserProfile();
         $profile = $profileModel->getProfileByUserId($userId);
+
+        // Fetch saved events
+        $eventModel = new Event();
+        $savedEvents = $eventModel->getSavedEventsByUserId($userId);
 
         if ($this->isRequestMethod(self::REQUEST_METHOD_POST)) {
             $this->handleProfileUpdate($userId);
@@ -39,14 +46,15 @@ class UserController extends Controller
                 'alt_text' => $profile['alt_text'] ?? 'User photo',
                 'title' => 'Account',
                 'errors' => $_SESSION['errors'] ?? [],
-                'success' => $_SESSION['success'] ?? ''
+                'success' => $_SESSION['success'] ?? '',
+                'savedEvents' => $savedEvents 
             ]);
 
             // Clear session errors and success message after rendering them
             unset($_SESSION['errors'], $_SESSION['success']);
         }
     }
-
+    
     public function handleProfileUpdate(int $userId): void {
         $data = $this->getData();
     
