@@ -2,8 +2,9 @@
 RewriteEngine On
 
 # Set the base directory for the RewriteRule
-RewriteEngine On
 RewriteBase /
+
+# Rewrite rules for routing
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
@@ -47,5 +48,6 @@ Options -Indexes
     Header set X-Content-Type-Options nosniff
 </IfModule>
 
+# PHP settings for file uploads (adjust as necessary)
 php_value upload_max_filesize 5M
 php_value post_max_size 5M
