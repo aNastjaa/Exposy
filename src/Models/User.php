@@ -57,6 +57,13 @@ class User extends Model
         ]) ? $this->database->lastInsertId() : 'Database error';
     }
 
+    public function getCityByUserId(int $userId): ?string
+    {
+        $query = "SELECT city FROM user_profiles WHERE user_id = :user_id";
+        $result = $this->fetchOne($query, ['user_id' => $userId]);
+        return $result['city'] ?? null;
+    }
+
     public function updateUserProfile(int $userId, string $username, string $email): bool
     {
         $query = "UPDATE users SET username = :username, email = :email WHERE id = :id";

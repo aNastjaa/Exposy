@@ -88,3 +88,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// EVENT CARDS
+
+document.addEventListener("DOMContentLoaded", function () {
+    const container = document.getElementById('event-cards-container');
+    const leftArrow = document.getElementById('left-arrow');
+    const rightArrow = document.getElementById('right-arrow');
+
+    const scrollAmount = 350; 
+
+    leftArrow.addEventListener('click', function () {
+        container.scrollBy({
+            left: -scrollAmount,
+            behavior: 'smooth' 
+        });
+    });
+
+    rightArrow.addEventListener('click', function () {
+        container.scrollBy({
+            left: scrollAmount, 
+            behavior: 'smooth' 
+        });
+    });
+});

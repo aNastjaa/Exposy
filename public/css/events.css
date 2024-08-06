@@ -1,6 +1,6 @@
 .hero-section{
-    max-width: 1100px;
-    margin: 0 auto;
+    max-width: 68.75rem;
+    margin: 1rem auto;
     text-align: center;
     padding: 2rem;
     background-color: #f7f7f7a0;
@@ -35,21 +35,43 @@ h2{
 .event-scroller {
     overflow: hidden; 
     position: relative;
-    width: 100%; 
-    height: 500px; 
-    margin: 0 auto;
+    max-width: 68.75rem; 
+    height: auto; 
+    margin: 2rem auto;
 }
 
 .event-cards-container {
-    display: flex; 
+    /* display: flex;  */
     align-items: center;
-    white-space: nowrap;
     gap: 1rem;
     border-radius: 30px;
 }
 
+#event-cards-container {
+    display: flex;
+    flex-direction: row; /* Display event cards in a row */
+    flex-wrap: nowrap; /* Prevent wrapping */
+    align-items: center; /* Center vertically */
+    justify-content: flex-start; /* Align items to the start (left) */
+    gap: 1rem; /* Space between event cards */
+    width: 100%; /* Full width of the container */
+    overflow-x: auto; /* Allow horizontal scrolling if necessary */
+    padding: 1rem; /* Add padding if needed */
+}
+
+#event-cards-container p {
+    flex: 1; /* Make paragraph take up available space */
+    text-align: center; /* Center text within container */
+    margin: 0; /* Remove default margins */
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: #272727;
+}
+
 .event-card {
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
     width: 350px;
     height: 490px;
     margin-right: 1rem; 
@@ -75,13 +97,12 @@ h2{
     padding: 0.5rem;
 }
 
-.event-card p {
+/* .event-card p {
     font-size: clamp(0.8rem, 2.5vw, 1rem);
     color: #272727;
     text-align: center;
-    font-family: "Abel", sans-serif;
     padding-bottom: 0.2rem;
-}
+} */
 
 .event-card .buttons {
     padding-top: 1.5rem;
