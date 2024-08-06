@@ -21,6 +21,7 @@ class View
         $user_profile_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "user-profile.php";
         $events_suggestion_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "event-suggestion.php";
         $events_explorer_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "events-explorer-grid.php";
+        $saved_user_events_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "saved-user-events.php";
 
         switch ($template) {
             case 'index':
@@ -39,6 +40,7 @@ class View
             case 'account': 
                 $this->includeIfExists($main_header_path);
                 $this->includeIfExists($user_profile_path);
+                $this ->includeIfExists($saved_user_events_path);
                 $this->includeIfExists($main_footer_path);
                 break;   
 

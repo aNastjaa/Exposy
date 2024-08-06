@@ -2,13 +2,26 @@
 namespace Crmlva\Exposy\Models;
 
 use Crmlva\Exposy\Model;
+use Crmlva\Exposy\Database;
 
 class Event extends Model
 {
-    public function getAllEvents(): array
+    public function getAllEvents(?string $selectedCity = null, ?string $selectedCategory = null): array
     {
-        $query = "SELECT * FROM events";
-        return $this->fetchAll($query);
+        $query = "SELECT * FROM events WHERE 1=1"; // Base query
+
+        $params = [];
+        if ($selectedCity) {
+            $query .= " AND city = :city";
+            $params['city'] = $selectedCity;
+        }
+
+        if ($selectedCategory) {
+            $query .= " AND category = :category";
+            $params['category'] = $selectedCategory;
+        }
+
+        return $this->fetchAll($query, $params);
     }
 
     public function getEventsByCity(string $city): array

@@ -9,6 +9,10 @@
     
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: "Montserrat", sans-serif;
     background-color: #F7F7F7;

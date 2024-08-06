@@ -7,6 +7,8 @@ use Crmlva\Exposy\Controllers\RegisterController;
 use Crmlva\Exposy\Controllers\UserController;
 use Crmlva\Exposy\Controllers\UserAccountController;
 use Crmlva\Exposy\Controllers\EventsController; 
+use Crmlva\Exposy\Enums\CityEnum;
+use Crmlva\Exposy\Enums\CategoryEnum;
 
 final class App
 {
@@ -14,7 +16,9 @@ final class App
     {
         Session::start();
         
-        // Retrieve the URL path from the query parameters
+        $cities = CityEnum::values();
+        $categories = CategoryEnum::values();
+
         $url = filter_input(INPUT_GET, 'url', FILTER_DEFAULT);
 
         switch ($url) {

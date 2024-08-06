@@ -112,3 +112,20 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+// SAVE EVENTS BUTTON
+
+function saveEvent(eventId) {
+    fetch(`/save-event.php?event_id=${eventId}`, {
+        method: 'GET',
+        credentials: 'same-origin'
+    })
+    .then(response => response.text())
+    .then(data => {
+        if (data === 'success') {
+            alert('Event saved successfully!');
+        } else {
+            alert('Failed to save event.');
+        }
+    });
+}
