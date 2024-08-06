@@ -127,6 +127,7 @@ textarea {
     cursor: pointer;
     transition: background-color 0.3s;
     margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .submit-button button:hover {
@@ -164,6 +165,7 @@ textarea {
     align-content: space-between;
     justify-content: center;
     align-items: center;
+    margin-bottom: 2rem;
 }
 .photo-input-section{
     display: flex;

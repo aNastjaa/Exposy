@@ -19,7 +19,8 @@ class View
         $error_header_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "error-header.php";
         $error_footer_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "error-footer.php";
         $user_profile_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "user-profile.php";
-        $user_profile_form_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "user-profile-form.php";
+        $events_suggestion_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "event-suggestion.php";
+        $events_explorer_path = TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . "events-explorer-grid.php";
 
         switch ($template) {
             case 'index':
@@ -30,6 +31,8 @@ class View
 
             case 'events':
                 $this->includeIfExists($main_header_path);
+                $this->includeIfExists($events_suggestion_path);
+                $this->includeIfExists($events_explorer_path);
                 $this->includeIfExists($main_footer_path);
                 break;
 

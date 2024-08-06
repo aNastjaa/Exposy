@@ -86,10 +86,14 @@ li {
     list-style: none;
 }
 
-.underline {
+.nav-links li a.active {
     text-decoration: underline;
 }
 
 .burger-menu {
     display: none;
+}
+
+.nav-links li.underline a {
+    text-decoration: underline;
 }
