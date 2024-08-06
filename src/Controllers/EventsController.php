@@ -1,5 +1,4 @@
 <?php
-
 namespace Crmlva\Exposy\Controllers;
 
 use Crmlva\Exposy\Controller;
@@ -11,37 +10,32 @@ class EventsController extends Controller
 {
     public function showEvents(): void
     {
-        // Check if the user is logged in
         $userId = Session::get('user_id');
         if (!$userId) {
             $this->redirect('/login');
             return;
         }
 
-        // Fetch the user's city
         $userModel = new User();
         $city = $userModel->getCityByUserId($userId);
 
-        // Fetch events for the user's city
         $eventModel = new Event();
-        $events = $eventModel->getEventsByCity($city);
+        $localEvents = $eventModel->getEventsByCity($city);
+        $globalEvents = $eventModel->getAllEvents();
 
-        // Format the event dates
-        foreach ($events as &$event) {
+        foreach ($localEvents as &$event) {
             $event['date'] = $this->formatDate($event['date']);
         }
 
-        // If no events are found, set a message
-        if (empty($events)) {
-            $message = "Looks like $city is taking a little nap! 💤 <br> Check back soon or explore events in nearby cities to keep the fun rolling!";
+        foreach ($globalEvents as &$event) {
+            $event['date'] = $this->formatDate($event['date']);
         }
 
-        // Render the view with events data
         $this->renderView('events', [
             'title' => 'Events',
             'city' => $city,
-            'events' => $events,
-            'message' => $message ?? null,
+            'localEvents' => $localEvents,
+            'globalEvents' => $globalEvents,
         ]);
     }
 
@@ -51,4 +45,3 @@ class EventsController extends Controller
         return $dateTime->format('F j, Y');
     }
 }
-

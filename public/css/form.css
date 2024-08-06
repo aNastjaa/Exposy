@@ -1,4 +1,4 @@
-h3{
+.form-header h3{
     font-family: "Bebas Neue";
     font-size: clamp(1rem, 2.5vw, 1.3rem);
     letter-spacing: 1.2px;

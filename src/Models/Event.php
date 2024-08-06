@@ -1,37 +1,25 @@
 <?php
-
 namespace Crmlva\Exposy\Models;
 
 use Crmlva\Exposy\Model;
-use PDO;
 
 class Event extends Model
 {
-    public int $id;
-    public string $title;
-    public string $img;
-    public string $gallery;
-    public string $date;
-    public string $city;
-    public string $created_at;
-
-    public function __construct()
+    public function getAllEvents(): array
     {
-        $this->database = \Crmlva\Exposy\Database::getInstance();
+        $query = "SELECT * FROM events";
+        return $this->fetchAll($query);
     }
 
-    /**
-     * Get events by city.
-     *
-     * @param string $city
-     * @return array
-     */
     public function getEventsByCity(string $city): array
     {
-        $query = "SELECT img, title, gallery, date FROM events WHERE city = :city";
-        $stmt = $this->database->prepare($query);
-        $stmt->execute(['city' => $city]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $query = "SELECT * FROM events WHERE city = :city";
+        return $this->fetchAll($query, ['city' => $city]);
     }
 
+    public function getEventById(int $id): ?array
+    {
+        $query = "SELECT * FROM events WHERE id = :id";
+        return $this->fetchOne($query, ['id' => $id]);
+    }
 }

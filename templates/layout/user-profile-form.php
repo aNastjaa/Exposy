@@ -1,6 +1,8 @@
 <div id="additional-info" class="additional-info">
     <form class="profile-form" id="profile-form" method="POST" enctype="multipart/form-data" action="/account">
-        <h3>Complete your profile:</h3>
+        <div class="form-header">    
+            <h3>Complete your profile:</h3>
+        </div>
         <div class="form-row">
             <div class="input-section">
                 <label for="firstname">First name</label>

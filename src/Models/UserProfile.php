@@ -41,13 +41,6 @@ class UserProfile extends Model
         return $this->execute($query, [':user_id' => $userId]);
     }
 
-    private function fetchOne(string $query, array $params): array
-    {
-        $stmt = $this->database->prepare($query);
-        $stmt->execute($params);
-        return $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
-    }
-
     private function execute(string $query, array $params): bool
     {
         $stmt = $this->database->prepare($query);

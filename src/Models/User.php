@@ -94,13 +94,6 @@ class User extends Model
         return $this->execute($query, [':id' => $userId]);
     }
 
-    private function fetchOne(string $query, array $params): ?array
-    {
-        $stmt = $this->database->prepare($query);
-        $stmt->execute($params);
-        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
-    }
-
     private function execute(string $query, array $params): bool
     {
         $stmt = $this->database->prepare($query);
