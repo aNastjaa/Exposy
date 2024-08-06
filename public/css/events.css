@@ -358,7 +358,7 @@ h2{
     max-width: 700px;
     padding: 1rem 2rem;
     text-align: center;
-    margin: 2rem 1rem -1rem 1rem;
+    margin: 2rem 1rem -2.6rem 0rem;
     --r: 50px; /* control the radius */
     border-bottom: 0;
     border-radius: calc(2 * var(--r)) calc(2 * var(--r)) 0 0;
@@ -369,6 +369,15 @@ h2{
     
       background-color: #dddddd;
 } 
+
+.saved-events h3{
+    font-family: "Bebas Neue";
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    letter-spacing: 1.2px;
+    color: #272727;
+    text-align: center;
+    padding: 0.5rem 0rem 2rem;
+}
 
 .saved-events-container {
     width: 100%;
@@ -383,6 +392,19 @@ h2{
 
 }
 
+.event-cards-container p{
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    letter-spacing: 1.2px;
+    color: #272727;
+}
+
+.delete-event-button{
+    border: none;
+    
+}
+.delete-event-button img{
+    width: 30px;
+}
 /* MEDIA QUERY */
 
 @media (max-width: 1024px){
@@ -413,7 +435,7 @@ h2{
     }
 
     input, select{
-        width: max-content;
+        width: 100%;
     }
 }
 

@@ -72,6 +72,12 @@ final class App
                 exit();
                 break;
 
+            case 'delete-saved-event':
+                $this->auth();
+                $controller = new EventsController();
+                $controller->deleteSavedEvent();
+                break;
+
             case '':
             case null:
                 new View('layout', 'index', [

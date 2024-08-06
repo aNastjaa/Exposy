@@ -31,7 +31,7 @@
                                 <form method="POST" action="/delete-saved-event" style="display:inline;">
                                     <input type="hidden" name="event_id" value="<?= htmlspecialchars($event['id']) ?>">
                                     <button type="submit" class="button delete-event-button">
-                                        <img src="/assets/icons/svg/thast.svg" alt="Delete">
+                                        <img src="/assets/icons/svg/trash.svg" alt="Delete">
                                     </button>
                                 </form>
                             </div>
@@ -44,4 +44,8 @@
         <?php endif; ?>
     </div>
 </div>
+</div>
+
+<div id="response-message" class="response-message" style="display: none;">
+    <p class="response-text"></p>
 </div>

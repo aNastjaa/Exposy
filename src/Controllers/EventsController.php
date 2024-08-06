@@ -94,4 +94,35 @@ class EventsController extends Controller
         http_response_code($statusCode);
         exit();
     }
+
+    public function deleteSavedEvent(): void
+    {
+        // Ensure user is authenticated
+        if (!Session::has('user_id')) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'User not authenticated']);
+            exit();
+        }
+
+        // Get event ID from POST request
+        $eventId = filter_input(INPUT_POST, 'event_id', FILTER_SANITIZE_NUMBER_INT);
+        $userId = Session::get('user_id');
+
+        if ($eventId && $userId) {
+            $eventModel = new Event();
+            $success = $eventModel->deleteSavedEvent($userId, $eventId);
+
+            header('Content-Type: application/json');
+            if ($success) {
+                echo json_encode(['success' => true, 'message' => 'Event deleted successfully']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error deleting event']);
+            }
+        } else {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'Invalid request']);
+        }
+
+        exit();
+    }
 }

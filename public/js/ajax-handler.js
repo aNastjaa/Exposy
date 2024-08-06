@@ -186,3 +186,42 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+
+//Deleting event logic
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.delete-event-button').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const form = this.closest('form');
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json' // Expect JSON response
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+                return response.json(); // Expect JSON response
+            })
+            .then(data => {
+                if (data.success) {
+                    // Remove the event card from the DOM
+                    form.closest('.event-cart-big').remove();
+                } else {
+                    alert(data.message || 'Error deleting event.');
+                }
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+            });
+        });
+    });
+});

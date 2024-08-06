@@ -274,3 +274,10 @@ p.edit-category.gray {
     text-align: center;
     margin-bottom: 2rem;
 }
+
+@media (max-width: 1024px){
+    .account-buttons{
+        flex-wrap: wrap;
+        gap: 1rem;  
+    }
+}

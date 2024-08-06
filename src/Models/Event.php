@@ -74,4 +74,10 @@ class Event extends Model
                   WHERE se.user_id = :user_id";
         return $this->fetchAll($query, ['user_id' => $userId]);
     }
+
+    public function deleteSavedEvent(int $userId, int $eventId): bool
+    {
+        $query = "DELETE FROM saved_events WHERE user_id = :user_id AND event_id = :event_id";
+        return $this->execute($query, ['user_id' => $userId, 'event_id' => $eventId]);
+    }
 }
