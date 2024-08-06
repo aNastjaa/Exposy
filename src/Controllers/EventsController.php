@@ -60,6 +60,7 @@ class EventsController extends Controller
         return $dateTime->format('F j, Y');
     }
 
+    // Assuming this is in your PHP code for the /account endpoint
     public function saveEvent(): void
     {
         $userId = Session::get('user_id');
@@ -67,25 +68,34 @@ class EventsController extends Controller
             $this->sendJsonResponse(false, ['message' => 'User not authenticated'], 403);
             return;
         }
-
+    
         if ($this->isRequestMethod(self::REQUEST_METHOD_POST)) {
-            $data = $this->getData();
+            $data = json_decode(file_get_contents('php://input'), true);
+            
+            // Log received data to debug
+            error_log('Received Data: ' . print_r($data, true));
+    
             $eventId = $data['event_id'] ?? null;
-
-            if ($eventId) {
-                $eventModel = new Event();
-                $result = $eventModel->saveEventForUser($userId, $eventId);
-
-                if ($result) {
-                    $this->sendJsonResponse(true, ['message' => 'Event saved successfully!'], 200);
-                } else {
-                    $this->sendJsonResponse(false, ['message' => 'Failed to save event'], 500);
-                }
-            } else {
-                $this->sendJsonResponse(false, ['message' => 'Invalid event ID'], 400);
+    
+            if (!$eventId) {
+                $this->sendJsonResponse(false, ['message' => 'Event ID is missing!'], 422);
+                return;
             }
+    
+            // Assume saveEventForUser is a method that processes the event ID
+            $eventModel = new Event();
+            $result = $eventModel->saveEventForUser($userId, $eventId);
+    
+            if ($result) {
+                $this->sendJsonResponse(true, ['message' => 'Event saved successfully!'], 200);
+            } else {
+                $this->sendJsonResponse(false, ['message' => 'Failed to save event'], 500);
+            }
+        } else {
+            $this->sendJsonResponse(false, ['message' => 'Invalid request method'], 405);
         }
     }
+    
 
     private function sendJsonResponse(bool $success, array $data, int $statusCode): void
     {

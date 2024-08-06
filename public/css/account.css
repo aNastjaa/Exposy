@@ -275,6 +275,15 @@ p.edit-category.gray {
     margin-bottom: 2rem;
 }
 
+.delete-profile h3{
+    font-family: "Bebas Neue";
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    letter-spacing: 1.2px;
+    color: #272727;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
 @media (max-width: 1024px){
     .account-buttons{
         flex-wrap: wrap;

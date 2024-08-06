@@ -166,8 +166,12 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.save-event-button').forEach(button => {
         button.addEventListener('click', function(event) {
             event.preventDefault();
-            const eventId = this.dataset.eventId;
-            fetch('/account', {
+            const eventId = this.closest('form').querySelector('input[name="event_id"]').value;
+            
+            // Log eventId to verify it's being correctly fetched
+            console.log('Event ID:', eventId);
+            
+            fetch('/save-event', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -182,10 +186,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     alert(data.message);
                 }
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
         });
     });
 });
+
+
 
 
 //Deleting event logic
