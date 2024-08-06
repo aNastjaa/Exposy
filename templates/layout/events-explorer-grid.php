@@ -1,4 +1,4 @@
-<div class="events-explorer-heading">
+<div class="events-explorer-heading" id="tab">
     <h3>Explore upcoming Events Beyond <?php echo htmlspecialchars($this->data['city'] ?? 'your city'); ?> : </h3>
  </div>
  <div class="events-explorer">

@@ -3,7 +3,7 @@
     <h2>See Something You Like? <br>
     Save It to Your Account and Stay in the Know!</h2>
  </div>
- <div class="events-suggestion-heading">
+ <div class="events-suggestion-heading" id="tab">
     <h3>What's happening in <?= htmlspecialchars($this->data['city'] ?? 'your city'); ?>:</h3>
 </div>
 <div class="event-scroller">
@@ -19,7 +19,7 @@
                     <p class="location"><?= htmlspecialchars($event['gallery']) ?></p>
                     <p class="event-date"><?= (new DateTime($event['date']))->format('F j, Y') ?></p>
                     <div class="buttons">
-                        <a href="event-details.html?event=<?= urlencode($event['title']) ?>" class="button read-more">Read More</a>
+                        <a href="/global-events/<?php echo htmlspecialchars($event['id']); ?>" class="button read-more">Read More</a>
                         <button class="button save-button" onclick="saveEvent('<?= addslashes($event['title']) ?>')">Save</button>
                     </div>
                 </div>
