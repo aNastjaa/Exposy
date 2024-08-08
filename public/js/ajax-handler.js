@@ -1,3 +1,57 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('file-input');
+    const photoPreview = document.getElementById('photo-preview');
+    const responseMessageDiv = document.getElementById('response-message');
+    
+    fileInput.addEventListener('change', async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            // Preview the selected image
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                photoPreview.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+
+            // Upload the file asynchronously
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('/upload-photo', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    // Update the photo URL on successful upload
+                    photoPreview.src = result.photoUrl;
+                    responseMessageDiv.querySelector('.response-text').textContent = 'Photo uploaded successfully!';
+                    responseMessageDiv.className = 'response-message success';
+                    responseMessageDiv.style.display = 'block';
+                } else {
+                    console.log('Server response:', result);
+                    responseMessageDiv.querySelector('.response-text').textContent = result.message || 'Failed to upload photo.';
+                    responseMessageDiv.className = 'response-message error';
+                    responseMessageDiv.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error during file upload:', error);
+                responseMessageDiv.querySelector('.response-text').textContent = 'An error occurred during file upload.';
+                responseMessageDiv.className = 'response-message error';
+                responseMessageDiv.style.display = 'block';
+            }
+        }
+    });
+});
+
+
+
 // Function to handle AJAX form submission
 async function handleFormSubmission(form, responseMessageDiv) {
     const responseText = responseMessageDiv.querySelector('.response-text');

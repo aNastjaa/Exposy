@@ -20,7 +20,9 @@ abstract class Util
         $uploadsPath = '/uploads/';
         
         if ($photo && is_file($_SERVER['DOCUMENT_ROOT'] . $uploadsPath . $photo)) {
-            return $uploadsPath . $photo;
+            // Ensure no double slashes
+            $photoUrl = rtrim($uploadsPath, '/') . '/' . ltrim($photo, '/');
+            return $photoUrl;
         }
   
         return $defaultPhoto;

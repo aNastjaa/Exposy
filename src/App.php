@@ -37,6 +37,12 @@ final class App
                 $controller->profile(); 
                 break;
 
+                case 'upload-photo':
+                    $this->auth();
+                    $controller = new UserController();
+                    $controller->uploadPhoto();
+                    break;   
+
             case 'account/edit': 
                 $this->auth();
                 $controller = new UserAccountController();

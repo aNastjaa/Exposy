@@ -53,12 +53,13 @@
                 <ul class="error-list"></ul>
             </div>
         </div>
-        <!-- User Photo Section -->
         <div class="photo-form-row">
             <div class="photo-input-section">
                 <div class="user-photo-container">
-                <img src="<?php echo htmlspecialchars(\Crmlva\Exposy\App::getUserPhotoUrl($this->data['photo'] ?? null), ENT_QUOTES); ?>" alt="<?php echo htmlspecialchars($this->data['alt_text'] ?? 'User photo', ENT_QUOTES); ?>" 
-                        alt="<?php echo htmlspecialchars($this->data['alt_text'] ?? 'User photo', ENT_QUOTES); ?>" 
+                    <!-- Image preview element -->
+                    <img id="photo-preview" 
+                        src="<?php echo htmlspecialchars(\Crmlva\Exposy\Util::getUserPhotoUrl($this->data['photo'] ?? null), ENT_QUOTES); ?>" 
+                        alt="<?php echo ($this->data['photo']) ? htmlspecialchars($this->data['alt_text'] ?? '', ENT_QUOTES) : ''; ?>" 
                         class="thumbnail-photo">
                 </div>
                 <label for="file-input" class="file-input-label">
@@ -66,12 +67,13 @@
                     <input type="file" id="file-input" name="file" accept="image/*" class="file-input">
                 </label>
             </div>
+    
             <div class="input-section">
-                <label for="alt_text">Alternative text</label>
-                <input type="text" id="alt_text" name="alt_text" placeholder="Enter alternative text"
-                    value="<?php echo htmlspecialchars($this->data['alt_text'] ?? '', ENT_QUOTES); ?>">
-                <?php $this->renderInputError('alt_text'); ?>
-                <ul class="error-list"></ul>
+                    <label for="alt_text">Alternative text</label>
+                    <input type="text" id="alt_text" name="alt_text" placeholder="Enter alternative text"
+                        value="<?php echo htmlspecialchars($this->data['alt_text'] ?? '', ENT_QUOTES); ?>">
+                    <?php $this->renderInputError('alt_text'); ?>
+                    <ul class="error-list"></ul>
             </div>
         </div>
 
