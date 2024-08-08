@@ -306,8 +306,11 @@ h2{
     color: #272727;
     margin: 1rem 0;
     font-weight: lighter;
+    text-align: left;
 }
-
+.description p{
+    padding: 0;
+}
 .event-contact-info {
     margin-top: 1rem;
 }
@@ -328,6 +331,7 @@ h2{
     color: #272727;
     padding: 0.5rem 0;
     font-weight: lighter;
+    text-align: left;
 }
 
 .save-event-button {

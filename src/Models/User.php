@@ -19,6 +19,24 @@ class User extends Model
         $this->database = \Crmlva\Exposy\Database::getInstance();
     }
 
+    public function find(int $id): ?User
+    {
+        $query = "SELECT * FROM users WHERE id = :id";
+        $result = $this->fetchOne($query, ['id' => $id]);
+
+        if ($result) {
+            $user = new self();
+            $user->id = $result['id'];
+            $user->username = $result['username'];
+            $user->email = $result['email'];
+            $user->password = $result['password'];
+            $user->created_at = $result['created_at'];
+            return $user;
+        }
+
+        return null;
+    }
+
     public function getByEmail(string $email): ?array
     {
         $query = "SELECT * FROM users WHERE email = :email";
@@ -93,5 +111,6 @@ class User extends Model
         $query = "DELETE FROM users WHERE id = :id";
         return $this->execute($query, [':id' => $userId]);
     }
+
 
 }
