@@ -6,30 +6,30 @@
     <div class="events-cards-container">
         <?php if (!empty($this->data['savedEvents'])): ?>
             <?php foreach ($this->data['savedEvents'] as $event): ?>
-                <div class="event-cart-big" id="event-<?= htmlspecialchars($event['id']) ?>">
+                <div class="event-cart-big" id="event-<?= nl2br($event['id']) ?>">
                     <div class="event-img"> 
-                        <img src="<?= htmlspecialchars($event['img']) ?>" alt="<?= htmlspecialchars($event['title']) ?>">
+                        <img src="<?= ($event['img']) ?>" alt="<?= nl2br($event['title']) ?>">
                     </div>
                     <div class="event-info">
-                        <h4 class="title"><?= htmlspecialchars($event['title']) ?></h4>
+                        <h4 class="title"><?= nl2br($event['title']) ?></h4>
                         <h5 class="gallery-date-time">
-                            <?= htmlspecialchars($event['gallery']) ?> 
+                            <?= nl2br($event['gallery']) ?> 
                         </h5> 
                         <h5 class="gallery-date-time">
-                            <?= htmlspecialchars($event['location'])?> 
+                            <?= nl2br($event['location'])?> 
                         </h5>
                         <h5 class="gallery-date-time">
-                            <?= htmlspecialchars($event['date']) ?> | 
-                            <?= htmlspecialchars($event['time']) ?>
+                            <?= nl2br($event['date']) ?> | 
+                            <?= nl2br($event['time']) ?>
                         </h5>
-                        <p class="description"><?= htmlspecialchars($event['description']) ?></p>
+                        <p class="description"><?= nl2br($event['description']) ?></p>
                         <div class="info-button">
                             <div class="event-contact-info">
-                                <p class="contact-info"><?= htmlspecialchars($event['contact_information']) ?></p>
+                                <p class="contact-info"><?= nl2br($event['contact_information']) ?></p>
                             </div>
                             <div class="delete-button">
                                 <form method="POST" action="/delete-saved-event" style="display:inline;">
-                                    <input type="hidden" name="event_id" value="<?= htmlspecialchars($event['id']) ?>">
+                                    <input type="hidden" name="event_id" value="<?= nl2br($event['id']) ?>">
                                     <button type="submit" class="button delete-event-button">
                                         <img src="/assets/icons/svg/trash.svg" alt="Delete">
                                     </button>

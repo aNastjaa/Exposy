@@ -17,22 +17,22 @@
         <?php if (!empty($this->data['localEvents'])): ?>
             <?php foreach ($this->data['localEvents'] as $event): ?>
                 <div class="event-card">
-                    <img src="<?= htmlspecialchars($event['img']) ?>" alt="<?= htmlspecialchars($event['title']) ?>">
-                    <h4><?= htmlspecialchars($event['title']) ?></h4>
-                    <p class="location"><?= htmlspecialchars($event['gallery']) ?></p>
+                    <img src="<?= nl2br($event['img']) ?>" alt="<?= nl2br($event['title']) ?>">
+                    <h4><?= nl2br($event['title']) ?></h4>
+                    <p class="location"><?= nl2br($event['gallery']) ?></p>
                     <p class="event-date"><?= (new DateTime($event['date']))->format('F j, Y') ?></p>
                     <div class="buttons">
                         <!-- Link to the corresponding global event using an anchor link -->
-                        <a href="#event-<?= htmlspecialchars($event['id']) ?>" class="button read-more">Read More</a>
+                        <a href="#event-<?= nl2br($event['id']) ?>" class="button read-more">Read More</a>
                         <form method="POST" action="/save-event">
-                            <input type="hidden" name="event_id" value="<?= htmlspecialchars($event['id']) ?>">
+                            <input type="hidden" name="event_id" value="<?= nl2br($event['id']) ?>">
                                 <button type="submit" class="button save-event-button">Save</button>
                         </form>
                     </div>
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
-            <p>Looks like <?= htmlspecialchars($this->data['city']); ?> is taking a little nap! 💤 <br> Check back soon or explore events in nearby cities to keep the fun rolling!</p>
+            <p>Looks like <?= nl2br($this->data['city']); ?> is taking a little nap! 💤 <br> Check back soon or explore events in nearby cities to keep the fun rolling!</p>
         <?php endif; ?>
     </div>
 

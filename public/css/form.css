@@ -217,3 +217,30 @@ textarea {
     background-color: #272727;
     color: #f9f9f9; /* Darker shade on hover */
 }
+
+@media (max-width: 768px){
+    .categories-and-form{
+        width: 100%;
+    }
+
+    .form-row{
+        flex-direction: column;
+    }
+
+    .input-section{
+        width: 100%;
+    }
+
+    .radio-section label {
+        margin-right: 2rem;
+    }
+
+    .photo-form-row{
+        align-items: flex-start
+    }
+
+    .file-input-label{
+        padding: 0.8rem 4rem;
+        margin-top: 0;
+    }
+}
