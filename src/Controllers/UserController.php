@@ -26,6 +26,9 @@ class UserController extends Controller
     $profileModel = new UserProfile();
     $profile = $profileModel->getProfileByUserId($userId);
 
+    $eventModel = new Event();
+    $savedEvents = $eventModel->getSavedEventsByUserId($userId);
+
     if ($this->isRequestMethod(self::REQUEST_METHOD_POST)) {
         $this->handleProfileUpdate($userId);
     } else {
@@ -39,6 +42,7 @@ class UserController extends Controller
             'country' => $profile['country'] ?? '',
             'photo' => $profile['photo'] ?? 'assets/icons/User photo.svg',
             'alt_text' => $profile['alt_text'] ?? 'User photo',
+            'savedEvents' => $savedEvents,
             'title' => 'Account',
             'errors' => $_SESSION['errors'] ?? [],
             'success' => $_SESSION['success'] ?? ''

@@ -197,10 +197,13 @@ p.edit-category.gray {
 
 }
 
-.event-cards-container p{
-    font-size: clamp(1.5rem, 2.5vw, 2rem);
+.events-cards-container p{
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
     letter-spacing: 1.2px;
     color: #272727;
+    font-weight: lighter;
+    padding: 1rem;
+    text-align: center;
 }
 
 .delete-event-button{

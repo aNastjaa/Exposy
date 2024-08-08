@@ -1,5 +1,4 @@
 <?php
-
 namespace Crmlva\Exposy\Controllers;
 
 use Crmlva\Exposy\Controller;
@@ -11,6 +10,7 @@ use Crmlva\Exposy\Enums\CategoryEnum;
 
 class EventsController extends Controller
 {
+    // Display events with optional filters
     public function showEvents(): void
     {
         $userId = Session::get('user_id');
@@ -36,13 +36,8 @@ class EventsController extends Controller
 
         $globalEvents = $eventModel->getAllEvents($selectedCity, $selectedCategory);
 
-        foreach ($localEvents as &$event) {
-            $event['date'] = $this->formatDate($event['date']);
-        }
-
-        foreach ($globalEvents as &$event) {
-            $event['date'] = $this->formatDate($event['date']);
-        }
+        $localEvents = $this->formatEventsDate($localEvents);
+        $globalEvents = $this->formatEventsDate($globalEvents);
 
         $this->renderView('events', [
             'title' => 'Events',
@@ -54,13 +49,22 @@ class EventsController extends Controller
         ]);
     }
 
+    // Helper function to format date for events
+    private function formatEventsDate(array $events): array
+    {
+        foreach ($events as &$event) {
+            $event['date'] = $this->formatDate($event['date']);
+        }
+        return $events;
+    }
+
+    // Format date string
     private function formatDate(string $date): string
     {
         $dateTime = new \DateTime($date);
         return $dateTime->format('F j, Y');
     }
 
-    // Assuming this is in your PHP code for the /account endpoint
     public function saveEvent(): void
     {
         $userId = Session::get('user_id');
@@ -71,10 +75,6 @@ class EventsController extends Controller
     
         if ($this->isRequestMethod(self::REQUEST_METHOD_POST)) {
             $data = json_decode(file_get_contents('php://input'), true);
-            
-            // Log received data to debug
-            error_log('Received Data: ' . print_r($data, true));
-    
             $eventId = $data['event_id'] ?? null;
     
             if (!$eventId) {
@@ -82,21 +82,39 @@ class EventsController extends Controller
                 return;
             }
     
-            // Assume saveEventForUser is a method that processes the event ID
             $eventModel = new Event();
-            $result = $eventModel->saveEventForUser($userId, $eventId);
+            $response = $eventModel->saveEventForUser($userId, $eventId);
     
-            if ($result) {
-                $this->sendJsonResponse(true, ['message' => 'Event saved successfully!'], 200);
-            } else {
-                $this->sendJsonResponse(false, ['message' => 'Failed to save event'], 500);
-            }
+            $this->sendJsonResponse($response['success'], ['message' => $response['message']], $response['success'] ? 200 : 500);
         } else {
             $this->sendJsonResponse(false, ['message' => 'Invalid request method'], 405);
         }
     }
-    
 
+    // Delete a saved event
+    public function deleteSavedEvent(): void
+    {
+        if (!Session::has('user_id')) {
+            $this->sendJsonResponse(false, ['message' => 'User not authenticated'], 403);
+            return;
+        }
+
+        $eventId = filter_input(INPUT_POST, 'event_id', FILTER_SANITIZE_NUMBER_INT);
+        $userId = Session::get('user_id');
+
+        if ($eventId && $userId) {
+            $eventModel = new Event();
+            $success = $eventModel->deleteSavedEvent($userId, $eventId);
+
+            $this->sendJsonResponse($success, [
+                'message' => $success ? 'Event deleted successfully' : 'Error deleting event'
+            ], $success ? 200 : 500);
+        } else {
+            $this->sendJsonResponse(false, ['message' => 'Invalid request'], 422);
+        }
+    }
+
+    // Helper function to send JSON response
     private function sendJsonResponse(bool $success, array $data, int $statusCode): void
     {
         header('Content-Type: application/json');
@@ -105,34 +123,26 @@ class EventsController extends Controller
         exit();
     }
 
-    public function deleteSavedEvent(): void
-    {
-        // Ensure user is authenticated
-        if (!Session::has('user_id')) {
-            header('Content-Type: application/json');
-            echo json_encode(['success' => false, 'message' => 'User not authenticated']);
-            exit();
-        }
-
-        // Get event ID from POST request
-        $eventId = filter_input(INPUT_POST, 'event_id', FILTER_SANITIZE_NUMBER_INT);
-        $userId = Session::get('user_id');
-
-        if ($eventId && $userId) {
-            $eventModel = new Event();
-            $success = $eventModel->deleteSavedEvent($userId, $eventId);
-
-            header('Content-Type: application/json');
-            if ($success) {
-                echo json_encode(['success' => true, 'message' => 'Event deleted successfully']);
-            } else {
-                echo json_encode(['success' => false, 'message' => 'Error deleting event']);
-            }
-        } else {
-            header('Content-Type: application/json');
-            echo json_encode(['success' => false, 'message' => 'Invalid request']);
-        }
-
-        exit();
+    public function showUserSavedEvents(): void
+{
+    $userId = Session::get('user_id');
+    if (!$userId) {
+        $this->redirect('/login');
+        return;
     }
+    
+    $eventModel = new Event();
+    $savedEvents = $eventModel->getSavedEventsByUserId($userId);
+
+    foreach ($savedEvents as &$event) {
+        $event['date'] = $this->formatDate($event['date']);
+    }
+
+    $this->renderView('saved-events', [
+        'title' => 'Saved Events',
+        'savedEvents' => $savedEvents
+    ]);
+}
+
+
 }

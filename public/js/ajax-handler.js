@@ -237,6 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.success) {
                     alert(data.message);
+                    
                 } else {
                     alert(data.message);
                 }
@@ -247,6 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
 
 
 

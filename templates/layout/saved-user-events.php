@@ -45,7 +45,3 @@
     </div>
 </div>
 </div>
-
-<div id="response-message" class="response-message" style="display: none;">
-    <p class="response-text"></p>
-</div>

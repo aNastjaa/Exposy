@@ -396,6 +396,19 @@ h2{
     input, select{
         width: 100%;
     }
+
+    .event-card .buttons{
+        padding-top: 0.8rem;
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .event-card img{
+        height: 280px;
+    }
 }
 
 @media (max-width: 768px){
@@ -441,6 +454,10 @@ h2{
 
     .global-events-cards-container{
         padding: 0;
+    }
+
+    .event-card{
+        height: 520px;
     }
 }
 
