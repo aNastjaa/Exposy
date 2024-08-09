@@ -18,7 +18,11 @@
         $this->embedScripts([
             '/js/burgerMenu.js',
             '/js/templates.js',
-            '/js/ajax-handler.js',
+            '/js/AJAX/ajax-general.js',
+            '/js/AJAX/ajax-add-photo.js',
+            '/js/AJAX/ajax-edit-profile-dsts.js',
+            '/js/AJAX/ajax-password-update.js',
+            '/js/AJAX/ajax-handler.js',
             '/js/popup.js',
             '/js/password.js',
             '/js/realTimeValidation.js'

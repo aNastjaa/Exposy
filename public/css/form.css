@@ -166,12 +166,14 @@ textarea {
     justify-content: center;
     align-items: center;
     margin-bottom: 2rem;
+    gap: 1rem;
 }
 .photo-input-section{
     display: flex;
     align-items: center;
     width: 50%;
     justify-content: space-around;
+    flex-direction: column;
 }
 
 .thumbnail-photo{
@@ -189,7 +191,7 @@ textarea {
 .thumbnail-photo img{
     width: 100%;
     height: auto;
-    object-fit: cover;
+    object-fit: fill;
 }
 /* File Input Label */
 .file-input-label {

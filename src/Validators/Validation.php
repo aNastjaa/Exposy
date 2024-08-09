@@ -4,7 +4,7 @@ namespace Crmlva\Exposy\Validators;
 
 use Crmlva\Exposy\Enums\GenderEnum;
 use Crmlva\Exposy\Enums\CountryEnum;
-use Crmlva\Exposy\Models\User; // Assuming a User model for database interaction
+use Crmlva\Exposy\Models\User;
 
 class Validation
 {
@@ -156,7 +156,7 @@ class Validation
     }
 
     /**
-     * Validates gender against available options.
+     * Validates gender against available options using GenderEnum.
      *
      * @param string|null $gender
      * @return bool
@@ -165,7 +165,7 @@ class Validation
     {
         if (is_null($gender) || trim($gender) === '') {
             $this->errors['gender'][] = 'Please select a gender.';
-        } elseif (!in_array($gender, GenderEnum::getAll())) {
+        } elseif (!in_array($gender, GenderEnum::getAll(), true)) {
             $this->errors['gender'][] = 'Please select a valid gender.';
         }
 
@@ -173,7 +173,7 @@ class Validation
     }
 
     /**
-     * Validates country against available options.
+     * Validates country against available options using CountryEnum.
      *
      * @param string|null $country
      * @return bool
@@ -182,7 +182,7 @@ class Validation
     {
         if (is_null($country) || $country === 'none') {
             $this->errors['country'][] = 'Please select a country.';
-        } elseif (!in_array($country, CountryEnum::getAll())) {
+        } elseif (!in_array($country, CountryEnum::getAll(), true)) {
             $this->errors['country'][] = 'Please select a valid country.';
         }
 
@@ -233,3 +233,4 @@ class Validation
         $this->errors[$field][] = $message;
     }
 }
+

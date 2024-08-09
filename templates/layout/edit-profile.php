@@ -4,16 +4,14 @@
         <div class="input-section">
             <label for="username">New username:</label>
             <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($this->data['username'] ?? ''); ?>" placeholder="Enter your new username">
-            <?php $this->renderInputError('username'); ?>
-            <ul class="error-list"></ul>
+            <ul class="error-list" id="username-errors"></ul>
         </div>
     </div>
     <div class="form-row">  
         <div class="input-section">
             <label for="email">New Email:</label>
             <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($this->data['email'] ?? ''); ?>" placeholder="Enter your new email">
-            <?php $this->renderInputError('email'); ?>
-            <ul class="error-list"></ul>
+            <ul class="error-list" id="email-errors"></ul>
         </div>
     </div>
     <div class="form-row submit-button full-width">
@@ -25,13 +23,14 @@
     </div>
 </form>
 
+
 <form class="profile-form" id="edit-password" method="POST" action="/account/edit/password">
     <div class="form-row">    
         <div class="input-section full-width">
             <label for="old-password">Old password</label>
             <input type="password" name="password" placeholder="Enter your old password" id="old-password">
             <?php $this->renderInputError('password'); ?>
-            <ul class="error-list"></ul>      
+            <ul class="error-list" id="current_password-errors"></ul>      
         </div>
     </div>
     <div class="form-row">
@@ -50,7 +49,7 @@
                     <small>- No spaces allowed</small>
                 </div>
                 <?php $this->renderInputError('new-password'); ?>
-                <ul class="error-list"></ul>
+                <ul class="error-list" id="new_password-errors"></ul>
             </div>
         </div>
     </div>

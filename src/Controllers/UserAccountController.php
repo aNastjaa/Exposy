@@ -98,9 +98,8 @@ class UserAccountController extends Controller
 
         if ($this->isRequestMethod(self::REQUEST_METHOD_POST)) {
             $userModel = new User();
-            $db = Database::getInstance(); // Get the singleton instance
+            $db = Database::getInstance(); 
 
-            // Start a transaction to ensure data integrity
             $db->beginTransaction();
 
             try {
