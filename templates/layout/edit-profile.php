@@ -30,7 +30,7 @@
     <div class="form-row">    
         <div class="input-section full-width">
             <label for="old-password">Old password</label>
-            <input type="password" name="password" placeholder="Enter your old password" id="old-password">
+            <input type="password" name="password" placeholder="Enter your current password" id="old-password">
             <?php $this->renderInputError('password'); ?>
             <ul class="error-list" id="current_password-errors"></ul>      
         </div>

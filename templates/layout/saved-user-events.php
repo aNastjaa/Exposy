@@ -40,7 +40,7 @@
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
-            <p>No saved events yet. Save some events to see them here!</p>
+            <p>No saved events yet 👀 <br> Save some events to see them here!</p>
         <?php endif; ?>
     </div>
 </div>

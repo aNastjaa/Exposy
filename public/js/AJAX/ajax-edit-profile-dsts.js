@@ -1,4 +1,5 @@
-async function handleFormSubmission(form, responseMessageDiv) {
+// Function to handle form submission
+async function handleProfileFormSubmission(form, responseMessageDiv) {
     const responseText = responseMessageDiv.querySelector('.response-text');
     const formData = new FormData(form);
 
@@ -12,24 +13,22 @@ async function handleFormSubmission(form, responseMessageDiv) {
         });
 
         const result = await response.json();
-        console.log('Server response:', result); // Debugging output
+        console.log('Server response for profile:', result); // Debugging output
 
         // Clear previous error messages
         document.querySelectorAll('.error-list').forEach(el => el.innerHTML = '');
-        document.querySelectorAll('.input-section input').forEach(el => el.style.borderColor = '');
 
         if (response.ok && result.success) {
-            responseText.textContent = result.message || 'Action completed successfully!';
+            responseText.textContent = result.message || 'Profile updated successfully!';
             responseMessageDiv.className = 'response-message success';
             responseMessageDiv.style.display = 'block';
         } else {
-            // Handle errors
+            // Handle errors specifically for username and email
             if (!result.success) {
                 for (const [field, messages] of Object.entries(result)) {
                     // Skip the 'success' field
                     if (field === 'success') continue;
 
-                    // Select error list by ID
                     const errorList = document.getElementById(`${field}-errors`);
                     if (errorList) {
                         errorList.innerHTML = messages.map(msg => `<li class="error">${msg}</li>`).join('');
@@ -37,7 +36,6 @@ async function handleFormSubmission(form, responseMessageDiv) {
                         console.warn(`Error list for field "${field}" not found.`);
                     }
 
-                    // Highlight the field with errors
                     const fieldElement = document.querySelector(`[name="${field}"]`);
                     if (fieldElement) {
                         fieldElement.style.borderColor = 'red';
@@ -45,13 +43,13 @@ async function handleFormSubmission(form, responseMessageDiv) {
                 }
             }
 
-            responseText.textContent = 'Please fill in all the fields correctly and try again.';
+            responseText.textContent = 'Please correct the errors and try again.';
             responseMessageDiv.className = 'response-message error';
             responseMessageDiv.style.display = 'block';
         }
 
     } catch (error) {
-        console.error('Error during form submission:', error);
+        console.error('Error during profile form submission:', error);
         responseText.textContent = 'An error occurred while processing the request.';
         responseMessageDiv.className = 'response-message error';
         responseMessageDiv.style.display = 'block';
@@ -65,6 +63,6 @@ const profileResponseMessageDiv = document.getElementById('changes-response-mess
 if (profileForm) {
     profileForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        handleFormSubmission(profileForm, profileResponseMessageDiv);
+        handleProfileFormSubmission(profileForm, profileResponseMessageDiv);
     });
 }
