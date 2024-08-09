@@ -10,6 +10,7 @@ use Crmlva\Exposy\Validators\Validation;
 use Crmlva\Exposy\Uploader;
 use Crmlva\Exposy\Enums\GenderEnum;
 use Crmlva\Exposy\Enums\CountryEnum;
+use Crmlva\Exposy\Models\Event;
 
 class UserController extends Controller
 {
@@ -27,6 +28,11 @@ class UserController extends Controller
         $profileModel = new UserProfile();
         $profile = $profileModel->getProfileByUserId($userId);
 
+
+        $eventModel = new Event();
+        $savedEvents = $eventModel->getSavedEventsByUserId($userId);
+
+
         if ($this->isRequestMethod(self::REQUEST_METHOD_POST)) {
             $this->handleProfileUpdate($userId);
         } else {
@@ -40,6 +46,7 @@ class UserController extends Controller
                 'country' => $profile['country'] ?? '',
                 'photo' => $profile['photo'] ?? 'assets/icons/User photo.svg',
                 'alt_text' => $profile['alt_text'] ?? 'User photo',
+                'savedEvents' => $savedEvents,
                 'title' => 'Account',
                 'errors' => $_SESSION['errors'] ?? [],
                 'success' => $_SESSION['success'] ?? ''
@@ -49,34 +56,29 @@ class UserController extends Controller
         }
     }
 
-    public function uploadPhoto(): void
-    {
-        $userId = Session::get('user_id');
-        if (!$userId) {
-            $this->sendJsonResponse(false, ['message' => 'User not authenticated.'], 401);
-            return;
-        }
+    // Handle file uploads separately via AJAX
+public function uploadPhoto(): void
+{
+    $uploader = new Uploader();
+    $uploadedFiles = $uploader->handleFileUploads('user_photos/');
 
-        $uploader = new Uploader();
-        $uploadedFiles = $uploader->handleFileUploads('user_photos/');
+    if (!empty($uploadedFiles)) {
+        // Assuming `handleFileUploads` returns an array with 'path' keys
+        $photoUrl = $uploadedFiles[0]['path'];
 
-        if (!empty($uploadedFiles)) {
-            $photoUrl = $uploadedFiles[0]['path'];
-            $fullPhotoUrl = \Crmlva\Exposy\Util::getUserPhotoUrl($photoUrl);
+        // Ensure photo URL is formatted correctly
+        $fullPhotoUrl = \Crmlva\Exposy\Util::getUserPhotoUrl($photoUrl);
 
-            $profileModel = new UserProfile();
-            $profileModel->updatePhoto($userId, $photoUrl);
-
-            $this->sendJsonResponse(true, [
-                'message' => 'Photo uploaded successfully!',
-                'photoUrl' => $fullPhotoUrl
-            ], 200);
-        } else {
-            $this->sendJsonResponse(false, [
-                'errors' => ['Failed to upload photo. Please try again.']
-            ], 422);
-        }
+        $this->sendJsonResponse(true, [
+            'message' => 'Photo uploaded successfully!',
+            'photoUrl' => $fullPhotoUrl
+        ], 200);
+    } else {
+        $this->sendJsonResponse(false, [
+            'errors' => 'Failed to upload photo. Please try again.'
+        ], 422);
     }
+}
 
     public function handleProfileUpdate(int $userId): void
     {

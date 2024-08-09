@@ -29,13 +29,6 @@
         ]);
     ?>
 
-    <style>
-        .underline {
-            text-decoration: underline;
-            font-weight: bold;
-        }
-    </style>
-
 </head>
 <body>
     <header>

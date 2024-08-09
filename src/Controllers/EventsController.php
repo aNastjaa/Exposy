@@ -72,19 +72,19 @@ class EventsController extends Controller
             $this->sendJsonResponse(false, ['message' => 'User not authenticated'], 403);
             return;
         }
-    
+
         if ($this->isRequestMethod(self::REQUEST_METHOD_POST)) {
-            $data = json_decode(file_get_contents('php://input'), true);
-            $eventId = $data['event_id'] ?? null;
-    
+            
+            $eventId = filter_input(INPUT_POST, 'event_id', FILTER_SANITIZE_NUMBER_INT);
+
             if (!$eventId) {
                 $this->sendJsonResponse(false, ['message' => 'Event ID is missing!'], 422);
                 return;
             }
-    
+
             $eventModel = new Event();
             $response = $eventModel->saveEventForUser($userId, $eventId);
-    
+
             $this->sendJsonResponse($response['success'], ['message' => $response['message']], $response['success'] ? 200 : 500);
         } else {
             $this->sendJsonResponse(false, ['message' => 'Invalid request method'], 405);

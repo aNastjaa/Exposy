@@ -113,36 +113,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // AJAX for event saving process
-    document.querySelectorAll('.save-event-button').forEach(button => {
-        button.addEventListener('click', function(event) {
-            event.preventDefault();
-            const eventId = this.closest('form').querySelector('input[name="event_id"]').value;
+    // // AJAX for event saving process
+    // document.querySelectorAll('.save-event-button').forEach(button => {
+    //     button.addEventListener('click', function(event) {
+    //         event.preventDefault();
+    //         const eventId = this.closest('form').querySelector('input[name="event_id"]').value;
             
-            console.log('Event ID:', eventId);
+    //         console.log('Event ID:', eventId);
             
-            fetch('/save-event', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: JSON.stringify({ event_id: eventId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(data.message);
+    //         fetch('/save-event', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'X-Requested-With': 'XMLHttpRequest'
+    //             },
+    //             body: JSON.stringify({ event_id: eventId })
+    //         })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             if (data.success) {
+    //                 alert(data.message);
                     
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
-    });
+    //             } else {
+    //                 alert(data.message);
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.error('Error:', error);
+    //         });
+    //     });
+    // });
 
     // Deleting event logic
     document.querySelectorAll('.delete-event-button').forEach(button => {
@@ -178,3 +178,48 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+
+//SAVE EVENT 
+document.addEventListener('DOMContentLoaded', () => {
+    // Handle saving events via AJAX
+    document.querySelectorAll('.save-event-button').forEach(button => {
+        button.addEventListener('click', async (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            const form = button.closest('form');
+            const formData = new FormData(form);
+            const url = form.action;
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                // Check if the response is JSON
+                const contentType = response.headers.get('Content-Type');
+                if (contentType && contentType.includes('application/json')) {
+                    const result = await response.json();
+
+                    if (result.success) {
+                        alert('Event saved successfully!');
+                    } else {
+                        alert(result.message || 'Failed to save event.');
+                    }
+                } else {
+                    alert('Unexpected response format.');
+                }
+            } catch (error) {
+                console.error('Unexpected error:', error);
+                alert('Unexpected error occurred. Please try again.');
+            }
+        });
+    });
+});
+
+

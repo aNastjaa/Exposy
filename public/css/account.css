@@ -213,6 +213,12 @@ p.edit-category.gray {
 }
 .delete-event-button img{
     width: 30px;
+    cursor: pointer;
+    transition: all 0.01s ease-in-out;
+}
+
+.delete-event-button img:hover{
+    scale: 1.2;
 }
 
 /* Modal styles */
