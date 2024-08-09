@@ -1,5 +1,5 @@
 <div class="saved-events-wrapper">
-    <div class="saved-events" id="rounded-tab">
+    <div class="saved-events" id="rounded-tab-right">
         <h3>Saved Events</h3>
     </div>
     <div class="saved-events-container">
