@@ -91,7 +91,7 @@ h2{
     flex: 1; 
     text-align: center;
     margin: 0; 
-    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
     color: #272727;
     font-weight: lighter;
 }
@@ -112,7 +112,7 @@ h2{
 
 .event-card img {
     width: 300px;
-    height: 300px;
+    height: 250px;
     border-radius: 30px;
     object-fit: cover;
 }
@@ -255,6 +255,15 @@ h2{
 
 .global-events-cards-container {
     padding: 0rem 1rem;
+}
+
+.global-events-cards-container p{
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+    letter-spacing: 1.2px;
+    color: #272727;
+    font-weight: lighter;
+    padding: 1rem;
+    text-align: center;
 }
 
 .event-cart-big {
@@ -406,6 +415,8 @@ h2{
     color: black;
     text-decoration: none;
 }
+
+/* COMMENTS */
 
 
 
