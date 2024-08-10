@@ -8,35 +8,46 @@ class Event extends Model
 {
     // Fetch all events with optional filters
     public function getAllEvents(?string $selectedCity = null, ?string $selectedCategory = null): array
-    {
-        $query = "SELECT * FROM events WHERE 1=1";
-        $params = [];
-        
-        if ($selectedCity) {
-            $query .= " AND city = :city";
-            $params['city'] = $selectedCity;
-        }
-
-        if ($selectedCategory) {
-            $query .= " AND category = :category";
-            $params['category'] = $selectedCategory;
-        }
-
-        return $this->fetchAll($query, $params);
+{
+    $query = "SELECT * FROM events WHERE 1=1";
+    $params = [];
+    
+    if ($selectedCity) {
+        $query .= " AND city = :city";
+        $params['city'] = $selectedCity;
     }
+
+    if ($selectedCategory) {
+        $query .= " AND category = :category";
+        $params['category'] = $selectedCategory;
+    }
+
+    return $this->fetchAll($query, $params);
+}
+
+protected function fetchAll(string $query, array $params = []): array
+{
+    $stmt = $this->database->prepare($query);
+    $stmt->execute($params);
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
 
     // Fetch events by city
     public function getEventsByCity(string $city): array
     {
         $query = "SELECT * FROM events WHERE city = :city";
-        return $this->fetchAll($query, ['city' => $city]);
+        $stmt = $this->database->prepare($query);
+        $stmt->execute(['city' => $city]);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: []; // Return an empty array if no events are found
     }
 
     // Fetch a single event by its ID
-    public function getEventById(int $id): ?array
+    public function getEventById(int $eventId): ?array
     {
         $query = "SELECT * FROM events WHERE id = :id";
-        return $this->fetchOne($query, ['id' => $id]);
+        $stmt = $this->database->prepare($query);
+        $stmt->execute(['id' => $eventId]);
+        return $stmt->fetch(\PDO::FETCH_ASSOC) ?: null; 
     }
 
     // Save an event for a user
@@ -84,4 +95,14 @@ class Event extends Model
         $query = "DELETE FROM saved_events WHERE user_id = :user_id AND event_id = :event_id";
         return $this->execute($query, ['user_id' => $userId, 'event_id' => $eventId]);
     }
+
+    public function getCommentsByEventId(int $eventId): array
+{
+    $query = 'SELECT * FROM comments WHERE event_id = :event_id ORDER BY created_at DESC';
+    $stmt = $this->database->prepare($query);
+    $stmt->execute([':event_id' => $eventId]);
+
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: []; // Ensure it returns an empty array if no comments are found
+}
+
 }

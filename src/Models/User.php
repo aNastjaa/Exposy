@@ -112,5 +112,6 @@ class User extends Model
         return $this->execute($query, [':id' => $userId]);
     }
 
+    
 
 }

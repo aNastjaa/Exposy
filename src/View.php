@@ -42,7 +42,6 @@ class View
                 $this->includeIfExists($main_header_path);
                 $this->includeIfExists($user_profile_path);
                 $this ->includeIfExists($saved_user_events_path);
-                $this -> includeIfExists($user_created_events_path);
                 $this->includeIfExists($main_footer_path);
                 break;   
 

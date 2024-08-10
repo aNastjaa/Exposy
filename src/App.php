@@ -77,6 +77,11 @@ final class App
                 ]);
                 break;
 
+            case 'account/saved-events':
+                $controller = new EventsController();
+                $controller->showUserSavedEvents();
+                break;    
+
             case 'save-event': 
                 $this->auth();
                 $controller = new EventsController();
@@ -90,6 +95,24 @@ final class App
                 $controller = new EventsController();
                 $controller->deleteSavedEvent();
                 break;
+
+            case 'add-comment': 
+                    $this->auth();
+                    $controller = new EventsController();
+                    $controller->addComment();
+                    break;
+    
+            case 'update-comment': 
+                    $this->auth();
+                    $controller = new EventsController();
+                    $controller->updateComment();
+                    break;
+    
+            case 'delete-comment':
+                    $this->auth();
+                    $controller = new EventsController();
+                    $controller->deleteComment();
+                    break;
 
             case '':
             case null:
