@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function clearErrors() {
             document.querySelectorAll('.error-list').forEach(el => el.innerHTML = '');
-            document.getElementById('response-message').style.display = 'none';
+            document.getElementById('photo-response-message').style.display = 'none';
         }
 
         function showError(field, message) {
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function displayResponseMessage(message, type) {
-            const responseMessage = document.getElementById('response-message');
+            const responseMessage = document.getElementById('photo-response-message');
             responseMessage.style.display = 'block';
             responseMessage.querySelector('.response-text').textContent = message;
             responseMessage.className = `response-message ${type}`;

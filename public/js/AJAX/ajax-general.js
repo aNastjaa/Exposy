@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const generalForm = document.getElementById('edit-general');
+    const responseMessageDiv = document.getElementById('general-response-message');
 
     if (generalForm) {
         generalForm.addEventListener('submit', async (event) => {
@@ -18,13 +19,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 const result = await response.json();
+                console.log('Server response:', result); // Debugging output
 
-                if (!result.success) {
-                    handleErrors(result.errors);
-                }
+                // Clear previous errors and messages
+                clearErrors();
+                displayResponseMessage(result);
+
             } catch (error) {
                 console.error('Unexpected error:', error);
-                displayResponseMessage('Unexpected error occurred. Please try again.', 'error');
+                displayResponseMessage({ success: false, message: 'Unexpected error occurred. Please try again.' });
             }
         });
 
@@ -43,14 +46,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function clearErrors() {
             document.querySelectorAll('.error-list').forEach(el => el.innerHTML = '');
-            document.getElementById('response-message').style.display = 'none';
+            responseMessageDiv.style.display = 'none';
         }
 
-        function displayResponseMessage(message, type) {
-            const responseMessage = document.getElementById('response-message');
-            responseMessage.style.display = 'block';
-            responseMessage.querySelector('.response-text').textContent = message;
-            responseMessage.className = `response-message ${type}`;
+        function displayResponseMessage(result) {
+            const responseText = responseMessageDiv.querySelector('.response-text');
+
+            if (result.success) {
+                responseText.textContent = result.message || 'Profile updated successfully!';
+                responseMessageDiv.className = 'response-message success';
+                responseMessageDiv.style.display = 'block';
+            } else {
+                handleErrors(result.errors || {});
+                responseText.textContent = result.message || 'Please correct the errors and try again.';
+                responseMessageDiv.className = 'response-message error';
+                responseMessageDiv.style.display = 'block';
+            }
         }
     }
 });

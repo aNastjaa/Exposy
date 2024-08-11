@@ -57,7 +57,7 @@
             <button type="submit" id="submit-button">Submit</button>
         </div>
         <!-- Placeholder for response messages -->
-        <div id="response-message" class="response-message" style="display: none;">
+        <div id="general-response-message" class="response-message" style="display: none;">
             <p class="response-text"></p>
         </div>
     </form>
