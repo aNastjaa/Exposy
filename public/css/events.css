@@ -476,10 +476,12 @@ h2{
 .edit-button {
     border: none;
     background-color: #F7F7F7;
+    cursor: pointer;
 }
 .delete-button{
     border: none;
     background-color: #F7F7F7;
+    cursor: pointer;
 }
 
 .edit-delete{
@@ -488,6 +490,40 @@ h2{
     align-items: center;
     justify-content: space-between;
 }
+
+.message-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    text-align: center;
+    display: none; /* Initially hidden */
+}
+.message-container.success {
+    border-color: #28a745;
+    color: #28a745;
+}
+.message-container.error {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+.message-container .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
 /* MEDIA QUERY */
 
 @media (max-width: 1024px){

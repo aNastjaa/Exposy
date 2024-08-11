@@ -222,4 +222,116 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+//COMENTS
+document.addEventListener('DOMContentLoaded', () => {
+    // Function to display messages
+    function displayMessage(message, type) {
+        const messageContainer = document.getElementById('message-container');
+        const messageText = document.getElementById('message-text');
 
+        if (messageContainer && messageText) {
+            messageText.textContent = message;
+            messageContainer.style.display = 'block';
+            messageContainer.className = `message-container ${type}`;
+            
+            setTimeout(() => {
+                messageContainer.style.display = 'none';
+                if (type === 'success') {
+                    // Refresh the page after 5 seconds
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 5000);
+                }
+            }, 5000); // Show message for 5 seconds
+        }
+    }
+
+    // Handle Add Comment Form
+    const addCommentForm = document.getElementById('add-comment-form');
+    if (addCommentForm) {
+        addCommentForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(addCommentForm);
+            const url = addCommentForm.action;
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    displayMessage(result.message || 'Comment added successfully!', 'success');
+                } else {
+                    displayMessage(result.message || 'An error occurred while adding the comment.', 'error');
+                }
+
+            } catch (error) {
+                console.error('Unexpected error:', error);
+                displayMessage('Unexpected error occurred. Please try again.', 'error');
+            }
+        });
+    }
+
+    // Handle Edit and Delete forms
+    document.querySelectorAll('.edit-comment-form, .delete-comment-form').forEach(form => {
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(form);
+            const url = form.action;
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    displayMessage(result.message || 'Operation successful!', 'success');
+                    
+                    if (form.classList.contains('delete-comment-form')) {
+                        // Remove the comment from the DOM if deleting
+                        const commentElement = form.closest('.comment');
+                        if (commentElement) {
+                            commentElement.remove();
+                        }
+                    } else if (form.classList.contains('edit-comment-form')) {
+                        // Update the comment text if editing
+                        const commentBody = form.closest('.comment').querySelector('.comment-body p');
+                        if (commentBody) {
+                            commentBody.textContent = new FormData(form).get('comment');
+                        }
+                    }
+                } else {
+                    displayMessage(result.message || 'An error occurred during the operation.', 'error');
+                }
+
+            } catch (error) {
+                console.error('Unexpected error:', error);
+                displayMessage('Unexpected error occurred. Please try again.', 'error');
+            }
+        });
+    });
+});
