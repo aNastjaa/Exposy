@@ -16,7 +16,11 @@ async function handlePasswordFormSubmission(form, responseMessageDiv) {
 
         // Clear previous error messages
         document.querySelectorAll('.error-list').forEach(el => el.innerHTML = '');
-        document.querySelectorAll('.input-section input').forEach(el => el.style.borderColor = '');
+
+        // Clear previous border color for all inputs
+        document.querySelectorAll('.input-section input').forEach(el => {
+            el.style.borderColor = ''; // Clear border color
+        });
 
         if (response.ok && result.success) {
             responseText.textContent = result.message || 'Password updated successfully!';
@@ -28,14 +32,18 @@ async function handlePasswordFormSubmission(form, responseMessageDiv) {
                 for (const [field, messages] of Object.entries(result)) {
                     if (field === 'success') continue;
 
-                    // Determine the appropriate error list ID
                     let errorListId;
+                    let inputId;
+
+                    // Mapping field names to HTML IDs
                     if (field === 'password') {
                         errorListId = 'current_password-errors';
+                        inputId = 'old-password';
                     } else if (field === 'new-password') {
                         errorListId = 'new_password-errors';
+                        inputId = 'new-password';
                     } else {
-                        // If error field is not directly associated with any input, skip
+                        console.warn(`Unexpected field: ${field}`);
                         continue;
                     }
 
@@ -49,9 +57,11 @@ async function handlePasswordFormSubmission(form, responseMessageDiv) {
                     }
 
                     // Highlight the field with errors
-                    const fieldElement = document.querySelector(`[id="${errorListId.replace('-errors', '')}"]`);
+                    const fieldElement = document.getElementById(inputId);
                     if (fieldElement) {
-                        fieldElement.style.borderColor = 'red';
+                        fieldElement.style.borderColor = 'red'; // Set border color to red
+                    } else {
+                        console.warn(`Field element not found for ID: ${inputId}`);
                     }
                 }
             }

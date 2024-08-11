@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         file: { required: true, file: true },
         alt_text: { required: true, altText: true },
         terms: { required: true, terms: true },
-        'old-password': { required: true, password: true }, // Ensure old password is included
+        'old-password': { required: true, password: true },
         'new-password': { required: true, password: true }
     };
 

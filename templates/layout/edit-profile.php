@@ -29,7 +29,7 @@
 <form class="profile-form" id="edit-password" method="POST" action="/account/edit/password">
     <div class="form-row">    
         <div class="input-section full-width">
-            <label for="old-password">Old password</label>
+            <label for="old-password">Current password</label>
             <input type="password" name="password" placeholder="Enter your current password" id="old-password">
             <?php $this->renderInputError('password'); ?>
             <ul class="error-list" id="current_password-errors"></ul>      
@@ -63,3 +63,4 @@
         <p class="response-text"></p>
     </div>
 </form>
+
