@@ -207,19 +207,33 @@ document.addEventListener('DOMContentLoaded', () => {
                     const result = await response.json();
 
                     if (result.success) {
-                        alert('Event saved successfully!');
+                        displayMessage('Event saved successfully!', 'success');
                     } else {
-                        alert(result.message || 'Failed to save event.');
+                        displayMessage(result.message || 'Failed to save event.', 'error');
                     }
                 } else {
-                    alert('Unexpected response format.');
+                    displayMessage('Unexpected response format.', 'error');
                 }
             } catch (error) {
                 console.error('Unexpected error:', error);
-                alert('Unexpected error occurred. Please try again.');
+                displayMessage('Unexpected error occurred. Please try again.', 'error');
             }
         });
     });
+
+    function displayMessage(message, type) {
+        const messageContainer = document.getElementById('message-container');
+        const messageText = document.getElementById('message-text');
+
+        messageText.textContent = message;
+        messageContainer.style.display = 'block';
+        messageContainer.className = `message-container ${type}`;
+
+        // Hide the message after 3 seconds
+        setTimeout(() => {
+            messageContainer.style.display = 'none';
+        }, 3000);
+    }
 });
 
 //COMENTS
