@@ -1,7 +1,7 @@
 <div id="additional-info" class="additional-info">
     <form class="profile-form" id="edit-general" method="POST" enctype="multipart/form-data" action="account/general">
         <div class="form-header">    
-            <h3>Complete your profile:</h3>
+            <h3>First complete your profile:</h3>
         </div>
         <div class="form-row">
             <div class="input-section">
@@ -65,7 +65,7 @@
     
     <form class="profile-form" id="edit-add-photo" method="POST" enctype="multipart/form-data" action="account/add-photo">
         <div class="form-header">    
-            <h3>Add your profile photo:</h3>
+            <h3>Then add your profile photo:</h3>
         </div>
         <div class="photo-form-row">
             <div class="photo-input-section">

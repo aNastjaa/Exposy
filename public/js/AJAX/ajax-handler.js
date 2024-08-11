@@ -247,62 +247,23 @@ document.addEventListener('DOMContentLoaded', () => {
             messageText.textContent = message;
             messageContainer.style.display = 'block';
             messageContainer.className = `message-container ${type}`;
-            
+
+            // Hide the message after 5 seconds
             setTimeout(() => {
                 messageContainer.style.display = 'none';
-                if (type === 'success') {
-                    // Refresh the page after 5 seconds
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 5000);
-                }
-            }, 5000); // Show message for 5 seconds
+            }, 3000);
+        } else {
+            console.error('Message container or text element not found.');
         }
     }
 
-    // Handle Add Comment Form
-    const addCommentForm = document.getElementById('add-comment-form');
-    if (addCommentForm) {
-        addCommentForm.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Prevent default form submission
+    // Handle form submissions
+    document.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const form = event.target;
 
-            const formData = new FormData(addCommentForm);
-            const url = addCommentForm.action;
-
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Accept': 'application/json'
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-                const result = await response.json();
-
-                if (result.success) {
-                    displayMessage(result.message || 'Comment added successfully!', 'success');
-                } else {
-                    displayMessage(result.message || 'An error occurred while adding the comment.', 'error');
-                }
-
-            } catch (error) {
-                console.error('Unexpected error:', error);
-                displayMessage('Unexpected error occurred. Please try again.', 'error');
-            }
-        });
-    }
-
-    // Handle Edit and Delete forms
-    document.querySelectorAll('.edit-comment-form, .delete-comment-form').forEach(form => {
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Prevent default form submission
-
+        // Only handle form submissions if it's a form
+        if (form.tagName === 'FORM') {
             const formData = new FormData(form);
             const url = form.action;
 
@@ -321,31 +282,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 const result = await response.json();
+                console.log('Server response:', result); // Log server response for debugging
 
                 if (result.success) {
-                    displayMessage(result.message || 'Operation successful!', 'success');
-                    
-                    if (form.classList.contains('delete-comment-form')) {
-                        // Remove the comment from the DOM if deleting
+                    if (form.classList.contains('add-comment-form')) {
+                        displayMessage(result.message || 'Comment added successfully!', 'success');
+                        // Force a page reload after successful add
+                        setTimeout(() => {
+                            window.location.reload(true); // Force reload from server
+                        }, 1000); // Adjust timing as needed
+                    } else if (form.classList.contains('edit-comment-form')) {
+                        displayMessage(result.message || 'Comment updated successfully!', 'success');
+                    } else if (form.classList.contains('delete-comment-form')) {
+                        displayMessage(result.message || 'Comment deleted successfully!', 'success');
+                        // Remove the comment from the DOM
                         const commentElement = form.closest('.comment');
                         if (commentElement) {
                             commentElement.remove();
                         }
-                    } else if (form.classList.contains('edit-comment-form')) {
-                        // Update the comment text if editing
-                        const commentBody = form.closest('.comment').querySelector('.comment-body p');
-                        if (commentBody) {
-                            commentBody.textContent = new FormData(form).get('comment');
-                        }
                     }
                 } else {
-                    displayMessage(result.message || 'An error occurred during the operation.', 'error');
+                    displayMessage(result.message || 'An error occurred.', 'error');
                 }
-
             } catch (error) {
-                console.error('Unexpected error:', error);
+                console.error('Error:', error);
                 displayMessage('Unexpected error occurred. Please try again.', 'error');
             }
-        });
+        }
     });
 });
+
+
+
+
+

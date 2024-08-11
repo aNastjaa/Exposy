@@ -3,7 +3,7 @@
 </div>
 <div class="events-explorer">
     <h4>Filter by city or/and category to find your next adventure</h4>
-    <form method="GET" action="">
+    <form method="GET" action="" id="filter-form">
         <div class="filter-options">
             <select name="city-filter">
                 <option value="none" <?= $this->data['selectedCity'] === 'none' ? 'selected' : '' ?>>--All cities--</option>
@@ -56,41 +56,38 @@
                             <p id="message-text"></p>
                         </div>
 
-                        <!-- Add Comment Button and Form -->
-                        <div class="add-comment-container">
-                            <div class="add-comment-form">
-                                <form id="add-comment-form" method="POST" action="/add-comment">
-                                    <input type="hidden" name="event_id" value="<?= htmlspecialchars($event['id']) ?>">
-                                    <textarea name="comment" rows="1" placeholder="Add your comment here..." required></textarea>
-                                    <button type="submit" id="add-comment-button" class="button blind-button add-comment-button">Send</button>
-                                </form>
-                            </div>
-                        </div>
+                        <!-- Form container -->
+                        <div id="form-container">
+                            <!-- Add Comment Form -->
+                            <form id="add-comment-form" method="POST" action="/add-comment">
+                                <input type="hidden" name="event_id" value="<?= htmlspecialchars($event['id']) ?>">
+                                <textarea name="comment" rows="1" placeholder="Add your comment here..." required></textarea>
+                                <button type="submit" id="add-comment-button" class="blind-button add-comment-button">Send</button>
+                            </form>
 
                         <!-- Existing Comments -->
                         <div class="event-comments">
                             <?php if (!empty($event['comments'])): ?>
                                 <?php foreach ($event['comments'] as $comment): ?>
-                                    <div class="comment">
+                                    <div class="comment" id="comment-<?= htmlspecialchars($comment['id']) ?>">
                                         <div class="comment-heading">
                                             <strong><?= htmlspecialchars($comment['username'] ?? 'Anonymous') ?>:</strong>
                                         </div>
-                                        <div class="comment-body" id="comment-body-<?= htmlspecialchars($comment['id']) ?>">
+                                        <div class="comment-body">
                                             <p><?= htmlspecialchars($comment['comment']) ?></p>
                                             <?php if (isset($this->data['username']) && $comment['username'] === $this->data['username']): ?>
-                                               
                                                 <!-- Edit and Delete Comments -->
                                                 <div class="edit-delete">
-                                                    <form method="POST" action="/update-comment" class="edit-comment-form" id="edit-comment-form-<?= htmlspecialchars($comment['id']) ?>">
+                                                    <form method="POST" action="/update-comment" class="edit-comment-form">
                                                         <input type="hidden" name="comment_id" value="<?= htmlspecialchars($comment['id']) ?>">
                                                         <input type="text" name="comment" value="<?= htmlspecialchars($comment['comment']) ?>" required>
-                                                        <button type="submit" id="edit-comment-button-<?= htmlspecialchars($comment['id']) ?>" class="edit-button">
+                                                        <button type="submit" class="edit-button">
                                                             <img src="/assets/icons/svg/pencil.svg" alt="Edit" class="edit-comment-icon">
                                                         </button>
                                                     </form>
-                                                    <form method="POST" action="/delete-comment" class="delete-comment-form" id="delete-comment-form-<?= htmlspecialchars($comment['id']) ?>">
+                                                    <form method="POST" action="/delete-comment" class="delete-comment-form">
                                                         <input type="hidden" name="comment_id" value="<?= htmlspecialchars($comment['id']) ?>">
-                                                        <button type="submit" id="delete-comment-button-<?= htmlspecialchars($comment['id']) ?>" class="delete-button">
+                                                        <button type="submit" class="delete-button">
                                                             <img src="/assets/icons/svg/trash.svg" alt="Delete" class="delete-comment-icon">
                                                         </button>
                                                     </form>
@@ -98,10 +95,11 @@
                                             <?php endif; ?>
                                         </div>
                                     </div>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <p>No comments yet. Be the first to comment!</p>
-                            <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <p>No comments yet. Be the first to comment!</p>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
                 </div>
