@@ -28,7 +28,9 @@ abstract class Model
     {
         $stmt = $this->database->prepare($query);
         $stmt->execute($params);
-        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        return $result !== false ? $result : null; 
     }
 
     protected function execute(string $query, array $params = []): bool

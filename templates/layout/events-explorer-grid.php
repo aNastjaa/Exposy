@@ -29,19 +29,19 @@
     <div class="global-events-cards-container">
         <?php if (!empty($this->data['globalEvents'])): ?>
             <?php foreach ($this->data['globalEvents'] as $event): ?>
-                <div class="event-cart-big" id="event-<?= htmlspecialchars($event['id']) ?>">
+                <div class="event-cart-big" id="event-<?= nl2br($event['id']) ?>">
                     <div class="event-img">
-                        <img src="<?= htmlspecialchars($event['img']) ?>" alt="<?= htmlspecialchars($event['title']) ?>">
+                        <img src="<?= nl2br($event['img']) ?>" alt="<?= nl2br($event['title']) ?>">
                     </div>
                     <div class="event-info">
-                        <h4 class="title"><?= htmlspecialchars($event['title']) ?></h4>
-                        <h5 class="gallery-date-time"><?= htmlspecialchars($event['gallery']) ?></h5>
-                        <h5 class="gallery-date-time"><?= htmlspecialchars($event['location']) ?></h5>
-                        <h5 class="gallery-date-time"><?= htmlspecialchars($event['date']) ?> | <?= htmlspecialchars($event['time']) ?></h5>
-                        <p class="description"><?= htmlspecialchars($event['description']) ?></p>
+                        <h4 class="title"><?= nl2br($event['title']) ?></h4>
+                        <h5 class="gallery-date-time"><?= nl2br($event['gallery']) ?></h5>
+                        <h5 class="gallery-date-time"><?= nl2br($event['location']) ?></h5>
+                        <h5 class="gallery-date-time"><?= nl2br($event['date']) ?> | <?= htmlspecialchars($event['time']) ?></h5>
+                        <p class="description"><?= nl2br($event['description']) ?></p>
                         <div class="info-button">
                             <div class="event-contact-info">
-                                <p class="contact-info"><?= htmlspecialchars($event['contact_information']) ?></p>
+                                <p class="contact-info"><?= nl2br($event['contact_information']) ?></p>
                             </div>
                             <div>
                                 <form method="POST" action="/save-event">
@@ -51,32 +51,44 @@
                             </div>
                         </div>
 
-                        <!-- Add Comment Form -->
-                        <div class="add-comment-form">
-                            <form method="POST" action="/add-comment">
-                                <input type="hidden" name="event_id" value="<?= htmlspecialchars($event['id']) ?>">
-                                <textarea name="comment" rows="3" placeholder="Add a comment..." required></textarea>
-                                <button type="submit" class="button add-comment-button">Send</button>
-                            </form>
+                        <!-- Add Comment Button and Form -->
+                        <div class="add-comment-container">
+                            <!-- <button class="button blind-button toggle-add-comment-form">Add Comment</button> -->
+                            <div class="add-comment-form" id="add-comment-form">
+                                <form method="POST" action="/add-comment">
+                                    <input type="hidden" name="event_id" value="<?= htmlspecialchars($event['id']) ?>">
+                                    <textarea name="comment" rows="1" placeholder="Add your comment here..." required></textarea>
+                                    <button type="submit" class="button blind-button add-comment-button">Send</button>
+                                </form>
+                            </div>
                         </div>
 
+                        <!-- Existing Comments -->
                         <div class="event-comments">
                             <?php if (!empty($event['comments'])): ?>
                                 <?php foreach ($event['comments'] as $comment): ?>
                                     <div class="comment">
-                                        <p><strong><?= htmlspecialchars($comment['username'] ?? 'Anonymous') ?>:</strong> <?= htmlspecialchars($comment['comment']) ?></p>
-                                        <?php if (isset($this->data['username']) && $comment['username'] === $this->data['username']): ?>
-                                            <!-- Allow editing and deleting only for the author -->
-                                            <form method="POST" action="/update-comment">
-                                                <input type="hidden" name="comment_id" value="<?= htmlspecialchars($comment['id']) ?>">
-                                                <input type="text" name="comment" value="<?= htmlspecialchars($comment['comment']) ?>">
-                                                <button type="submit" class="button">Update</button>
-                                            </form>
-                                            <form method="POST" action="/delete-comment">
-                                                <input type="hidden" name="comment_id" value="<?= htmlspecialchars($comment['id']) ?>">
-                                                <button type="submit" class="button">Delete</button>
-                                            </form>
-                                        <?php endif; ?>
+                                        <div class="comment-heading">
+                                            <strong><?= htmlspecialchars($comment['username'] ?? 'Anonymous') ?>:</strong>
+                                        </div>
+                                        <div class="comment-body" id="comment-body-<?= htmlspecialchars($comment['id']) ?>">
+                                            <p><?= htmlspecialchars($comment['comment']) ?></p>
+                                            <?php if (isset($this->data['username']) && $comment['username'] === $this->data['username']): ?>
+                                                <div class="edit-delete">
+                                                <form method="POST" action="/update-comment" class="edit-comment-form" id="edit-comment-form-<?= htmlspecialchars($comment['id']) ?>">
+                                                    <input type="hidden" name="comment_id" value="<?= htmlspecialchars($comment['id']) ?>">
+                                                    <input type="text" name="comment" value="<?= htmlspecialchars($comment['comment']) ?>" required>
+                                                    <button type="submit" class="edit-button"><img src="/assets/icons/svg/pencil.svg" alt="Edit" class="edit-comment-icon"></button>
+                                                </form>
+                                                <form method="POST" action="/delete-comment" class="delete-comment-form" id="delete-comment-form-<?= htmlspecialchars($comment['id']) ?>">
+                                                    <input type="hidden" name="comment_id" value="<?= htmlspecialchars($comment['id']) ?>">
+                                                    <button type="submit" class="delete-button">
+                                                        <img src="/assets/icons/svg/trash.svg" alt="Delete" class="delete-comment-icon">
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
                                 <?php endforeach; ?>
                             <?php else: ?>
@@ -85,9 +97,9 @@
                         </div>
                     </div>
                 </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>No global events available at the moment. Please check back later!</p>
-        <?php endif; ?>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>No global events available at the moment. Please check back later!</p>
+            <?php endif; ?>
+        </div>
     </div>
-</div>

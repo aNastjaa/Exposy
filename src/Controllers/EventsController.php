@@ -9,70 +9,78 @@ use Crmlva\Exposy\Models\User;
 use Crmlva\Exposy\Session;
 use Crmlva\Exposy\Enums\CityEnum;
 use Crmlva\Exposy\Enums\CategoryEnum;
-use Crmlva\Exposy\Database; // Import the Database class for PDO instance
+use Crmlva\Exposy\Database; 
 
 class EventsController extends Controller
 {
     // Display events with optional filters
     public function showEvents(): void
-{
-    $userId = Session::get('user_id');
-    if (!$userId) {
-        $this->redirect('/login');
-        return;
-    }
-
-    $userModel = new User();
-    $user = $userModel->find($userId);
-
-    if ($user === null) {
-        $this->redirect('/login');
-        return;
-    }
-
-    $city = $userModel->getCityByUserId($userId);
-    $username = $user->username;
-
-    $eventModel = new Event();
-    $localEvents = $eventModel->getEventsByCity($city);
-
-    $selectedCity = $_GET['city-filter'] ?? 'none';
-    $selectedCategory = $_GET['category-filter'] ?? 'none';
-
-    $validCities = CityEnum::values();
-    $validCategories = CategoryEnum::values();
-
-    $selectedCity = in_array($selectedCity, $validCities) ? $selectedCity : null;
-    $selectedCategory = in_array($selectedCategory, $validCategories) ? $selectedCategory : null;
-
-    $globalEvents = $eventModel->getAllEvents($selectedCity, $selectedCategory);
-
-    // Fetch the PDO instance from the Database class
-    $database = Database::getInstance();
-    $commentModel = new Comment($database);
-
-    // Fetch comments and usernames for each global event
-    foreach ($globalEvents as &$event) {
-        $event['comments'] = $commentModel->getCommentsByEventId($event['id']);
-        foreach ($event['comments'] as &$comment) {
-            $comment['username'] = $commentModel->getUsernameById($comment['user_id']);
+    {
+        $userId = Session::get('user_id');
+        if (!$userId) {
+            $this->redirect('/login');
+            return;
         }
+
+        $userModel = new User();
+        $user = $userModel->find($userId);
+
+        if ($user === null) {
+            $this->redirect('/login');
+            return;
+        }
+
+        // Attempt to get the user's city
+        $city = $userModel->getCityByUserId($userId);
+        $username = $user->username;
+
+        // Validate the city value
+        if (empty($city)) {
+            // Provide a default city or handle the lack of a city gracefully
+            $city = 'Default City'; // Use a default city if applicable
+        }
+
+        $eventModel = new Event();
+        $localEvents = $eventModel->getEventsByCity($city);
+
+        // Retrieve filter parameters
+        $selectedCity = $_GET['city-filter'] ?? 'none';
+        $selectedCategory = $_GET['category-filter'] ?? 'none';
+
+        $validCities = CityEnum::values();
+        $validCategories = CategoryEnum::values();
+
+        $selectedCity = in_array($selectedCity, $validCities) ? $selectedCity : null;
+        $selectedCategory = in_array($selectedCategory, $validCategories) ? $selectedCategory : null;
+
+        $globalEvents = $eventModel->getAllEvents($selectedCity, $selectedCategory);
+
+        // Fetch the PDO instance from the Database class
+        $database = Database::getInstance();
+        $commentModel = new Comment($database);
+
+        // Fetch comments and usernames for each global event
+        foreach ($globalEvents as &$event) {
+            $event['comments'] = $commentModel->getCommentsByEventId($event['id']);
+            foreach ($event['comments'] as &$comment) {
+                $comment['username'] = $commentModel->getUsernameById($comment['user_id']);
+            }
+        }
+
+        $localEvents = $this->formatEventsDate($localEvents);
+        $globalEvents = $this->formatEventsDate($globalEvents);
+
+        $this->renderView('events', [
+            'title' => 'Events',
+            'city' => $city,
+            'username' => $username,
+            'localEvents' => $localEvents,
+            'globalEvents' => $globalEvents,
+            'selectedCity' => $selectedCity,
+            'selectedCategory' => $selectedCategory,
+            'user_id' => $userId
+        ]);
     }
-
-    $localEvents = $this->formatEventsDate($localEvents);
-    $globalEvents = $this->formatEventsDate($globalEvents);
-
-    $this->renderView('events', [
-        'title' => 'Events',
-        'city' => $city,
-        'username' => $username,
-        'localEvents' => $localEvents,
-        'globalEvents' => $globalEvents,
-        'selectedCity' => $selectedCity,
-        'selectedCategory' => $selectedCategory,
-        'user_id' => $userId
-    ]);
-}
     
     // Helper function to format date for events
     private function formatEventsDate(array $events): array

@@ -145,3 +145,4 @@ document.getElementById('file-input').addEventListener('change', function(event)
         reader.readAsDataURL(fileInput.files[0]);
     }
 });
+

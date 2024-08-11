@@ -24,7 +24,10 @@ class UserProfile extends Model
     public function getProfileByUserId(int $userId): array
     {
         $query = "SELECT firstname, lastname, gender, city, country, photo, alt_text FROM user_profiles WHERE user_id = :user_id";
-        return $this->fetchOne($query, ['user_id' => $userId]);
+        $result = $this->fetchOne($query, ['user_id' => $userId]);
+
+        // Return an empty array if no profile is found
+        return $result ?? [];
     }
 
     /**
