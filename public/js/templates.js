@@ -146,3 +146,59 @@ document.getElementById('file-input').addEventListener('change', function(event)
     }
 });
 
+//Fetch for category
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Function to set the current category in the DOM
+    function setCurrentCategory(category) {
+        const categoryElement = document.querySelector('.username-category .edit-category');
+        if (categoryElement) {
+            categoryElement.textContent = `/${category}`;
+        }
+    }
+
+    // Function to show a specific section and update the category
+    function showSection(sectionId) {
+        // Hide all sections
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.display = 'none';
+        });
+
+        // Show the selected section
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.style.display = 'block';
+            
+            // Map section ID to category name
+            let categoryName;
+            switch (sectionId) {
+                case 'general':
+                    categoryName = 'General';
+                    break;
+                case 'edit-profile':
+                    categoryName = 'Edit Profile';
+                    break;
+                case 'delete-profile':
+                    categoryName = 'Delete Account';
+                    break;
+                default:
+                    categoryName = '';
+                    break;
+            }
+            setCurrentCategory(categoryName);
+        }
+    }
+
+    // Initial section display (default to 'general' or any default section)
+    showSection('general'); // Change to the default section ID if needed
+
+    // Attach click event listeners to buttons for section switching
+    document.querySelectorAll('.account-button').forEach(button => {
+        button.addEventListener('click', () => {
+            // Convert button text to section ID
+            const buttonText = button.textContent.trim().toLowerCase().replace(' ', '-');
+            const sectionId = buttonText === 'delete-account' ? 'delete-profile' : buttonText;
+            showSection(sectionId);
+        });
+    });
+});
