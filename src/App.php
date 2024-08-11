@@ -37,14 +37,14 @@ final class App
                 $controller->profile(); 
                 break;
 
-            case 'account/general':  // New case for general information
+            case 'account/general': 
                 $this->auth();
                 $controller = new UserController();
                 $userId = Session::get('user_id'); 
                 $controller->handleProfileUpdate($userId);
                 break;
 
-            case 'account/add-photo':  // New case for photo upload
+            case 'account/add-photo': 
                 $this->auth();
                 $controller = new UserController();
                 $controller->uploadPhoto();

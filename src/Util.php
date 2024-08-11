@@ -15,16 +15,15 @@ abstract class Util
     }
 
     public static function getUserPhotoUrl(string $photo = null): string
-    {
-        $defaultPhoto = '/assets/icons/User photo.svg';
-        $uploadsPath = '/uploads/';
-        
-        if ($photo && is_file($_SERVER['DOCUMENT_ROOT'] . $uploadsPath . $photo)) {
-            // Ensure no double slashes
-            $photoUrl = rtrim($uploadsPath, '/') . '/' . ltrim($photo, '/');
-            return $photoUrl;
-        }
-  
-        return $defaultPhoto;
+{
+    $defaultPhoto = '/assets/icons/User photo.svg';
+    
+    if ($photo) {
+        // Prepend '/uploads/' to the relative path
+        return '/uploads/' . ltrim($photo, '/');
     }
+  
+    return $defaultPhoto;
+}
+
 }

@@ -28,10 +28,8 @@ class UserController extends Controller
         $profileModel = new UserProfile();
         $profile = $profileModel->getProfileByUserId($userId);
 
-
         $eventModel = new Event();
         $savedEvents = $eventModel->getSavedEventsByUserId($userId);
-
 
         if ($this->isRequestMethod(self::REQUEST_METHOD_POST)) {
             $this->handleProfileUpdate($userId);
@@ -56,29 +54,27 @@ class UserController extends Controller
         }
     }
 
-    // Handle file uploads separately via AJAX
-public function uploadPhoto(): void
-{
-    $uploader = new Uploader();
-    $uploadedFiles = $uploader->handleFileUploads('user_photos/');
+    public function uploadPhoto(): void
+    {
+        $uploader = new Uploader();
+        $uploadedFiles = $uploader->handleFileUploads('user_photos');
+    
+        if (!empty($uploadedFiles)) {
+            $photoPath = $uploadedFiles[0]['path'];
+            $userId = Session::get('user_id');
+            $profileModel = new UserProfile();
+            $profileModel->updatePhoto($userId, $photoPath); // Store path without '/uploads'
 
-    if (!empty($uploadedFiles)) {
-        // Assuming `handleFileUploads` returns an array with 'path' keys
-        $photoUrl = $uploadedFiles[0]['path'];
-
-        // Ensure photo URL is formatted correctly
-        $fullPhotoUrl = \Crmlva\Exposy\Util::getUserPhotoUrl($photoUrl);
-
-        $this->sendJsonResponse(true, [
-            'message' => 'Photo uploaded successfully!',
-            'photoUrl' => $fullPhotoUrl
-        ], 200);
-    } else {
-        $this->sendJsonResponse(false, [
-            'errors' => 'Failed to upload photo. Please try again.'
-        ], 422);
+            $this->sendJsonResponse(true, [
+                'message' => 'Photo uploaded successfully!',
+                'photoUrl' => \Crmlva\Exposy\Util::getUserPhotoUrl($photoPath)
+            ], 200);
+        } else {
+            $this->sendJsonResponse(false, [
+                'errors' => 'Failed to upload photo. Please try again.'
+            ], 422);
+        }
     }
-}
 
     public function handleProfileUpdate(int $userId): void
     {

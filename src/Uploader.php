@@ -4,7 +4,7 @@ namespace Crmlva\Exposy;
 
 class Uploader
 {
-    protected static string $uploadPath = UPLOAD_PATH;
+    protected static string $uploadPath = UPLOAD_PATH; // Ensure this includes '/uploads'
 
     public static function handleFileUploads(string $path): array
     {
@@ -13,7 +13,7 @@ class Uploader
         $maxSize = 5 * 1024 * 1024; // 5MB
         $errors = [];
 
-        // Remove leading/trailing slashes for consistency
+        // Ensure $path does not include leading slashes
         $path = trim($path, '/');
         $datePath = date('Y/m/d/');
         $fullPath = self::$uploadPath . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . $datePath;
@@ -24,13 +24,11 @@ class Uploader
 
         foreach ($_FILES as $file) {
             if ($file['error'] == UPLOAD_ERR_NO_FILE) {
-                // Specific error message for no file uploaded
                 $errors[] = "No file was added. Please choose a photo and try again.";
                 continue;
             }
 
             if ($file['error']) {
-                // Other file upload errors
                 $errors[] = "An error occurred while uploading the file " . $file['name'] . ". (error $file[error])";
                 continue;
             }
@@ -51,7 +49,7 @@ class Uploader
 
                 if (move_uploaded_file($file['tmp_name'], $fileDestination)) {
                     $media[] = [
-                        'path' => $path . '/' . $datePath . $file['target'],
+                        'path' => $path . '/' . $datePath . $file['target'], // Save path without '/uploads'
                         'type' => $file['type'],
                         'size' => filesize($fileDestination),
                         'original' => $file['name'],
@@ -61,11 +59,6 @@ class Uploader
                     $errors[] = "Failed to move uploaded file " . $file['name'];
                 }
             }
-        }
-
-        // Check if alt text is empty
-        if (empty($_POST['alt_text'])) {
-            $errors[] = "The alternative text cannot be empty. Please provide a description for your photo.";
         }
 
         if (!empty($errors)) {
